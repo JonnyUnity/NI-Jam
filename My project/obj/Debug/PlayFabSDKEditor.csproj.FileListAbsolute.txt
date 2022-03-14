@@ -1,0 +1,2 @@
+D:\Programming\Unity\NI-Jam\My project\obj\Debug\PlayFabSDKEditor.csproj.AssemblyReference.cache
+D:\Programming\Unity\NI-Jam\My project\obj\Debug\PlayFabSDKEditor.csproj.CoreCompileInputs.cache
