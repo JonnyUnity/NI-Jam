@@ -11,6 +11,7 @@ public class SimpleInteract : MonoBehaviour
     
     private bool _alreadyInteracted;
 
+
     private void OnMouseDown()
     {
         if (_alreadyInteracted)
@@ -18,7 +19,7 @@ public class SimpleInteract : MonoBehaviour
 
         if (_dialogues != null)
         {
-            DialogueHandler.Instance.StartDialogue(_dialogues, _responses);
+            DialogueHandler.Instance.StartDialogueOld(_dialogues, _responses);
         }
 
         _alreadyInteracted = true;

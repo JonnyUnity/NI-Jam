@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Bob Test
+  m_EditorClassIdentifier: 
+  ID: 1
+  Speaker: Bob
+  Sentences:
+  - Hey Buddy! Top of the mornin' Just kidding I'm not Irish!
+  - Get up to anything wild and crazy over the weekend?
+  Responses:
+  - {fileID: 11400000, guid: 78b55ae8a5c802446b7b03c0c02bdddb, type: 2}
+  - {fileID: 11400000, guid: e0060117fef0c634d90731c5e4b9f85c, type: 2}
+  Links:
+    Type: 0
+    IDs: 
+  AdvanceStoryOnClose: 0

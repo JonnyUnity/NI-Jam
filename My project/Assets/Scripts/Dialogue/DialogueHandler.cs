@@ -12,11 +12,21 @@ public class DialogueHandler : Singleton<DialogueHandler>
     [SerializeField] private TMP_Text _textLabel;
     [SerializeField] private TMP_Text _nameLabel;
 
-    [SerializeField] private GameObject _responseBox;
-    [SerializeField] private List<GameObject> _responseButtons;
-    [SerializeField] private List<TMP_Text> _responseButtonLabels; 
+    [SerializeField] private GameObject _choicesBox;
+    
+    [SerializeField] private List<TMP_Text> _choiceButtonLabels;
 
-    private TypeWriterEffect _typeWriter;
+    [SerializeField] private GameObject _responseBox;
+    [SerializeField] private TMP_Text _responseText;
+
+    [SerializeField] private GameObject _choiceButtonsContainer;
+    [SerializeField] private GameObject _choiceButtonTemplate;
+    private List<GameObject> _choiceButtons = new List<GameObject>();
+
+    private TypeWriterEffect _dialogueWriter;
+    private TypeWriterEffect _responseWriter;
+
+    private bool _isResponse;
 
     private int ptr;
 
@@ -24,21 +34,22 @@ public class DialogueHandler : Singleton<DialogueHandler>
     private Dialogue _currentDialogue;
     private List<Response> _responses;
 
+    private Response _currentResponse;
+
     private void Awake()
     {
         GameEvents.OnDialogueStarted += DialogueStarted;
         GameEvents.OnDialogueEnded += DialogueEnded;
         
         ptr = 0;
-        _typeWriter = _dialogueBox.GetComponent<TypeWriterEffect>();
-
-        DontDestroyOnLoad(gameObject);
-
+        _dialogueWriter = _dialogueBox.GetComponent<TypeWriterEffect>();
+        _responseWriter = _responseBox.GetComponent<TypeWriterEffect>();
 
 
     }
 
 
+    public bool IsDialogueOpen => _dialogueBox.activeInHierarchy || _choicesBox.activeInHierarchy || _responseBox.activeInHierarchy;
 
     private void DialogueStarted()
     {
@@ -48,6 +59,14 @@ public class DialogueHandler : Singleton<DialogueHandler>
     private void DialogueEnded()
     {
         _dialogueBox.SetActive(false);
+
+        foreach (GameObject btn in _choiceButtons)
+        {
+            Destroy(btn);
+        }
+        _choiceButtons.Clear();
+
+        _choicesBox.SetActive(false);
         _responseBox.SetActive(false);
     }
 
@@ -56,98 +75,172 @@ public class DialogueHandler : Singleton<DialogueHandler>
         
     }
 
-    public void StartDialogue(List<Dialogue> dialogues, List<Response> responses)
+    
+    public void StartDialogue(List<Dialogue> dialogues)
+    {
+        _dialogues = dialogues;
+        _currentDialogue = _dialogues[0];
+
+        SetupDialogue();
+
+    }
+
+
+    public void ContinueDialogue(int dialogueID)
+    {
+        _currentDialogue = _dialogues.Where(w => w.ID == dialogueID).Single();
+        SetupDialogue();
+    }    
+
+    private void SetupDialogue()
+    {
+        GameEvents.DialogueStarted();
+        ptr = 0;
+
+        _choicesBox.SetActive(false);
+        _responseBox.SetActive(false);
+
+        AdvanceDialogue();
+
+    }
+
+    public void StartDialogueOld(List<Dialogue> dialogues, List<Response> responses)
     {
         _dialogues = dialogues;
         _responses = responses;
         ptr = 0;
 
-        _responseBox.SetActive(false);
+        _choicesBox.SetActive(false);
         _dialogueBox.SetActive(true);
 
         // load first dialogue.
         _currentDialogue = _dialogues[0];
 
-        SetupCurrentDialogue();
+        AdvanceDialogue();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (TutorialHandler.Instance.IsTutorialOpen)
+            return;
+
+        if (IsDialogueOpen)
         {
-            if (_typeWriter.IsTyping)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-
-                _typeWriter.FinishTyping();
-
-            }
-            else if (IsMoreDialogue())
-            {
-
-                SetupCurrentDialogue();
-
-            }
-            else if (DialogueHasLinks())
-            {
-                var link = _currentDialogue.Links;
-
-                switch (link.Type)
+                if (_dialogueWriter.IsTyping)
                 {
-                    case DialogueNodeType.Dialogue:
 
-                        var nextID = link.IDs.First();
-                        _currentDialogue = _dialogues.Where(w => w.ID == nextID).Single();
-                        ptr = 0;
-                        SetupCurrentDialogue();
-                        break;
+                    _dialogueWriter.FinishTyping();
 
-                    case DialogueNodeType.Response:
+                }
+                else if (_isResponse)
+                {
+                    if (_responseWriter.IsTyping)
+                    {
+                        _responseWriter.FinishTyping();
+                    }
+                    else if (IsMoreResponse)
+                    {
+                        AdvanceResponse();
+                    }
+                    else
+                    {
+                        _isResponse = false;
 
-                        var responses = _responses.Where(w => link.IDs.Contains(w.ID)).ToList();
+                        //if (_currentResponse.Actions.Count == 0)
+                        //{
+                        //    GameEvents.DialogueEnded();
+                        //}
+                        //else
+                        //{
+                        //    _currentResponse.Actions.ForEach(f => f.DoAction());
+                        //}
 
-                        // set up response box...
-                        _dialogueBox.SetActive(false);
-                        _responseBox.SetActive(true);
-                        _responseButtons.ForEach(f => f.SetActive(false));
+                        _currentResponse.Actions.ForEach(f => f.DoAction());
+
+                    }
+                }
+                else if (IsMoreDialogue)
+                {
+
+                    AdvanceDialogue();
+
+                }
+                else if (_currentDialogue.HasResponses)
+                {
+                    _dialogueBox.SetActive(false);
+
+                    var responses = _currentDialogue.Responses;
+                    if (responses.Count == 1)
+                    {
+                        //_dialogueBox.SetActive(false);
+                        // exactly one response so skip choice and play dialogue response
+                        SetupResponse(responses[0].ID);
+
+                    }
+                    else
+                    {
+                        // multiple to choose from so offer choices to player
+                        // set up choice box...
+                        
+                        _choicesBox.SetActive(true);
+                        float buttonContainerHeight = 0;
+                        //_choiceButtons.ForEach(f => f.SetActive(false));
 
                         for (int i = 0; i < responses.Count; i++)
                         {
                             if (responses[i].IncludeResponse())
                             {
 
-                                _responseButtonLabels[i].text = responses[i].Answer;
-                                _responseButtons[i].SetActive(true);
-                                var btn = _responseButtons[i].GetComponent<Button>();
+                                GameObject choiceButton = Instantiate(_choiceButtonTemplate, _choiceButtonsContainer.transform);
+
                                 int responseID = responses[i].ID;
-                                btn.onClick.AddListener(delegate { ProcessResponse(responseID); });
+                                var btn = choiceButton.GetComponent<Button>();
+                                btn.GetComponent<TMP_Text>().text = responses[i].Text;
+                                btn.onClick.AddListener(() => SetupResponse(responseID));
+
+                                //_choiceButtonLabels[i].text = responses[i].Text;
+                                //_choiceButtons[i].SetActive(true);
+                                //var btn = _choiceButtons[i].GetComponent<Button>();
+
+                                //btn.onClick.AddListener(() => SetupResponse(responseID));
+
+                                _choiceButtons.Add(choiceButton);
+                                buttonContainerHeight += choiceButton.GetComponent<RectTransform>().sizeDelta.y;
+
                             }
 
+                            Vector2 buttonContainerDimensions = _choiceButtonsContainer.GetComponent<RectTransform>().sizeDelta;
+                            _choiceButtonsContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonContainerDimensions.x, buttonContainerHeight);
+
                         }
-                        break;
+                    }
 
-                    case DialogueNodeType.None:
-                        
-                        GameEvents.DialogueEnded();
-                        break;
+                    
 
-                    default:
-
-                        Debug.Log($"Link type {link.Type} currently unsupported!");
-                        break;
                 }
-            }
-            else
-            {
-                GameEvents.DialogueEnded();
-            }
+                else
+                {
 
+                    GameEvents.DialogueEnded();
 
+                    if (_currentDialogue.AdvanceStoryOnClose)
+                    {
+                        GameEvents.ProgressStory();
+                    }
+                }
+
+            }
         }
+
+        
     }
 
-    private void SetupCurrentDialogue()
+    private void AdvanceDialogue()
     {
+        _dialogueBox.SetActive(true);
         if (_currentDialogue.Speaker == null || _currentDialogue.Speaker == string.Empty)
         {
             _nameBox.SetActive(false);
@@ -158,58 +251,34 @@ public class DialogueHandler : Singleton<DialogueHandler>
             _nameLabel.text = _currentDialogue.Speaker;
         }
 
-        _typeWriter.Run(_currentDialogue.Sentences[ptr], _textLabel);
+        _dialogueWriter.Run(_currentDialogue.Sentences[ptr], _textLabel);
         ptr++;
 
     }
 
-    private bool DialogueHasLinks()
+    private void AdvanceResponse()
     {
-        return (_currentDialogue.Links != null);
+        _responseWriter.Run(_currentResponse.AnswerSentences[ptr], _responseText);
+        ptr++;
     }
 
+    private bool IsMoreDialogue => ptr < _currentDialogue.Sentences.Length;
+    
 
-    private bool IsMoreDialogue()
+    private bool IsMoreResponse => ptr < _currentResponse.AnswerSentences.Length;
+
+
+    public void SetupResponse(int responseID)
     {
-        //return ptr < _debugdialogue.Length;
-        //return ptr < _dialogueOld.Text.Length;
-        return ptr < _currentDialogue.Sentences.Length;
-    }
 
+         _currentResponse = _currentDialogue.Responses.Where(w => w.ID == responseID).Single();
 
-    public void ProcessResponse(int responseID)
-    {
-        Response response = _responses.Where(w => w.ID == responseID).Single();
+        _choicesBox.SetActive(false);
+        _responseBox.SetActive(true);
 
-        var action = response.Action;
-        _responseBox.SetActive(false);
-
-         if (action.Type == ResponseActionTypeEnum.SetFlag)
-        {
-            //GameEvents.SetPlayerFlag(action.Choice);
-            PlayerChoices.Instance.SetPlayerFlag(action.Choice);
-        }
-        else if (action.Type == ResponseActionTypeEnum.UpdateCount)
-        {
-            //GameEvents.ChangePlayerValue(action.Choice, action.ChangeInValue);
-            PlayerChoices.Instance.ChangePlayerValue(action.Choice, action.ChangeInValue);
-        }
-
-        if (action.DialogueID > 0)
-        {
-            _currentDialogue = _dialogues.Where(w => w.ID == action.DialogueID).Single();
-            ptr = 0;
-            SetupCurrentDialogue();
-        }
-        else
-        {
-
-            response.OnSelect?.Invoke(responseID);
-            GameEvents.DialogueEnded();
-        }
-
-        
-
+        ptr = 0;
+        _isResponse = true;
+        AdvanceResponse();
 
     }
 

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb528182b518104c8cf878c89f3d581, type: 3}
+  m_Name: 106 Jeremy 1
+  m_EditorClassIdentifier: 
+  _id: 8
+  _receivedTime: 106
+  _sender: js@inscriptio.com
+  _subject: 'Checking up with an account '
+  _emailBody: "Hi You,\nI wanted to reach out to you and let you know \u200CI heard
+    a rumor that I think you would be interested in it. I wanted to see if there
+    was any truth in the rumors. They would never suspect you digging around. Email
+    me back. Let's talk. It\u2019s urgent.\nThanks,\nJeremy."
+  _canReply: 1
+  _replyText: What do you mean?
+  _replyActions:
+  - choiceFlagName: RepliedToJeremyEmail
+    value: 0
+    Type: 2
+  Conditions: []
+  Read: 0

@@ -9,10 +9,23 @@ public class PlayerChoices
     static readonly object _padlock = new object();
 
     public static int WateredCount { get; private set; }
-
+    public int GamesPlayedCount { get; private set; }
     
     public static bool TakenMeds { get; private set; }
     public bool TalkedDiesel { get; private set; }
+    public bool WatchedGameLastNight { get; private set; }
+    
+    // EMAIL FLAGS
+    public bool RepliedToCharlieEmail { get; private set; }
+    public bool RepliedToJeremyEmail { get; private set; }
+    public bool RepliedToJeremy2Email { get; private set; }
+    public bool RepliedToJeremy3Email { get; private set; }
+
+
+    // STORYLINE FLAGS
+    public bool OnLizardmanStory { get; private set; }
+    public bool OnHitmanStory { get; private set; }
+    public bool OnClonesStory { get; private set; }
 
 
     //public PlayerChoices()

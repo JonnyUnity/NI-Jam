@@ -10,14 +10,14 @@ public class ActivateObject : MonoBehaviour
 
     private void Awake()
     {
-        GameEvents.OnActivateObject += Activate;
+        GameEvents.OnInteractionStart += Activate;
         Debug.Log("hello there!");
     }
 
 
     private void OnDisable()
     {
-        GameEvents.OnActivateObject -= Activate;
+        GameEvents.OnInteractionStart -= Activate;
     }
 
 

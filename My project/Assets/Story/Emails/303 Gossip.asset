@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb528182b518104c8cf878c89f3d581, type: 3}
+  m_Name: 303 Gossip
+  m_EditorClassIdentifier: 
+  _id: 17
+  _receivedTime: 303
+  _sender: Susan@metronome
+  _subject: L Strange man
+  _emailBody: 'Hey Everyone,
+
+
+    Marge and I wanted to let you know that there
+    was a strange man walking around outside the office this morning. We''re confident
+    that he wasn''t here for any malicious reasons, but we wanted to keep you in
+    the loop. If you happen to see him again, can you find out what he wants?!
+
+
+    Thanks,
+
+
+    Susan'
+  _canReply: 0
+  _replyText: 
+  _replyActions: []
+  Conditions: []
+  Read: 0

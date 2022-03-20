@@ -6,17 +6,60 @@ using UnityEngine;
 [Serializable]
 public class ResponseAction
 {
-    public string Choice;
+    public string choiceFlagName;
+    public int value;
     public ResponseActionTypeEnum Type;
-    public int ChangeInValue;
-    public int DialogueID;
 
+
+    public void DoAction()
+    {
+        switch (Type)
+        {
+            case ResponseActionTypeEnum.GoToDialogue:
+
+                Debug.Log("DialogueHandler start dialogue with id: " + value);
+                DialogueHandler.Instance.ContinueDialogue(value);
+                break;
+
+            case ResponseActionTypeEnum.SetFlag:
+
+                Debug.Log("Setting Player Choices flag: " + choiceFlagName);
+                PlayerChoices.Instance.SetPlayerFlag(choiceFlagName);
+                break;
+
+            case ResponseActionTypeEnum.UpdateCount:
+
+                Debug.Log($"Updating Player Choice {choiceFlagName} count by: {value}");
+                PlayerChoices.Instance.ChangePlayerValue(choiceFlagName, value);
+                break;
+
+            case ResponseActionTypeEnum.AdvanceStory:
+
+                Debug.Log("Advancing story...");
+                GameEvents.ProgressStory();
+                break;
+
+            case ResponseActionTypeEnum.EndDialogue:
+
+                Debug.Log("Ending dialogue");
+                GameEvents.DialogueEnded();
+                break;
+
+            default:
+                Debug.Log("Type not set!");
+                break;
+        }
+
+    }
 
 }
 
 public enum ResponseActionTypeEnum
 {
     None,
+    GoToDialogue,
     SetFlag,
-    UpdateCount
+    UpdateCount,
+    AdvanceStory,
+    EndDialogue
 }
