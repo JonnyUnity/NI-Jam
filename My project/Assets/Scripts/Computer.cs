@@ -11,13 +11,20 @@ public class Computer : MonoBehaviour
     [SerializeField] private ViewManager _viewManager;
     [SerializeField] private GameObject _desktopObject;
 
+    [SerializeField] private GameObject _desktopOn;
+    [SerializeField] private GameObject _desktopCrash;
+
     [SerializeField] private GameObject _inboxObject;
     [SerializeField] private GameObject _emailObject;
     [SerializeField] private TMP_Text _sender;
     [SerializeField] private TMP_Text _subject;
     [SerializeField] private TMP_Text _emailBody;
     [SerializeField] private GameObject _replyButton;
-    [SerializeField] private GameObject _sendButton;
+
+    [SerializeField] private GameObject _replyObject;
+    [SerializeField] private TMP_Text _replySender;
+    [SerializeField] private TMP_Text _replySubject;
+    [SerializeField] private TMP_Text _replyBody;
 
     [SerializeField] private GameObject _emailContainer;
     [SerializeField] private GameObject _emailTemplate;
@@ -26,7 +33,9 @@ public class Computer : MonoBehaviour
 
     private List<GameObject> _emailButtons = new List<GameObject>();
     private List<Email> _playerEmails;
+
     private Email _currentEmail;
+    private GameObject _currentEmailButton;
 
     private BoxCollider2D _collider;
 
@@ -68,6 +77,7 @@ public class Computer : MonoBehaviour
 
         if (_isTutorial)
         {
+            _desktopOn.SetActive(true);
             GameEvents.ProgressStory();
             _isTutorial = false;
         }
@@ -128,8 +138,7 @@ public class Computer : MonoBehaviour
         _viewManager.ToggleNavButtons(false);
         _inboxObject.SetActive(true);
 
-        //int gameTime = GameManager.Instance.GetGameTime();
-        int gameTime = 100;
+        int gameTime = DeskSceneManager.Instance.GameTime;
 
         _playerEmails = GetEmails(gameTime);
 
@@ -143,8 +152,8 @@ public class Computer : MonoBehaviour
         foreach (Email email in _playerEmails)
         {
             GameObject emailButton = Instantiate(_emailTemplate, _emailContainer.transform);
-            emailButton.GetComponent<ClickableEmail>().Init(email.Subject, email.Sender);
-            emailButton.GetComponent<Button>().onClick.AddListener(() => OpenEmail(email));
+            emailButton.GetComponent<ClickableEmail>().Init(email.Subject, email.Sender, email.IsRead);
+            emailButton.GetComponent<Button>().onClick.AddListener(() => OpenEmail(emailButton, email));
 
             _emailButtons.Add(emailButton);
 
@@ -174,19 +183,18 @@ public class Computer : MonoBehaviour
         }
         _emailButtons.Clear();
 
-        _viewManager.ToggleNavButtons(true);
     }
 
 
-    public void OpenEmail(Email email)
+    public void OpenEmail(GameObject emailButton, Email email)
     {
-
+        _currentEmailButton = emailButton;
         _currentEmail = email;
 
         _inboxObject.SetActive(false);
         _emailObject.SetActive(true);
 
-        _sender.enabled = true;
+        //_sender.enabled = true;
         _sender.text = _currentEmail.Sender;
         _subject.text = _currentEmail.Subject;
         _emailBody.text = _currentEmail.EmailBody;
@@ -198,12 +206,14 @@ public class Computer : MonoBehaviour
     {
         Debug.Log("replying to email...");
 
-        _replyButton.SetActive(false);
-        _sendButton.SetActive(true);
+        //_replyButton.SetActive(false);
+        //_sendButton.SetActive(true);
+        _emailObject.SetActive(false);
+        _replyObject.SetActive(true);
 
-        _sender.enabled = false;
-        _subject.text = "Re: " + _subject.text;
-        _emailBody.text = _currentEmail.ReplyText;
+        _replySender.enabled = false;
+        _replySubject.text = "Re: " + _subject.text;
+        _replyBody.text = _currentEmail.ReplyText;
 
     }
 
@@ -211,14 +221,21 @@ public class Computer : MonoBehaviour
     {
         Debug.Log("Reply sent!");
 
-        _emailObject.SetActive(false);
-        _inboxObject.SetActive(true);
-
         // do responses
         foreach (var response in _currentEmail.ReplyActions)
         {
             response.DoAction();
         }
+
+        CloseReply();
+    }
+
+
+    public void CloseReply()
+    {
+
+        _emailObject.SetActive(false);
+        _replyObject.SetActive(true);
 
     }
 
@@ -226,7 +243,8 @@ public class Computer : MonoBehaviour
     public void CloseEmail()
     {
 
-        _currentEmail.Read = true;
+        _currentEmail.IsRead = true;
+        _currentEmailButton.GetComponent<ClickableEmail>().MarkAsRead();
 
         _emailObject.SetActive(false);
         _inboxObject.SetActive(true);

@@ -31,27 +31,38 @@ public class ViewManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.OnInteractionStart += HideNavButtons;
+        GameEvents.OnInteractionStart += InteractionStarted;
         GameEvents.OnInteractionEnd += ShowNavButtons;
 
-       // GameEvents.OnOpenDesktop += HideNavButtons;
-       // GameEvents.OnCloseDesktop += ShowNavButtons;
+        GameEvents.OnDialogueStarted += HideNavButtons;
+        GameEvents.OnDialogueEnded  += ShowNavButtons;
+
+        GameEvents.OnOpenDesktop += HideNavButtons;
+        GameEvents.OnCloseDesktop += ShowNavButtons;
 
     }
 
 
     private void OnDisable()
     {
-        GameEvents.OnInteractionStart -= HideNavButtons;
+        GameEvents.OnInteractionStart -= InteractionStarted;
         GameEvents.OnInteractionEnd += ShowNavButtons;
 
-       // GameEvents.OnOpenDesktop -= HideNavButtons;
-       // GameEvents.OnCloseDesktop -= ShowNavButtons;
+        GameEvents.OnDialogueStarted -= HideNavButtons;
+        GameEvents.OnDialogueEnded -= ShowNavButtons;
+
+        GameEvents.OnOpenDesktop -= HideNavButtons;
+        GameEvents.OnCloseDesktop -= ShowNavButtons;
 
     }
 
-
-    private void HideNavButtons(int obj)
+    
+    private void InteractionStarted(int obj)
+    {
+        HideNavButtons();
+    }
+    
+    private void HideNavButtons()
     {
         _previousLeftButtonVisible = _leftButton.activeInHierarchy;
         _previousRightButtonVisible = _rightButton.activeInHierarchy;
@@ -60,6 +71,9 @@ public class ViewManager : MonoBehaviour
         _rightButton.SetActive(false);
 
     }
+
+
+
 
     private void ShowNavButtons()
     {

@@ -30,4 +30,4 @@ MonoBehaviour:
   _replyText: 
   _replyActions: []
   Conditions: []
-  Read: 0
+  _isRead: 0

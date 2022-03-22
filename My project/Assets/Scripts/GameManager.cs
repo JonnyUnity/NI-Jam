@@ -7,9 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
 
-    [SerializeField] private GameObject _exampleObject;
-    [SerializeField] private GameObject _walkingPersonObject;
-
+    [SerializeField] private TMPro.TMP_Text _dayHeadingText; 
 
     private PlayerChoices _playerChoices;
 
@@ -69,6 +67,11 @@ public class GameManager : Singleton<GameManager>
 
         // set num possible actions
         //_actActions = 10;
+        if (scene.buildIndex == 1)
+        {
+
+        }
+
 
     }
 
@@ -92,31 +95,6 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
 
-    }
-
-
-
-
-    public void ActivateWalkingPerson()
-    {
-        _walkingPersonObject.SetActive(true);
-    }
-
-
-
-    public void CallPhone()
-    {
-
-        GameEvents.PhoneRings(1);
-
-    }
-
-
-
-
-    private IEnumerator DelayBy(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
     }
 
 

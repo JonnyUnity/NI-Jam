@@ -33,14 +33,14 @@ public class Phone : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnPhoneRings += ReceivePhoneCall;
-        GameEvents.OnDialogueEnded += FinishPhoneCall;
+        GameEvents.OnDialogueEnded += HangUp;
     }
 
 
     private void OnDisable()
     {
         GameEvents.OnPhoneRings -= ReceivePhoneCall;
-        GameEvents.OnDialogueEnded -= FinishPhoneCall;
+        GameEvents.OnDialogueEnded -= HangUp;
     }
 
     public void PhoneTutorial()
@@ -73,8 +73,24 @@ public class Phone : MonoBehaviour
     public void FinishPhoneCall()
     {
         _phoneAudio.PlayOneShot(_pickUpReceiverClip);
+        HangUp();
+        //_renderer.sprite = _phoneOnHook;
+        //_collider.enabled = false;
+    }
+
+    // Stops phone ringing
+    public void HangUp()
+    {
+        if (_isReceiverDown)
+            return;
+
+        if (_phoneAudio.isPlaying)
+        {
+            _phoneAudio.Stop();
+        }
         _renderer.sprite = _phoneOnHook;
         _collider.enabled = false;
+        GameEvents.EndInteraction();
     }
 
     private void Update()
@@ -101,6 +117,7 @@ public class Phone : MonoBehaviour
 
         if (_isReceiverDown)
         {
+            GameEvents.StartInteraction(_callID);
             _phoneAudio.Stop();
             _phoneAudio.PlayOneShot(_pickUpReceiverClip);
 

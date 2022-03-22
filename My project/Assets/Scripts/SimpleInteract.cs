@@ -19,7 +19,7 @@ public class SimpleInteract : MonoBehaviour
 
         if (_dialogues != null)
         {
-            DialogueHandler.Instance.StartDialogueOld(_dialogues, _responses);
+           // DialogueHandler.Instance.StartDialogueOld(_dialogues, _responses);
         }
 
         _alreadyInteracted = true;

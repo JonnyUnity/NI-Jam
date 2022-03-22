@@ -6,7 +6,12 @@ using UnityEngine;
 public class DeskSceneManager : Singleton<DeskSceneManager>
 {
 
+    [SerializeField] private bool _skipTutorial;
+    [SerializeField] private TestDebugger _debugger;
+
     //[SerializeField] private TutorialHandler _tutorial;
+    [SerializeField] private TMPro.TMP_Text _dayHeadingText;
+    [SerializeField] private Animator _animator;
 
     [SerializeField] private ViewManager _viewManager;
 
@@ -31,6 +36,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     [SerializeField] private int _minTimeBetweenWaterings;
     private int _timeSinceLastWater;
 
+    private static readonly string[] _actTitles = { "Monday", "Wednesday", "Friday" };
 
     private static readonly Dictionary<int, int> _actsActionCount = new Dictionary<int, int>()
     {
@@ -42,13 +48,16 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private int _actNumber;
     private int _storyBeat;
 
+    public int GameTime => (_actNumber * 100) + _storyBeat;
 
     private void Awake()
     {
         GameEvents.OnActStart += StartAct;
+       // GameEvents.OnTutorialEnded += NextTutorial;
+
         GameEvents.OnInteractionStart += UpdateStateToBusy;
         GameEvents.OnInteractionEnd += UpdateStateToIdle;
-        GameEvents.OnWaterPlant += WaterPlant;
+        GameEvents.OnPlantWatered += WaterPlant;
         GameEvents.OnStoryActionPerformed += NextStoryBeat;
 
         State = PlayerState.IDLE;
@@ -59,9 +68,11 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private void OnDisable()
     {
         GameEvents.OnActStart -= StartAct;
+       // GameEvents.OnTutorialEnded -= NextTutorial;
+
         GameEvents.OnInteractionStart -= UpdateStateToBusy;
         GameEvents.OnInteractionEnd -= UpdateStateToIdle;
-        GameEvents.OnWaterPlant -= WaterPlant;
+        GameEvents.OnPlantWatered -= WaterPlant;
         GameEvents.OnStoryActionPerformed -= NextStoryBeat;
     }
 
@@ -112,9 +123,135 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private void StartAct(int actNumber)
     {
-        _actNumber = actNumber;
-        _storyBeat = 1;
+
+        _dayHeadingText.text = _actTitles[actNumber];
+
+        StartCoroutine(FadeInCoroutine());
+
+        if (_skipTutorial)
+        {
+            _actNumber = 1;
+            _storyBeat = 1;
+        }
+        else
+        {
+            _actNumber = actNumber;
+            _storyBeat = 1;
+        }
+
         SetupStoryBeat();
+    }
+
+
+    private IEnumerator FadeInCoroutine()
+    {
+        _animator.SetTrigger("StartOfDay");
+        yield return new WaitForSecondsRealtime(2f);
+    }
+
+
+    private IEnumerator FadeOutCoroutine()
+    {
+        _animator.SetTrigger("EndOfDay");
+        yield return new WaitForSecondsRealtime(1.5f);
+
+    }
+
+    private void NextTutorial()
+    {
+        _tutorialID++;
+
+        switch(_tutorialID)
+        {
+            case 1:  // TUTORIAL: WELCOME
+
+                SetupTutorial(1, 1f);
+
+                //_tutorial.StartTutorial(1);
+                //_phoneObject.ReceivePhoneCall(1);
+                //GameEvents.MedsAlarmGoesOff(1);
+                //GameEvents.PhoneRings(1);
+                //StartCoroutine(GameManager.Instance.BobVisit1());
+                // Invoke("BobVisit1", 4f);
+                break;
+
+            case 2: // TUTORIAL: PHONE
+
+
+                _phoneObject.PhoneTutorial();
+                //TutorialHandler.Instance.StartTutorial(2);
+                SetupTutorial(2, 1f);
+                _phoneObject.ReceivePhoneCall(1);
+
+                break;
+
+            case 3: // TUTORIAL: GO TO WATER COOLER
+
+                SetupTutorial(3, 1f);
+                //_viewManager.EnableLeftArrow();
+                break;
+
+            case 4: // TUTORIAL: GO TO WATER COOLER 2
+
+                _viewManager.EnableLeftArrow();
+                break;
+
+            case 5: // TUTORIAL: GO TO WATER COOLER 3
+
+                SetupTutorial(4, 1f);
+                break;
+
+            case 6: // TUTORIAL: CLICKED ON WATER COOLER
+
+                SetupTutorial(5, 0f);
+                _viewManager.EnableRightArrow();
+                break;
+
+            case 7: // TUTORIAL: WATER PLANT
+
+                _viewManager.ToggleNavButtons(false);
+                //_plantObject.DoTutorial();
+                SetupTutorial(6, 1f);
+                break;
+
+            case 8: // TUTORIAL: OFFICE GOSSIP
+
+                _viewManager.EnableLeftArrow();
+                SetupTutorial(7, 1f);
+                break;
+
+            case 9: // TUTORIAL: REPLY TO EMAIL
+
+                SetupTutorial(8, 1f);
+                _gossipInteraction.DoTutorial(1);
+
+                break;
+
+            case 10:
+
+                SetupTutorial(9, 1f);
+                _viewManager.EnableRightArrow();
+                break;
+
+            case 11:
+
+                _viewManager.ToggleNavButtons(false);
+                _computerObject.EnableComputer();
+                SetupTutorial(10, 1f);
+                break;
+
+            case 12:
+
+                // computer tutorial!
+
+                break;
+
+
+            default:
+                Debug.Log("Out of story beats! Shouldn't be here!");
+                break;
+        }
+
     }
 
 
@@ -134,6 +271,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
             }
             else
             {
+                StartCoroutine(FadeOutCoroutine());
                 GameEvents.ActOver();
             } 
 
@@ -149,6 +287,8 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private void SetupStoryBeat()
     {
+        _debugger.UpdateDebugText($"Act {_actNumber} Beat {_storyBeat}");
+
         switch (_actNumber)
         {
             case 0:
@@ -199,7 +339,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         {
             case 1:  // TUTORIAL: WELCOME
 
-                SetupTutorial(1, 1f);
+                SetupTutorial(1, 2f);
 
                 //_tutorial.StartTutorial(1);
                 //_phoneObject.ReceivePhoneCall(1);
@@ -210,7 +350,6 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
                 break;
 
             case 2: // TUTORIAL: PHONE
-
 
                 _phoneObject.PhoneTutorial();
                 //TutorialHandler.Instance.StartTutorial(2);
@@ -244,7 +383,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
             case 7: // TUTORIAL: WATER PLANT
 
                 _viewManager.ToggleNavButtons(false);
-                _plantObject.DoTutorial();
+                //_plantObject.DoTutorial();
                 SetupTutorial(6, 1f);
                 break;
 
@@ -296,8 +435,9 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         {
             case 1:
 
-                _viewManager.ToggleNavButtons(true);
-                SetupTimedEvent(2f, BobVisit1);
+                _computerObject.EnableComputer();
+                //_viewManager.ToggleNavButtons(true);
+                //SetupTimedEvent(2f, BobVisit1);
                 break;
 
             case 2:

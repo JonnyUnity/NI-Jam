@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FluffStory-1", menuName = "Office Secrets/Email")]
-public class Email : ScriptableObject
+public class Email : ScriptableObject, ISerializationCallbackReceiver
 {
 
     [SerializeField] private int _id;
@@ -20,7 +21,9 @@ public class Email : ScriptableObject
 
     [SerializeField] public List<Condition> Conditions;
 
-    public bool Read;
+    public bool _isRead;
+    
+    [NonSerialized] public bool IsRead;
 
     public int ID => _id;
     public int ReceivedTime => _receivedTime;
@@ -41,5 +44,12 @@ public class Email : ScriptableObject
 
     }
 
+    public void OnAfterDeserialize()
+    {
+        IsRead = _isRead;
+    }
 
+    public void OnBeforeSerialize()
+    {
+    }
 }

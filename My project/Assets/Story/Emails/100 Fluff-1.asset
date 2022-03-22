@@ -23,4 +23,4 @@ MonoBehaviour:
   _replyText: Blah blah blah
   _replyActions: []
   Conditions: []
-  Read: 1
+  _isRead: 0

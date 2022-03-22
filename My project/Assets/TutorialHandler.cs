@@ -22,8 +22,6 @@ public class TutorialHandler : Singleton<TutorialHandler>
 
     private void Awake()
     {
-
-
         _writer = _tutorialBox.GetComponent<TypeWriterEffect>();
     }
 
@@ -35,6 +33,7 @@ public class TutorialHandler : Singleton<TutorialHandler>
 
     public void StartTutorial(int tutorialID)
     {
+        GameEvents.TutorialStarted();
         _currentDialogue = _dialogues.Where(w => w.ID == tutorialID).Single();
 
         ptr = 0;
@@ -62,6 +61,8 @@ public class TutorialHandler : Singleton<TutorialHandler>
             }
             else
             {
+                GameEvents.TutorialFinished();
+
                 if (_currentDialogue.AdvanceStoryOnClose)
                 {
                     GameEvents.ProgressStory();

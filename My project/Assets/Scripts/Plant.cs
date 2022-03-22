@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,27 @@ public class Plant : MonoBehaviour
     private SpriteRenderer _renderer;
     private BoxCollider2D _collider;
 
-    private bool _isTutorial;
+    private bool _isTutorial = true;
 
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<BoxCollider2D>();
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnWaterCollected += ReadyPlant;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnWaterCollected -= ReadyPlant;
+    }
+
+    private void ReadyPlant()
+    {
+        _collider.enabled = true;
     }
 
     private void OnMouseDown()
@@ -32,7 +48,7 @@ public class Plant : MonoBehaviour
 
         // playwater sound
         
-        GameEvents.WaterPlant();
+        GameEvents.PlantWatered();
 
         _collider.enabled = false;
         

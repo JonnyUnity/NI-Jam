@@ -30,7 +30,8 @@ public class GameEvents : MonoBehaviour
     public static event Action OnPickUpPills;
 
     // plant event
-    public static event Action OnWaterPlant;
+    public static event Action OnPlantWatered;
+    public static event Action OnWaterCollected;
 
     public static event Action<string> OnSetPlayerFlag;
     public static event Action<string, int> OnChangePlayerValue;
@@ -58,6 +59,17 @@ public class GameEvents : MonoBehaviour
         OnInteractionEnd?.Invoke();
     }
 
+
+    public static void TutorialStarted()
+    {
+        OnTutorialStarted?.Invoke();
+    }
+
+    public static void TutorialFinished()
+    {
+        OnTutorialEnded?.Invoke();
+    }
+
     public static void ProgressStory()
     {
         OnStoryActionPerformed?.Invoke();
@@ -75,9 +87,14 @@ public class GameEvents : MonoBehaviour
     }
 
 
-    public static void WaterPlant()
+    public static void WaterCollected()
     {
-        OnWaterPlant?.Invoke();
+        OnWaterCollected?.Invoke();
+    }
+
+    public static void PlantWatered()
+    {
+        OnPlantWatered?.Invoke();
     }
 
     public static void PhoneRings(int callID)

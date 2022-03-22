@@ -14,8 +14,6 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
     [SerializeField] private GameObject _choicesBox;
     
-    [SerializeField] private List<TMP_Text> _choiceButtonLabels;
-
     [SerializeField] private GameObject _responseBox;
     [SerializeField] private TMP_Text _responseText;
 
@@ -32,9 +30,8 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
     private List<Dialogue> _dialogues;
     private Dialogue _currentDialogue;
-    private List<Response> _responses;
-
     private Response _currentResponse;
+
 
     private void Awake()
     {
@@ -51,10 +48,12 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
     public bool IsDialogueOpen => _dialogueBox.activeInHierarchy || _choicesBox.activeInHierarchy || _responseBox.activeInHierarchy;
 
+
     private void DialogueStarted()
     {
         _dialogueBox.SetActive(true);
     }
+
 
     private void DialogueEnded()
     {
@@ -70,10 +69,6 @@ public class DialogueHandler : Singleton<DialogueHandler>
         _responseBox.SetActive(false);
     }
 
-    void Start()
-    {
-        
-    }
 
     
     public void StartDialogue(List<Dialogue> dialogues)
@@ -92,6 +87,7 @@ public class DialogueHandler : Singleton<DialogueHandler>
         SetupDialogue();
     }    
 
+
     private void SetupDialogue()
     {
         GameEvents.DialogueStarted();
@@ -102,21 +98,6 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
         AdvanceDialogue();
 
-    }
-
-    public void StartDialogueOld(List<Dialogue> dialogues, List<Response> responses)
-    {
-        _dialogues = dialogues;
-        _responses = responses;
-        ptr = 0;
-
-        _choicesBox.SetActive(false);
-        _dialogueBox.SetActive(true);
-
-        // load first dialogue.
-        _currentDialogue = _dialogues[0];
-
-        AdvanceDialogue();
     }
 
 
@@ -148,16 +129,6 @@ public class DialogueHandler : Singleton<DialogueHandler>
                     else
                     {
                         _isResponse = false;
-
-                        //if (_currentResponse.Actions.Count == 0)
-                        //{
-                        //    GameEvents.DialogueEnded();
-                        //}
-                        //else
-                        //{
-                        //    _currentResponse.Actions.ForEach(f => f.DoAction());
-                        //}
-
                         _currentResponse.Actions.ForEach(f => f.DoAction());
 
                     }
@@ -175,7 +146,6 @@ public class DialogueHandler : Singleton<DialogueHandler>
                     var responses = _currentDialogue.Responses;
                     if (responses.Count == 1)
                     {
-                        //_dialogueBox.SetActive(false);
                         // exactly one response so skip choice and play dialogue response
                         SetupResponse(responses[0].ID);
 
@@ -187,7 +157,6 @@ public class DialogueHandler : Singleton<DialogueHandler>
                         
                         _choicesBox.SetActive(true);
                         float buttonContainerHeight = 0;
-                        //_choiceButtons.ForEach(f => f.SetActive(false));
 
                         for (int i = 0; i < responses.Count; i++)
                         {
@@ -198,14 +167,8 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
                                 int responseID = responses[i].ID;
                                 var btn = choiceButton.GetComponent<Button>();
-                                btn.GetComponent<TMP_Text>().text = responses[i].Text;
+                                btn.GetComponentInChildren<TMP_Text>().text = responses[i].Text;
                                 btn.onClick.AddListener(() => SetupResponse(responseID));
-
-                                //_choiceButtonLabels[i].text = responses[i].Text;
-                                //_choiceButtons[i].SetActive(true);
-                                //var btn = _choiceButtons[i].GetComponent<Button>();
-
-                                //btn.onClick.AddListener(() => SetupResponse(responseID));
 
                                 _choiceButtons.Add(choiceButton);
                                 buttonContainerHeight += choiceButton.GetComponent<RectTransform>().sizeDelta.y;
@@ -213,12 +176,10 @@ public class DialogueHandler : Singleton<DialogueHandler>
                             }
 
                             Vector2 buttonContainerDimensions = _choiceButtonsContainer.GetComponent<RectTransform>().sizeDelta;
-                            _choiceButtonsContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonContainerDimensions.x, buttonContainerHeight);
+                            _choicesBox.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonContainerDimensions.x, buttonContainerHeight);
 
                         }
                     }
-
-                    
 
                 }
                 else
@@ -256,11 +217,13 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
     }
 
+
     private void AdvanceResponse()
     {
         _responseWriter.Run(_currentResponse.AnswerSentences[ptr], _responseText);
         ptr++;
     }
+
 
     private bool IsMoreDialogue => ptr < _currentDialogue.Sentences.Length;
     
