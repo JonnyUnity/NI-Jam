@@ -6,13 +6,17 @@ using UnityEngine.EventSystems;
 
 public class Phone : MonoBehaviour
 {
+    private static readonly int INTERACTIONOBJECT_ID = 1;
 
     [SerializeField] private Sprite _phoneOnHook;
     [SerializeField] private Sprite _phoneOffHook;
+    [SerializeField] private GameObject _highlight;
+
     [SerializeField] private AudioSource _phoneAudio;
     [SerializeField] private AudioClip _phoneRingClip;
     [SerializeField] private AudioClip _bossRingClip;
     [SerializeField] private AudioClip _pickUpReceiverClip;
+    [SerializeField] private AudioClip _voiceOnPhoneClip;
 
     [SerializeField] private List<Dialogue> _dialogues;
     [SerializeField] private List<Interaction> _calls;
@@ -22,6 +26,8 @@ public class Phone : MonoBehaviour
 
     private int _callID;
     private bool _isReceiverDown = true;
+
+    private bool StopInteracting => (EventSystem.current.IsPointerOverGameObject() ||  DialogueHandler.Instance.IsDialogueOpen);
 
     private void Awake()
     {
@@ -49,10 +55,15 @@ public class Phone : MonoBehaviour
         _phoneAudio.Play();
     }
 
+    public void EnablePhone()
+    {
+        _collider.enabled = true;
+    }
+
     public void ReceivePhoneCall(int callID)
     {
         _callID = callID;
-        _collider.enabled = true;
+        EnablePhone();
         if (!_phoneAudio.isPlaying)
         {
             _phoneAudio.clip = _phoneRingClip;
@@ -73,72 +84,86 @@ public class Phone : MonoBehaviour
     public void FinishPhoneCall()
     {
         _phoneAudio.PlayOneShot(_pickUpReceiverClip);
-        HangUp();
+        HangUp(INTERACTIONOBJECT_ID);
         //_renderer.sprite = _phoneOnHook;
         //_collider.enabled = false;
     }
 
     // Stops phone ringing
-    public void HangUp()
+    public void HangUp(int interactionObjectID)
     {
-        if (_isReceiverDown)
+        if (interactionObjectID != INTERACTIONOBJECT_ID)
             return;
 
-        if (_phoneAudio.isPlaying)
-        {
-            _phoneAudio.Stop();
-        }
+        //if (_isReceiverDown)
+        //    return;
+
+        //if (_phoneAudio.isPlaying)
+        //{
+        //    _phoneAudio.Stop();
+        //}
+
+        _phoneAudio.PlayOneShot(_pickUpReceiverClip);
         _renderer.sprite = _phoneOnHook;
         _collider.enabled = false;
         GameEvents.EndInteraction();
     }
 
-    private void Update()
+
+    private void OnMouseOver()
     {
-        
-        // option for phone to ring out?
+        if (StopInteracting)
+            return;
 
-
+        _highlight.SetActive(true);
     }
+
+    
+    private void OnMouseExit()
+    {
+        _highlight.SetActive(false);
+    }
+
 
     public void OnMouseDown()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //    return;
+        //if (DialogueHandler.Instance.IsDialogueOpen)
+        //    return;
+
+        if (StopInteracting)
             return;
 
-        if (DialogueHandler.Instance.IsDialogueOpen)
-            return;
-        if (TutorialHandler.Instance.IsTutorialOpen)
+        if (!_phoneAudio.isPlaying)
             return;
 
+        _highlight.SetActive(false);
 
-        if (!_phoneAudio.isPlaying && _isReceiverDown)
-            return;
-
-        if (_isReceiverDown)
-        {
-            GameEvents.StartInteraction(_callID);
+        //if (_isReceiverDown)
+        //{
+            GameEvents.StartInteraction();
             _phoneAudio.Stop();
             _phoneAudio.PlayOneShot(_pickUpReceiverClip);
+            _collider.enabled = false;
 
             _renderer.sprite = _phoneOffHook;
 
             var dialogues = _calls.Where(w => w.ID == _callID).Single().Dialogues;
 
             // do dialogue...
-            DialogueHandler.Instance.StartDialogue(dialogues);
+            DialogueHandler.Instance.StartDialogue(dialogues, _voiceOnPhoneClip, INTERACTIONOBJECT_ID);
 
-        }
-        else
-        {
-            _renderer.sprite = _phoneOnHook;
-            _collider.enabled = false;
+        //}
+        //else
+        //{
+        //    _renderer.sprite = _phoneOnHook;
+        //    _collider.enabled = false;
 
-        }
+        //}
 
-        _isReceiverDown = !_isReceiverDown;
-
-        
+        //_isReceiverDown = !_isReceiverDown;
+       
     }
 
 }

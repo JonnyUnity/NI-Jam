@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Water 2D1
+  m_EditorClassIdentifier: 
+  ID: 1
+  Speaker: 
+  Sentences:
+  - Drink water?
+  Responses:
+  - {fileID: 11400000, guid: aac7d44dbd72f084ca4327a61a00a1f8, type: 2}
+  - {fileID: 11400000, guid: b9c9b1ea914b4144baac64141ab18a96, type: 2}
+  Links:
+    Type: 0
+    IDs: 
+  AdvanceStoryOnClose: 0

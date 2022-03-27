@@ -6,35 +6,53 @@ using UnityEngine.EventSystems;
 
 public class Plant : MonoBehaviour
 {
-
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private Sprite _healthySprite;
     [SerializeField] private Sprite _dyingSprite;
+    [SerializeField] private Sprite _deadSprite;
 
     private SpriteRenderer _renderer;
     private BoxCollider2D _collider;
 
+    private bool _isDead;
     private bool _isTutorial = true;
 
     private void Awake()
     {
-        _renderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<BoxCollider2D>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
     {
-        GameEvents.OnWaterCollected += ReadyPlant;
+        GameEvents.OnPlantWatered += PlantWatered;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnWaterCollected -= ReadyPlant;
+        GameEvents.OnPlantWatered -= PlantWatered;
     }
 
-    private void ReadyPlant()
+    public void InitPlant()
     {
-        _collider.enabled = true;
+        var plantStatus = PlayerChoices.Instance.PlantHealth;
+
+        if (PlayerChoices.Instance.PlantDied)
+        {
+            _renderer.sprite = _deadSprite;
+            _isDead = true;
+        }
+        else if (PlayerChoices.Instance.PlantIsDying)
+        {
+            _renderer.sprite = _dyingSprite;
+        }
+        else
+        {
+            _renderer.sprite = _healthySprite;
+        }
+
     }
+
 
     private void OnMouseDown()
     {
@@ -44,20 +62,17 @@ public class Plant : MonoBehaviour
         if (DialogueHandler.Instance.IsDialogueOpen)
             return;
 
-        Debug.Log("Watering plant!");
-
-        // playwater sound
-        
-        GameEvents.PlantWatered();
 
         _collider.enabled = false;
-        
-        // Plant is healthy again!
-        //_renderer.sprite = _healthySprite;
+        Debug.Log("Watering plant!");
 
+        _audioSource.Play();
+
+        GameEvents.WaterPlant();
+        
         if (_isTutorial)
         {
-            GameEvents.ProgressStory();
+            GameEvents.NextTutorialStep();
             _isTutorial = false;
         }
 
@@ -66,21 +81,50 @@ public class Plant : MonoBehaviour
 
     public void UpdatePlantStatus(bool isDying)
     {
-        
+        if (_isDead)
+            return;
+
         if (isDying)
         {
             // set sprite to dying
             Debug.Log("Plant is dying!");
-        }
+            _renderer.sprite = _dyingSprite;
+            PlayerChoices.Instance.SetPlayerFlag("PlantIsDying");
 
-        _collider.enabled = true;
-                
+            if (PlayerChoices.Instance.PlantHealth == 2)
+            {
+                PlayerChoices.Instance.ChangePlayerValue("PlantHealth", -1);
+            }            
+        }
+        else
+        {
+            _renderer.sprite = _healthySprite;
+        }       
+    }
+
+    private void PlantWatered()
+    {
+        _renderer.sprite = _healthySprite;
+        PlayerChoices.Instance.UnsetPlayerFlag("PlantIsDying");
+        if (PlayerChoices.Instance.PlantHealth == 1)
+        {
+            PlayerChoices.Instance.ChangePlayerValue("PlantHealth", 1);
+        }        
+    }
+
+
+    public void PlantDies()
+    {
+        _isDead = true;
+        _renderer.sprite = _deadSprite;
+        PlayerChoices.Instance.SetPlayerFlag("PlantDied");
+        PlayerChoices.Instance.ChangePlayerValue("PlantHealth", -1);
     }
 
     public void DoTutorial()
     {
-        _collider.enabled = true;
         _isTutorial = true;
+        _collider.enabled = true;
     }
 
 }

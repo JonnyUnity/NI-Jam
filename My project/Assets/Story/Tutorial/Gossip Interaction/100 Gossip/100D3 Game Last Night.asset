@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 3
   Speaker: Simon
   Sentences:
-  - What's tapirs precious?
+  - Never heard a tapir?! What are they?
   Responses:
   - {fileID: 11400000, guid: 0e81d94eb918cf243919c001eed9536d, type: 2}
   Links:

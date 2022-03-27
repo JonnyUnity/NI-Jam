@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
+  m_Name: Coworker 2
+  m_EditorClassIdentifier: 
+  Name: Marge
+  ID: 2
+  Dialogues:
+  - {fileID: 11400000, guid: d3aaf8e0ba74ca443b757ea693071501, type: 2}
+  - {fileID: 11400000, guid: d7defe1b200c67441935460370811f50, type: 2}
+  - {fileID: 11400000, guid: b75f0aaa218ec1147a319a18cedc8462, type: 2}
+  - {fileID: 11400000, guid: 740fe75126a83e341b96ec7c26a4977a, type: 2}
+  - {fileID: 11400000, guid: 1148b91d00cc772459dd41d8e8699d26, type: 2}

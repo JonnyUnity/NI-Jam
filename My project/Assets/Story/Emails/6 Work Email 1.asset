@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb528182b518104c8cf878c89f3d581, type: 3}
+  m_Name: 6 Work Email 1
+  m_EditorClassIdentifier: 
+  _id: 6
+  _receivedTime: 109
+  _sender: mark@metronome.com
+  _subject: 'Product Report '
+  _emailBody: "Hi You,\r\nI hope you're doing well. I wanted to reach out and let
+    you know about a product report that we've been working on. This report will
+    be a summary of our top selling products, the number of sales, and the average
+    order value for each product. \r\nAttached File product_report_2022_03_18.pdf\r\nMark\r"
+  _canReply: 1
+  _replyText: I'll send my reports over
+  _replyActions: []
+  Conditions: []
+  _advanceStoryOnClose: 0
+  _isRead: 0

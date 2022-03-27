@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
+  m_Name: Bob 4
+  m_EditorClassIdentifier: 
+  Name: PC Crash
+  ID: 4
+  Dialogues:
+  - {fileID: 11400000, guid: 88bd24d200de5b040bdcf0529cc9f7e3, type: 2}
+  - {fileID: 11400000, guid: 13902c71be4b53b4d8a7c90d916abd79, type: 2}

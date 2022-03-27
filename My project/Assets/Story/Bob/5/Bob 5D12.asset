@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Bob 5D12
+  m_EditorClassIdentifier: 
+  ID: 12
+  Speaker: Bob
+  Sentences:
+  - Nothing. I just had a drink and went home
+  - Who ever said love was blind, lied
+  Responses:
+  - {fileID: 11400000, guid: 5efa359a205dc7442a74ef18a4876e3a, type: 2}
+  - {fileID: 11400000, guid: 685bac5f5a550ca47b32bffc0acb460e, type: 2}
+  Links:
+    Type: 0
+    IDs: 
+  AdvanceStoryOnClose: 0

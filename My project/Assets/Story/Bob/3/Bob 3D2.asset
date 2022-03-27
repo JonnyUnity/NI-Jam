@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Bob 3D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: Bob
+  Sentences:
+  - 'Not really, They make me feel great though!
+
+'
+  Responses:
+  - {fileID: 11400000, guid: 1ae40af5e51024f4d9ed72a33e57e94f, type: 2}
+  Links:
+    Type: 0
+    IDs: 
+  AdvanceStoryOnClose: 0

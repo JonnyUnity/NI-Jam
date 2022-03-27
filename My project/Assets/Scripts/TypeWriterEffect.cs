@@ -12,6 +12,8 @@ public class TypeWriterEffect : MonoBehaviour
     private TMP_Text _textLabel;
     private string _textToType;
 
+    private AudioSource _audioSource;
+
     public void Run(string textToType, TMP_Text textLabel)
     {
         _textToType = textToType;
@@ -20,9 +22,23 @@ public class TypeWriterEffect : MonoBehaviour
         StartCoroutine(TypeTextCoRoutine());
     }
 
+    public void Run(string textToType, TMP_Text textLabel, AudioSource audioSource)
+    {
+        _textToType = textToType;
+        _textLabel = textLabel;
+        _audioSource = audioSource;
+        
+        StartCoroutine(TypeTextCoRoutine());
+    }
+
     
     public void FinishTyping()
     {
+        if (_audioSource != null && _audioSource.isPlaying)
+        {
+            _audioSource.Stop();
+        }
+        
         StopAllCoroutines();
         IsTyping = false;
         _textLabel.text = _textToType;
@@ -36,8 +52,14 @@ public class TypeWriterEffect : MonoBehaviour
         float t = 0;
         int charIndex = 0;
 
+        if (_audioSource != null)
+        {
+            _audioSource.Play();
+        }
+
         while (charIndex < _textToType.Length)
         {
+              
             t += Time.deltaTime * typeSpeed;
             charIndex = Mathf.FloorToInt(t);
             charIndex = Mathf.Clamp(charIndex, 0, _textToType.Length);
@@ -45,6 +67,11 @@ public class TypeWriterEffect : MonoBehaviour
             _textLabel.text = _textToType.Substring(0, charIndex);
 
             yield return null;
+        }
+
+        if (_audioSource != null)
+        {
+            _audioSource.Stop();
         }
 
         IsTyping = false;

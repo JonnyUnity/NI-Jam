@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
+  m_Name: Bob 5
+  m_EditorClassIdentifier: 
+  Name: Bob Long
+  ID: 5
+  Dialogues:
+  - {fileID: 11400000, guid: e4f09c10448a7194884685164e1a6d15, type: 2}
+  - {fileID: 11400000, guid: 0c752e7d9fefd2946ad1ede1bb092ae7, type: 2}
+  - {fileID: 11400000, guid: daa787c84948573409805e9c1995e463, type: 2}
+  - {fileID: 11400000, guid: e3d9798a8c10c584aa0fd2e6425707ef, type: 2}
+  - {fileID: 11400000, guid: dba19505dcc73274b9fadcb9afab1e48, type: 2}
+  - {fileID: 11400000, guid: 0e749d00c1da12b4f97c3b6159ee201a, type: 2}
+  - {fileID: 11400000, guid: cefe03b7ddf4fc147ae54528296f6b17, type: 2}
+  - {fileID: 11400000, guid: 223eea33494b4104b8800fbcfaf98624, type: 2}
+  - {fileID: 11400000, guid: 5c25bc9e5cfbc5c42b714d2868c332c4, type: 2}
+  - {fileID: 11400000, guid: 78c6c041b5e2e004681b8a794d19fbfc, type: 2}
+  - {fileID: 11400000, guid: ec4bfe7b83810b84ba042c2cef1ffe1f, type: 2}
+  - {fileID: 11400000, guid: 68c0d82b33b65774f89b280078507a0d, type: 2}
+  - {fileID: 11400000, guid: 2594ac0c501668646aa0d869f5332c32, type: 2}

@@ -42,7 +42,13 @@ public class ResponseAction
             case ResponseActionTypeEnum.EndDialogue:
 
                 Debug.Log("Ending dialogue");
-                GameEvents.DialogueEnded();
+                GameEvents.DialogueEnded(value);
+                break;
+
+            case ResponseActionTypeEnum.WaterPlant:
+
+                Debug.Log("Watering plant!");
+                GameEvents.WaterPlant();
                 break;
 
             default:
@@ -61,5 +67,6 @@ public enum ResponseActionTypeEnum
     SetFlag,
     UpdateCount,
     AdvanceStory,
-    EndDialogue
+    EndDialogue,
+    WaterPlant
 }

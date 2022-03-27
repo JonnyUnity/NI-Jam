@@ -18,7 +18,7 @@ public class TitleScreenManager : MonoBehaviour
     IEnumerator LoadLevelAnimation()
     {
         yield return StartCoroutine(FadeToBlack());
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     private IEnumerator FadeToBlack()
@@ -27,6 +27,12 @@ public class TitleScreenManager : MonoBehaviour
         yield return new WaitForSeconds(1);
 
     }
+
+    public void Credits()
+    {
+        SceneManager.LoadScene(4);
+    }
+
 
     public void QuitGame()
     {

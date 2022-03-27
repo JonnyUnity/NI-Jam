@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb528182b518104c8cf878c89f3d581, type: 3}
+  m_Name: 12 Seduciton
+  m_EditorClassIdentifier: 
+  _id: 12
+  _receivedTime: 204
+  _sender: dajen@seduction.com
+  _subject: Order
+  _emailBody: "Hi You,\r\nI hope you're having a great day! I'm writing to confirm
+    that the order is ready for shipment. I've attached the packing slip to this
+    email so you can get it shipped out soon. If you have any questions, please let
+    me know and I'll be happy to help!\r\nThanks!\r\nAttached: Shipments_2022_20_03\r\nDejan
+    @ Seduction N\u2019tyse."
+  _canReply: 1
+  _replyText: No problem, anything else just ask [Positive]
+  _replyActions: []
+  Conditions: []
+  Read: 0

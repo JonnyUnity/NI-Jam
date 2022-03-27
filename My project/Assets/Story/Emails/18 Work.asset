@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb528182b518104c8cf878c89f3d581, type: 3}
+  m_Name: 18 Work
+  m_EditorClassIdentifier: 
+  _id: 18
+  _receivedTime: 302
+  _sender: Steve@metronome.com
+  _subject: Surprise Inspection
+  _emailBody: "Hey Everyone,\n\nWe're going to be conducting a surprise inspection
+    of your office today, so make sure all plants are healthy and cubicle is sorted!
+    \n\nThanks,\n\nSteve"
+  _canReply: 0
+  _replyText: 
+  _replyActions: []
+  Conditions: []
+  Read: 0

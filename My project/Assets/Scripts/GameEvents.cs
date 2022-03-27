@@ -6,12 +6,13 @@ using System;
 public class GameEvents : MonoBehaviour
 {
     public static event Action OnTutorialStarted;
+    public static event Action OnNextTutorialStep;
     public static event Action OnTutorialEnded;
 
     public static event Action OnDialogueStarted;
-    public static event Action OnDialogueEnded;
+    public static event Action<int> OnDialogueEnded;
 
-    public static event Action<int> OnInteractionStart;
+    public static event Action OnInteractionStart;
     public static event Action OnInteractionEnd;
 
     public static event Action<int> OnActStart;
@@ -26,12 +27,16 @@ public class GameEvents : MonoBehaviour
     public static event Action OnCloseDesktop;
 
     // Meds Alarm events
-    public static event Action OnStopAlarm;
+    public static event Action<bool> OnStopAlarm;
     public static event Action OnPickUpPills;
 
     // plant event
     public static event Action OnPlantWatered;
     public static event Action OnWaterCollected;
+    public static event Action OnCupUsed;
+
+    public static event Action<int> OnBossStart;
+    public static event Action OnBossEnd;
 
     public static event Action<string> OnSetPlayerFlag;
     public static event Action<string, int> OnChangePlayerValue;
@@ -42,15 +47,15 @@ public class GameEvents : MonoBehaviour
         OnDialogueStarted?.Invoke();
     }
 
-    public static void DialogueEnded()
+    public static void DialogueEnded(int interactionObjectID)
     {
-        OnDialogueEnded?.Invoke();
+        OnDialogueEnded?.Invoke(interactionObjectID);
     }
 
 
-    public static void StartInteraction(int objectID)
+    public static void StartInteraction()
     {
-        OnInteractionStart?.Invoke(objectID);
+        OnInteractionStart?.Invoke();
     }
 
 
@@ -60,9 +65,14 @@ public class GameEvents : MonoBehaviour
     }
 
 
-    public static void TutorialStarted()
+    public static void StartTutorial()
     {
         OnTutorialStarted?.Invoke();
+    }
+
+    public static void NextTutorialStep()
+    {
+        OnNextTutorialStep?.Invoke();
     }
 
     public static void TutorialFinished()
@@ -87,12 +97,29 @@ public class GameEvents : MonoBehaviour
     }
 
 
+    public static void StartBoss(int actNumber)
+    {
+        OnBossStart?.Invoke(actNumber);
+    }
+
+    public static void EndBoss()
+    {
+        OnBossEnd?.Invoke();
+    }
+
+
+    public static void UseCup()
+    {
+        OnCupUsed?.Invoke();
+    }
+
+
     public static void WaterCollected()
     {
         OnWaterCollected?.Invoke();
     }
 
-    public static void PlantWatered()
+    public static void WaterPlant()
     {
         OnPlantWatered?.Invoke();
     }
@@ -125,9 +152,9 @@ public class GameEvents : MonoBehaviour
     }
 
 
-    public static void StopAlarm()
+    public static void StopAlarm(bool isRight)
     {
-        OnStopAlarm?.Invoke();
+        OnStopAlarm?.Invoke(isRight);
     }
 
     public static void SetPlayerFlag(string propertyName)

@@ -11,8 +11,7 @@ public class Dialogue : ScriptableObject
 
     public List<Response> Responses;
 
-    public DialogueNode Links;
-
+    public bool EndOfConversation;
     public bool AdvanceStoryOnClose;
 
     public bool HasResponses => (Responses != null && Responses.Count > 0);

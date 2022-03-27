@@ -6,6 +6,7 @@ using UnityEngine;
 public class DeskSceneManager : Singleton<DeskSceneManager>
 {
 
+    [SerializeField] private TutorialHandler _tutorialHandler;
     [SerializeField] private bool _skipTutorial;
     [SerializeField] private TestDebugger _debugger;
 
@@ -13,24 +14,39 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     [SerializeField] private TMPro.TMP_Text _dayHeadingText;
     [SerializeField] private Animator _animator;
 
+    [SerializeField] private AudioSource _audioSource;
+
     [SerializeField] private ViewManager _viewManager;
 
     [SerializeField] private Phone _phoneObject;
     [SerializeField] private GameObject _pillsObject;
+    [SerializeField] private Watercooler _waterCoolerObject;
+    [SerializeField] private Cup _cupObject;
 
-    //[SerializeField] private MedsAlarm _medsAlarmObject;
     [SerializeField] private Computer _computerObject;
     [SerializeField] private Plant _plantObject; 
 
     [SerializeField] private CoWorkerInteraction _bobInteraction;
-    [SerializeField] private CoWorkerInteraction _gossipInteraction;
+    [SerializeField] private CoWorkerInteraction _simonGossipInteraction;
+    [SerializeField] private CoWorkerInteraction _margeGossipInteraction;
+    [SerializeField] private CoWorkerInteraction _susanGossipInteraction;
+    [SerializeField] private CoWorkerInteraction _mattGossipInteraction;
 
-    private PlayerState State;
+    [SerializeField] private CoWorkerInteraction[] _coWorkers;
+     private CoWorker _activeCoWorkerID;
+
+    [SerializeField] private AudioClip[] _actBackgroundMusic;
+
+   // private PlayerState State;
     private float _timeToEvent;
     private bool _timerOn;
     private int _interactionID;
     private int _tutorialID;
     private Action _timedEvent;
+
+    private int _alarmID = 1;
+
+    private bool _isInTutorial;
 
     // Plant
     [SerializeField] private int _minTimeBetweenWaterings;
@@ -38,13 +54,12 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private static readonly string[] _actTitles = { "Monday", "Wednesday", "Friday" };
 
-    private static readonly Dictionary<int, int> _actsActionCount = new Dictionary<int, int>()
+    private static readonly int[] _actsActionCount = new int[]
     {
-        {0, 13 },
-        {1, 10 },
-        {2, 10 },
-        {3, 10 }
+        0, 13, 10, 10
     };
+
+
     private int _actNumber;
     private int _storyBeat;
 
@@ -52,15 +67,23 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private void Awake()
     {
+//#if UNITY_EDITOR
+//        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+//#endif
+
+
         GameEvents.OnActStart += StartAct;
-       // GameEvents.OnTutorialEnded += NextTutorial;
+        GameEvents.OnTutorialEnded += EndTutorial;
 
         GameEvents.OnInteractionStart += UpdateStateToBusy;
+        GameEvents.OnOpenDesktop += UpdateStateToBusy;
+        GameEvents.OnCloseDesktop += UpdateStateToIdle;
         GameEvents.OnInteractionEnd += UpdateStateToIdle;
         GameEvents.OnPlantWatered += WaterPlant;
         GameEvents.OnStoryActionPerformed += NextStoryBeat;
 
-        State = PlayerState.IDLE;
+        //State = PlayerState.IDLE;
+        GameManager.Instance.UpdateStateToIdle();
     }
 
 
@@ -68,9 +91,11 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private void OnDisable()
     {
         GameEvents.OnActStart -= StartAct;
-       // GameEvents.OnTutorialEnded -= NextTutorial;
+        GameEvents.OnTutorialEnded -= EndTutorial;
 
         GameEvents.OnInteractionStart -= UpdateStateToBusy;
+        GameEvents.OnOpenDesktop -= UpdateStateToBusy;
+        GameEvents.OnCloseDesktop -= UpdateStateToIdle;
         GameEvents.OnInteractionEnd -= UpdateStateToIdle;
         GameEvents.OnPlantWatered -= WaterPlant;
         GameEvents.OnStoryActionPerformed -= NextStoryBeat;
@@ -78,40 +103,34 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private void UpdateStateToIdle()
     {
-        State = PlayerState.IDLE;
+        //        State = PlayerState.IDLE;
+        GameManager.Instance.UpdateStateToIdle();
     }
 
-    private void UpdateStateToBusy(int obj)
+    private void UpdateStateToBusy()
     {
-        State = PlayerState.BUSY;
+        //State = PlayerState.BUSY;
+        GameManager.Instance.UpdateStateToBusy();
     }
 
-    private void Start()
-    {
-        //SetupStoryBeat();
-    }
+
 
     private void Update()
     {
         if (!_timerOn)
             return;
 
-        if (State == PlayerState.BUSY)
+        if (GameManager.Instance.State == PlayerState.BUSY)
             return;
 
         _timeToEvent -= Time.deltaTime;
 
         if (_timeToEvent <= 0f)
         {
-            Debug.Log("Time's up! run event!");
-            if (_timedEvent != null)
-            {
-                _timedEvent();
-            }
             _timerOn = false;
+            Debug.Log("Time's up! run event!");
+            _timedEvent?.Invoke();
         }
-
-
 
     }
 
@@ -124,29 +143,59 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private void StartAct(int actNumber)
     {
 
-        _dayHeadingText.text = _actTitles[actNumber];
+        _dayHeadingText.text = _actTitles[actNumber - 1];
 
-        StartCoroutine(FadeInCoroutine());
+        StartCoroutine(FadeInCoroutine(actNumber)); 
 
-        if (_skipTutorial)
-        {
-            _actNumber = 1;
-            _storyBeat = 1;
-        }
-        else
-        {
-            _actNumber = actNumber;
-            _storyBeat = 1;
-        }
-
-        SetupStoryBeat();
     }
 
 
-    private IEnumerator FadeInCoroutine()
+    private IEnumerator FadeInCoroutine(int actNumber)
     {
         _animator.SetTrigger("StartOfDay");
         yield return new WaitForSecondsRealtime(2f);
+
+        _audioSource.Play();
+        // begin tutorial...
+        
+        if (actNumber == 1)
+        {
+
+            if (_skipTutorial)
+            {
+                InitAct();
+
+                _isInTutorial = false;
+                _actNumber = 1;
+                _storyBeat = 0;
+
+                SetupStoryBeat();
+            }
+            else
+            {
+                _isInTutorial = true;
+                _tutorialHandler.StartTutorial();
+            }            
+        }
+        else
+        {
+            InitAct();
+            _actNumber = actNumber;
+            _storyBeat = 1;
+            SetupStoryBeat();
+        }
+        
+
+    }
+
+
+    private void InitAct()
+    {
+        _timeSinceLastWater = 0;
+        _viewManager.ToggleNavButtons(true);
+        _plantObject.InitPlant();
+        _computerObject.EnableComputer(false);
+        _waterCoolerObject.EnableWaterCooler();
     }
 
 
@@ -155,131 +204,40 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         _animator.SetTrigger("EndOfDay");
         yield return new WaitForSecondsRealtime(1.5f);
 
+        GameEvents.ActOver();
     }
 
-    private void NextTutorial()
+    private void EndTutorial()
     {
-        _tutorialID++;
-
-        switch(_tutorialID)
-        {
-            case 1:  // TUTORIAL: WELCOME
-
-                SetupTutorial(1, 1f);
-
-                //_tutorial.StartTutorial(1);
-                //_phoneObject.ReceivePhoneCall(1);
-                //GameEvents.MedsAlarmGoesOff(1);
-                //GameEvents.PhoneRings(1);
-                //StartCoroutine(GameManager.Instance.BobVisit1());
-                // Invoke("BobVisit1", 4f);
-                break;
-
-            case 2: // TUTORIAL: PHONE
-
-
-                _phoneObject.PhoneTutorial();
-                //TutorialHandler.Instance.StartTutorial(2);
-                SetupTutorial(2, 1f);
-                _phoneObject.ReceivePhoneCall(1);
-
-                break;
-
-            case 3: // TUTORIAL: GO TO WATER COOLER
-
-                SetupTutorial(3, 1f);
-                //_viewManager.EnableLeftArrow();
-                break;
-
-            case 4: // TUTORIAL: GO TO WATER COOLER 2
-
-                _viewManager.EnableLeftArrow();
-                break;
-
-            case 5: // TUTORIAL: GO TO WATER COOLER 3
-
-                SetupTutorial(4, 1f);
-                break;
-
-            case 6: // TUTORIAL: CLICKED ON WATER COOLER
-
-                SetupTutorial(5, 0f);
-                _viewManager.EnableRightArrow();
-                break;
-
-            case 7: // TUTORIAL: WATER PLANT
-
-                _viewManager.ToggleNavButtons(false);
-                //_plantObject.DoTutorial();
-                SetupTutorial(6, 1f);
-                break;
-
-            case 8: // TUTORIAL: OFFICE GOSSIP
-
-                _viewManager.EnableLeftArrow();
-                SetupTutorial(7, 1f);
-                break;
-
-            case 9: // TUTORIAL: REPLY TO EMAIL
-
-                SetupTutorial(8, 1f);
-                _gossipInteraction.DoTutorial(1);
-
-                break;
-
-            case 10:
-
-                SetupTutorial(9, 1f);
-                _viewManager.EnableRightArrow();
-                break;
-
-            case 11:
-
-                _viewManager.ToggleNavButtons(false);
-                _computerObject.EnableComputer();
-                SetupTutorial(10, 1f);
-                break;
-
-            case 12:
-
-                // computer tutorial!
-
-                break;
-
-
-            default:
-                Debug.Log("Out of story beats! Shouldn't be here!");
-                break;
-        }
-
+        _isInTutorial = false;
+        _actNumber = 1;
+        _storyBeat = 0;
+        GameEvents.ProgressStory();
     }
 
 
     private void NextStoryBeat()
     {
 
-        _storyBeat++;
-        _timeSinceLastWater++;
-
-        if (_actsActionCount[_actNumber] == _storyBeat)
+        if (_isInTutorial)
         {
-            if (_actNumber == 0) // tutorial
-            {
-                _actNumber++;
-                _storyBeat = 1;
-                SetupStoryBeat();
-            }
-            else
-            {
-                StartCoroutine(FadeOutCoroutine());
-                GameEvents.ActOver();
-            } 
-
+            GameEvents.NextTutorialStep();
         }
         else
         {
-            Debug.Log("I'm the next story beat! " + _storyBeat);
-            SetupStoryBeat();
+        
+            _storyBeat++;
+            _timeSinceLastWater++;
+
+            if (_actsActionCount[_actNumber] == _storyBeat)
+            {
+                StartCoroutine(FadeOutCoroutine());
+            }
+            else
+            {
+                Debug.Log("I'm the next story beat! " + _storyBeat);
+                SetupStoryBeat();
+            }
         }
 
     }
@@ -289,13 +247,15 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     {
         _debugger.UpdateDebugText($"Act {_actNumber} Beat {_storyBeat}");
 
+        // init
+        
+        _computerObject.CheckForNewEmails();
+       
+
+        // disable all 
+
         switch (_actNumber)
         {
-            case 0:
-
-                SetupTutorialBeat();
-                break;
-
             case 1:
 
                 SetupAct1StoryBeat();
@@ -314,118 +274,23 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 Debug.Log($"Unknown act! {_actNumber}, story beat:{_storyBeat}");
                 break;
-        }  
-        
-        if (_timeSinceLastWater == _minTimeBetweenWaterings)
+        }
+
+        if (_timeSinceLastWater >= _minTimeBetweenWaterings + 6)
         {
-            _plantObject.UpdatePlantStatus(false);
+            _plantObject.PlantDies();
         }
         else if (_timeSinceLastWater >= _minTimeBetweenWaterings + 2)
         {
             _plantObject.UpdatePlantStatus(true);
         }
-
-    }
-
-    private delegate void MyDelegate(int interactionID);
-
-
-
-    private void SetupTutorialBeat()
-    {
-        Debug.Log($"setting up tutorial beat {_storyBeat} in act {_actNumber}");
-
-        switch (_storyBeat)
+        else if (_timeSinceLastWater == _minTimeBetweenWaterings)
         {
-            case 1:  // TUTORIAL: WELCOME
-
-                SetupTutorial(1, 2f);
-
-                //_tutorial.StartTutorial(1);
-                //_phoneObject.ReceivePhoneCall(1);
-                //GameEvents.MedsAlarmGoesOff(1);
-                //GameEvents.PhoneRings(1);
-                //StartCoroutine(GameManager.Instance.BobVisit1());
-                // Invoke("BobVisit1", 4f);
-                break;
-
-            case 2: // TUTORIAL: PHONE
-
-                _phoneObject.PhoneTutorial();
-                //TutorialHandler.Instance.StartTutorial(2);
-                SetupTutorial(2, 1f);
-                _phoneObject.ReceivePhoneCall(1);
-
-                break;
-
-            case 3: // TUTORIAL: GO TO WATER COOLER
-
-                SetupTutorial(3, 1f);
-                //_viewManager.EnableLeftArrow();
-                break;
-
-            case 4: // TUTORIAL: GO TO WATER COOLER 2
-
-                _viewManager.EnableLeftArrow();
-                break;
-
-            case 5: // TUTORIAL: GO TO WATER COOLER 3
-
-                SetupTutorial(4, 1f);
-                break;
-
-            case 6: // TUTORIAL: CLICKED ON WATER COOLER
-
-                SetupTutorial(5, 0f);
-                _viewManager.EnableRightArrow();
-                break;
-
-            case 7: // TUTORIAL: WATER PLANT
-
-                _viewManager.ToggleNavButtons(false);
-                //_plantObject.DoTutorial();
-                SetupTutorial(6, 1f);
-                break;
-
-            case 8: // TUTORIAL: OFFICE GOSSIP
-
-                _viewManager.EnableLeftArrow();
-                SetupTutorial(7, 1f);
-                break;
-
-            case 9: // TUTORIAL: REPLY TO EMAIL
-
-                SetupTutorial(8, 1f);
-                _gossipInteraction.DoTutorial(1);
-
-                break;
-
-            case 10:
-
-                SetupTutorial(9, 1f);
-                _viewManager.EnableRightArrow();
-                break;
-
-            case 11:
-
-                _viewManager.ToggleNavButtons(false);
-                _computerObject.EnableComputer();
-                SetupTutorial(10, 1f);
-                break;
-
-            case 12:
-
-                // computer tutorial!
-                
-                break;
-
-            
-            default:
-                Debug.Log("Out of story beats! Shouldn't be here!");
-                break;
-
+            _waterCoolerObject.EnableWaterCooler();
         }
+        
     }
+
 
     private void SetupAct1StoryBeat()
     {
@@ -435,12 +300,21 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         {
             case 1:
 
-                _computerObject.EnableComputer();
+                //_viewManager.ToggleNavButtons(true);
+                //_computerObject.EnableComputer();
                 //_viewManager.ToggleNavButtons(true);
                 //SetupTimedEvent(2f, BobVisit1);
+
+                //_phoneObject.ReceiveBossPhoneCall(10);
+
+                //SetupTimedEvent(3f, DoMedsAlarm);
+                
+
                 break;
 
             case 2:
+
+                TimedCoworkerInteraction(2f, CoWorker.SUSAN, 5);
 
 
                 //_phoneObject.PhoneTutorial();
@@ -452,38 +326,62 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 3:
 
+                // phone call?
                 break;
 
             case 4:
 
 
+                TimedCoworkerInteraction(2f, CoWorker.MARGE, 4);
                 break;
 
             case 5:
 
-
+                SetupTimedEvent(5f, DoMedsAlarm);
                 break;
 
             case 6:
 
+                _computerObject.EnableComputer(false);
+                TimedComputerCrash(3f);
                 break;
 
             case 7:
 
+                _cupObject.EnableCup();
+                // computer crash
 
+                //_interactionID = 4;
+                //SetupTimedEvent(4f, BobVisit);
+                TimedBobVisit(4f, 4);
+
+                //_bobInteraction.DoVisit(4);
                 break;
 
             case 8:
 
-
+                ReceiveTimedPhoneCall(2f, 1);
                 break;
 
             case 9:
 
+                TimedCoworkerInteraction(3f, CoWorker.MATT, 1);
+                
                 break;
 
             case 10:
 
+                TimedBobVisit(3f, 5);
+                break;
+
+            case 11:
+
+                _computerObject.FixCrash();
+                break;
+
+            case 12:
+
+                _phoneObject.ReceiveBossPhoneCall(2);
                 break;
 
             default:
@@ -501,8 +399,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         {
             case 1:
 
-                //_phoneObject.ReceivePhoneCall(1);
-                //GameEvents.PhoneRings(1);
+                // jeremy 2 email?
                 break;
 
             case 2:
@@ -513,7 +410,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
             case 3:
 
                 //GameEvents.MedsAlarmGoesOff(1);
-
+                _margeGossipInteraction.StartGossip(2);
                 break;
 
             case 4:
@@ -522,14 +419,18 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 5:
 
+                SetupTimedEvent(3f, DoMedsAlarm);
                 break;
 
             case 6:
+
+                ReceiveTimedPhoneCall(2f, 3);
 
                 break;
 
             case 7:
 
+                _bobInteraction.DoVisit(6);
                 break;
 
             case 8:
@@ -542,6 +443,18 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 10:
 
+                if (PlayerChoices.Instance.OnLizardmanStory)
+                {
+                    _phoneObject.ReceiveBossPhoneCall(6);
+                }
+                else if (PlayerChoices.Instance.OnHitmanStory)
+                {
+                    _phoneObject.ReceiveBossPhoneCall(7);
+                }
+                else
+                {
+                    _phoneObject.ReceiveBossPhoneCall(8);
+                }
                 break;
 
             default:
@@ -559,8 +472,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         {
             case 1:
 
-                //_phoneObject.ReceivePhoneCall(1);
-                GameEvents.PhoneRings(1);
+
                 break;
 
             case 2:
@@ -570,8 +482,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 3:
 
-                GameEvents.MedsAlarmGoesOff(1);
-
+                
                 break;
 
             case 4:
@@ -580,6 +491,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 5:
 
+                SetupTimedEvent(3f, DoMedsAlarm);
                 break;
 
             case 6:
@@ -600,6 +512,18 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 10:
 
+                if (PlayerChoices.Instance.OnLizardmanStory)
+                {
+                    _phoneObject.ReceiveBossPhoneCall(9);
+                }
+                else if (PlayerChoices.Instance.OnHitmanStory)
+                {
+                    _phoneObject.ReceiveBossPhoneCall(10);
+                }
+                else
+                {
+                    _phoneObject.ReceiveBossPhoneCall(11);
+                }
                 break;
 
             default:
@@ -618,19 +542,6 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         _timerOn = true;
     }
 
-    private void SetupTutorial(int tutorialID, float timer)
-    {
-        Debug.Log($"Set up timed event: timer={timer}");
-        _tutorialID = tutorialID;
-        _timeToEvent = timer;
-        _timedEvent = DoTutorial;
-        _timerOn = true;
-    }
-
-    private void DoTutorial()
-    {
-        TutorialHandler.Instance.StartTutorial(_tutorialID);
-    }
 
     
     private void WaterPlant()
@@ -640,18 +551,79 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     }
 
 
-    public void BobVisit1()
+    public void TimedComputerCrash(float timer)
+    {
+        Debug.Log($"Set up timed computer crash: timer={timer}");
+        _timeToEvent = timer;
+        _timedEvent = ComputerCrashes;
+        _timerOn = true;
+
+    }
+
+    private void ComputerCrashes()
+    {
+        _computerObject.DoCrash();
+    }
+
+
+    private void ReceiveTimedPhoneCall(float timer, int phoneInteractionID)
+    {
+        Debug.Log($"Set up timed phone call: timer={timer}");
+        _timeToEvent = timer;
+        _interactionID = phoneInteractionID;
+        _timedEvent = ReceivePhoneCall;
+        _timerOn = true;
+
+    }
+
+    private void TimedCoworkerInteraction(float timer, CoWorker coworker, int workerInteractionID)
+    {
+        Debug.Log($"Set up timed co worker: timer={timer}");
+        _timeToEvent = timer;
+        _interactionID = workerInteractionID;
+        _activeCoWorkerID = coworker;
+        _timedEvent = CoworkerInteraction;
+        _timerOn = true;
+    }
+
+
+    private void TimedBobVisit(float timer, int bobInteractionID)
+    {
+        Debug.Log($"Set up timed bob visit: timer={timer}");
+        _timeToEvent = timer;
+        _interactionID = bobInteractionID;
+        _timedEvent = BobVisit;
+        _timerOn = true;
+    }
+
+
+    private void ReceivePhoneCall()
+    {
+        _phoneObject.ReceivePhoneCall(_interactionID);
+    }
+
+    private void CoworkerInteraction()
+    {
+        _coWorkers[(int)_activeCoWorkerID].StartGossip(_interactionID);
+    }
+
+
+
+
+
+    public void BobVisit()
+    {
+        _bobInteraction.DoVisit(_interactionID);
+    }
+
+
+    private void DoMedsAlarm()
     {
 
-        if (PlayerChoices.Instance.WatchedGameLastNight)
-        {
-            _interactionID = 1;
-        }
-        else
-        {
-            _interactionID = 2;
-        }
-        _bobInteraction.DoVisit(_interactionID);
+        _computerObject.DisableComputer();
+        _cupObject.DisableCup();
+        GameEvents.MedsAlarmGoesOff(_alarmID);
+        _alarmID++;
     }
 
 }
@@ -660,4 +632,12 @@ public enum PlayerState
 {
     IDLE,
     BUSY
+}
+
+public enum CoWorker
+{
+    SIMON,
+    MARGE,
+    SUSAN,
+    MATT
 }

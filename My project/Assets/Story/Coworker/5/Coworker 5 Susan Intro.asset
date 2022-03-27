@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
+  m_Name: Coworker 5 Susan Intro
+  m_EditorClassIdentifier: 
+  Name: Susan intro
+  ID: 5
+  Dialogues:
+  - {fileID: 11400000, guid: b670b78ffb6cb014187b2c8cfa471245, type: 2}
+  - {fileID: 11400000, guid: c6c553ec28b7b3c4083df309ee319c7b, type: 2}
+  - {fileID: 11400000, guid: 95c6b69f29024814ab90870a1509180b, type: 2}
+  - {fileID: 11400000, guid: 7da343681973218429d8244a67c00045, type: 2}

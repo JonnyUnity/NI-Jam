@@ -20,6 +20,7 @@ public class Email : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] private ResponseAction[] _replyActions;
 
     [SerializeField] public List<Condition> Conditions;
+    [SerializeField] private bool _advanceStoryOnClose;
 
     public bool _isRead;
     
@@ -33,6 +34,7 @@ public class Email : ScriptableObject, ISerializationCallbackReceiver
     public bool CanReply => _canReply;
     public string ReplyText => _replyText;
     public ResponseAction[] ReplyActions => _replyActions;
+    public bool AdvanceStoryOnClose => _advanceStoryOnClose;
 
 
     public bool ShouldInclude()

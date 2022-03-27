@@ -5,14 +5,21 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class Computer : MonoBehaviour
 {
     [SerializeField] private ViewManager _viewManager;
     [SerializeField] private GameObject _desktopObject;
+    [SerializeField] private GameObject _exitDesktopButton;
 
+    [SerializeField] private GameObject _highlight;
     [SerializeField] private GameObject _desktopOn;
     [SerializeField] private GameObject _desktopCrash;
+    [SerializeField] private GameObject _emailNotificationObject;
+
+    [SerializeField] private Button _desktopIconEmail;
+    [SerializeField] private Button _desktopIconGames;
 
     [SerializeField] private GameObject _inboxObject;
     [SerializeField] private GameObject _emailObject;
@@ -20,11 +27,13 @@ public class Computer : MonoBehaviour
     [SerializeField] private TMP_Text _subject;
     [SerializeField] private TMP_Text _emailBody;
     [SerializeField] private GameObject _replyButton;
+    [SerializeField] private Button[] _closeButtons;
 
     [SerializeField] private GameObject _replyObject;
     [SerializeField] private TMP_Text _replySender;
     [SerializeField] private TMP_Text _replySubject;
     [SerializeField] private TMP_Text _replyBody;
+    [SerializeField] private GameObject _sendButton;
 
     [SerializeField] private GameObject _emailContainer;
     [SerializeField] private GameObject _emailTemplate;
@@ -39,7 +48,14 @@ public class Computer : MonoBehaviour
 
     private BoxCollider2D _collider;
 
-    private bool _isTutorial = true;
+    private bool _isTutorial;
+    private bool _hasCrashed;
+
+    private int _tutorialStep;
+    private bool _advanceStoryOnClose;
+
+    private bool StopInteracting => (EventSystem.current.IsPointerOverGameObject() || DialogueHandler.Instance.IsDialogueOpen || _hasCrashed);
+
 
     private void Awake()
     {
@@ -47,22 +63,82 @@ public class Computer : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        GameEvents.OnCloseDesktop += CloseDesktop;
-    }
+    //private void OnEnable()
+    //{
+    //    // GameEvents.OnCloseDesktop += CloseDesktop;
+    //    GameEvents.OnNextTutorialStep += NextTutorialStep;
+    //}
 
-    private void OnDisable()
-    {
-        GameEvents.OnCloseDesktop -= CloseDesktop;
-    }
+    //private void OnDisable()
+    //{
+    //    // GameEvents.OnCloseDesktop -= CloseDesktop;
+    //    GameEvents.OnNextTutorialStep -= NextTutorialStep;
+    //}
+
+    //private void NextTutorialStep()
+    //{
+    //    if (!_isTutorial)
+    //        return;
+
+
+    //    Debug.Log("Computer tutorial " + _tutorialStep);
+
+    //    switch (_tutorialStep)
+    //    {
+    //        case 1:
+
+    //            EnableDesktopIcons();
+    //            break;
+
+    //        case 2:
+
+    //            break;
+
+    //        case 3:
+    //            break;
+
+    //        case 4:
+    //            break;
+
+    //        case 5:
+    //            break;
+
+    //        case 6:
+    //            break;
+
+    //        case 7:
+    //            break;
+
+    //        case 8:
+    //            break;
+
+    //        case 9:
+    //            break;
+
+
+    //    }
+
+    //    _tutorialStep++;
+
+    //}
 
     public void OpenDesktop()
     {
-        //_viewManager.ToggleNavButtons(false);
-        GameEvents.StartInteraction(101);
         GameEvents.OpenDesktop();
         _desktopObject.SetActive(true);
+        _inboxObject.SetActive(false);
+        _emailObject.SetActive(false);
+        _replyObject.SetActive(false);
+        _emailNotificationObject.SetActive(false);
+        _desktopOn.SetActive(true);
+        _advanceStoryOnClose = false;
+
+        if (_isTutorial)
+        {
+            //GameEvents.NextTutorialStep();
+            StartCoroutine(PauseBeforeNextTutorial());
+        }
+
     }
 
     public void CloseDesktop()
@@ -70,25 +146,46 @@ public class Computer : MonoBehaviour
         _desktopObject.SetActive(false);
 
         StartCoroutine(PauseAfterClosingDesktopCoroutine());
-        //StartCoroutine(CloseDesktopCoroutine());
 
 
-        GameEvents.EndInteraction();
+        //GameEvents.EndInteraction();
+        GameEvents.CloseDesktop();
 
         if (_isTutorial)
         {
             _desktopOn.SetActive(true);
-            GameEvents.ProgressStory();
+            //GameEvents.ProgressStory();
+            //GameEvents.NextTutorialStep();
+            StartCoroutine(PauseBeforeNextTutorial());
             _isTutorial = false;
+        }
+
+        if (_advanceStoryOnClose)
+        {
+            GameEvents.ProgressStory();
         }
 
     }
 
-    //private IEnumerator CloseDesktopCoroutine()
-    //{
-        
-        
-    //}
+
+    public void DoCrash()
+    {
+        _hasCrashed = true;
+        _desktopOn.SetActive(false);
+        _emailNotificationObject.SetActive(false);
+        _desktopCrash.SetActive(true);
+        GameEvents.ProgressStory();
+    }
+    
+    public void FixCrash()
+    {
+        _hasCrashed = false;
+        _desktopOn.SetActive(true);
+        _desktopCrash.SetActive(false);
+        CheckForNewEmails();
+    }
+
+
 
     private IEnumerator PauseAfterClosingDesktopCoroutine()
     {
@@ -101,30 +198,95 @@ public class Computer : MonoBehaviour
         
     }
 
-    public void EnableComputer()
+    public void EnableComputer(bool isTutorial)
     {
         _collider.enabled = true;
+        _isTutorial = isTutorial;
+        
+        if (!isTutorial)
+        {
+            _desktopOn.SetActive(true);
+            EnableDesktopIcons();
+            EnableReplyButtonForTutorial();
+            EnableSendButtonForTutorial();
+            EnableCloseButtonsForTutorial();
+            EnableExitDesktop();
+        }
+
     }
+
+
+    public void DisableComputer()
+    {
+        _collider.enabled = false;
+        _isTutorial = false;
+    }
+
+
+    public void EnableDesktopIcons()
+    {
+        _desktopIconEmail.enabled = true;
+        _desktopIconGames.enabled = true;
+    }
+
+
+    private void OnMouseEnter()
+    {
+        if (StopInteracting)
+            return;
+
+        _highlight.SetActive(true);
+    }
+
+
+    private void OnMouseExit()
+    {
+        _highlight.SetActive(false);
+    }
+
 
     private void OnMouseDown()
     {
-
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (StopInteracting)
             return;
 
-        if (DialogueHandler.Instance.IsDialogueOpen)
-            return;
-        if (TutorialHandler.Instance.IsTutorialOpen)
-            return;
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //    return;
 
+        //if (DialogueHandler.Instance.IsDialogueOpen)
+        //    return;
+        //if (TutorialHandler.Instance.IsTutorialOpen)
+        //    return;
+
+        _highlight.SetActive(false);
         OpenDesktop();
+
+    }
+
+    public void CheckForNewEmails()
+    {
+        if (_hasCrashed)
+            return;
+
+        var emails = GetEmails(DeskSceneManager.Instance.GameTime);
+        if (emails.Count > 0)
+        {
+            _emailNotificationObject.SetActive(true);
+        }
+
+        _desktopOn.SetActive(true);
+        EnableDesktopIcons();
+        EnableReplyButtonForTutorial();
+        EnableSendButtonForTutorial();
+        EnableCloseButtonsForTutorial();
+        EnableExitDesktop();
 
     }
 
     private List<Email> GetEmails(int requestTime)
     {
 
-        return _emails.Where(w => w.ReceivedTime <= requestTime && w.ShouldInclude()).ToList();
+        return _emails.Where(w => w.ReceivedTime == requestTime && w.ShouldInclude()).ToList();
     }
 
 
@@ -148,12 +310,25 @@ public class Computer : MonoBehaviour
 
         float emailContainerHeight = 0;
 
+        foreach (GameObject email in _emailButtons)
+        {
+            Destroy(email);
+        }
+        _emailButtons.Clear();
+
         // create buttons for each email
         foreach (Email email in _playerEmails)
         {
             GameObject emailButton = Instantiate(_emailTemplate, _emailContainer.transform);
             emailButton.GetComponent<ClickableEmail>().Init(email.Subject, email.Sender, email.IsRead);
-            emailButton.GetComponent<Button>().onClick.AddListener(() => OpenEmail(emailButton, email));
+            if (email.IsRead)
+            {
+                emailButton.GetComponent<Button>().enabled = false;
+            }
+            else
+            {
+                emailButton.GetComponent<Button>().onClick.AddListener(() => OpenEmail(emailButton, email));
+            }            
 
             _emailButtons.Add(emailButton);
 
@@ -164,12 +339,57 @@ public class Computer : MonoBehaviour
         Vector2 emailContainerDimensions = _emailContainer.GetComponent<RectTransform>().sizeDelta;
         _emailContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(emailContainerDimensions.x, emailContainerHeight);
 
+        if (_isTutorial)
+        {
+            foreach (var emailBtn in _emailButtons)
+            {
+                emailBtn.GetComponent<Button>().enabled = false;
+            }
+
+            //GameEvents.NextTutorialStep();
+            StartCoroutine(PauseBeforeNextTutorial());
+        }
+
+    }
+
+    public void EnableEmailsForTutorial()
+    {
+        foreach (var emailBtn in _emailButtons)
+        {
+            emailBtn.GetComponent<Button>().enabled = true;
+        }
+    }
+
+    public void DisableEmailsForTutorial()
+    {
+        foreach (var emailBtn in _emailButtons)
+        {
+            emailBtn.GetComponent<Button>().enabled = false;
+        }
+    }
+
+    public void EnableReplyButtonForTutorial()
+    {
+        _replyButton.GetComponent<Button>().enabled = true;
+    }
+
+    public void EnableSendButtonForTutorial()
+    {
+        _sendButton.GetComponent<Button>().enabled = true;
+    }
+
+    public void EnableCloseButtonsForTutorial()
+    {
+        foreach (var button in _closeButtons)
+        {
+            button.enabled = true;
+        }
     }
 
 
-    public void TestOpenEmail()
+    public void EnableExitDesktop()
     {
-        Debug.Log("Open sesame!");
+        _exitDesktopButton.SetActive(true);
     }
 
     public void CloseInbox()
@@ -183,11 +403,19 @@ public class Computer : MonoBehaviour
         }
         _emailButtons.Clear();
 
+        if (_isTutorial)
+        {
+            //GameEvents.NextTutorialStep();
+            StartCoroutine(PauseBeforeNextTutorial());
+            //_exitDesktopButton.SetActive(true);
+        }
+
     }
 
 
     public void OpenEmail(GameObject emailButton, Email email)
     {
+
         _currentEmailButton = emailButton;
         _currentEmail = email;
 
@@ -199,6 +427,16 @@ public class Computer : MonoBehaviour
         _subject.text = _currentEmail.Subject;
         _emailBody.text = _currentEmail.EmailBody;
         _replyButton.SetActive(_currentEmail.CanReply);
+        if (_currentEmail.AdvanceStoryOnClose)
+        {
+            _advanceStoryOnClose = true;
+        }
+
+        if (_isTutorial)
+        {
+            //GameEvents.NextTutorialStep();
+            StartCoroutine(PauseBeforeNextTutorial());
+        }
 
     }
 
@@ -215,6 +453,12 @@ public class Computer : MonoBehaviour
         _replySubject.text = "Re: " + _subject.text;
         _replyBody.text = _currentEmail.ReplyText;
 
+        if (_isTutorial)
+        {
+            //GameEvents.NextTutorialStep();
+            StartCoroutine(PauseBeforeNextTutorial());
+        }
+
     }
 
     public void SendEmail()
@@ -227,27 +471,47 @@ public class Computer : MonoBehaviour
             response.DoAction();
         }
 
-        CloseReply();
+        MarkEmailAsRead();
+
+        _inboxObject.SetActive(true);
+        _replyObject.SetActive(false);
+        
+        if (_isTutorial)
+        {
+            //GameEvents.NextTutorialStep();
+            StartCoroutine(PauseBeforeNextTutorial());
+        }
+
     }
 
 
     public void CloseReply()
     {
 
-        _emailObject.SetActive(false);
-        _replyObject.SetActive(true);
+        _emailObject.SetActive(true);
+        _replyObject.SetActive(false);
 
     }
 
-
+    
     public void CloseEmail()
     {
 
-        _currentEmail.IsRead = true;
-        _currentEmailButton.GetComponent<ClickableEmail>().MarkAsRead();
+        MarkEmailAsRead();
 
         _emailObject.SetActive(false);
         _inboxObject.SetActive(true);
+
+    }
+
+    private void MarkEmailAsRead()
+    {
+        if (_currentEmail == null)
+            return;
+
+        _currentEmail.IsRead = true;
+        _currentEmailButton.GetComponent<ClickableEmail>().MarkAsRead();
+        _currentEmailButton.GetComponent<Button>().enabled = false;
 
     }
 
@@ -255,6 +519,14 @@ public class Computer : MonoBehaviour
     {
         Debug.Log("Playing games! woo!");
         PlayerChoices.Instance.ChangePlayerValue("GamesPlayedCount", 1);
+
+    }
+
+    private IEnumerator PauseBeforeNextTutorial()
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        GameEvents.NextTutorialStep();
 
     }
 

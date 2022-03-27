@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb528182b518104c8cf878c89f3d581, type: 3}
+  m_Name: 14 Story
+  m_EditorClassIdentifier: 
+  _id: 14
+  _receivedTime: 205
+  _sender: js@inscriptio.com
+  _subject: URGENT
+  _emailBody: "Hey You,\nI'm sorry to write this to you,  I need you to read this
+    email. I know how busy you are, but it's important that you read this email.
+    If you don't, things could get really bad for you. I heard from through private
+    channels that they are aware that we have someone on the inside. I think they
+    have sent someone to close the leak. \nI hope that's not the case, though. Stay
+    safe, be cautious and please let me know you\u2019re alive.\nJeremy"
+  _canReply: 1
+  _replyText: Oh my God. What should I do?
+  _replyActions:
+  - choiceFlagName: RepliedToJeremy3Email
+    value: 0
+    Type: 2
+  Conditions: []
+  Read: 0

@@ -11,15 +11,23 @@ public class DialogueHandler : Singleton<DialogueHandler>
     [SerializeField] private GameObject _nameBox;
     [SerializeField] private TMP_Text _textLabel;
     [SerializeField] private TMP_Text _nameLabel;
+    [SerializeField] private GameObject _canvas;
 
     [SerializeField] private GameObject _choicesBox;
-    
-    [SerializeField] private GameObject _responseBox;
-    [SerializeField] private TMP_Text _responseText;
-
     [SerializeField] private GameObject _choiceButtonsContainer;
     [SerializeField] private GameObject _choiceButtonTemplate;
     private List<GameObject> _choiceButtons = new List<GameObject>();
+
+    [SerializeField] private GameObject _responseBox;
+    [SerializeField] private TMP_Text _responseText;
+
+    private AudioSource _dialogueAudio;
+    private AudioClip _otherVoiceClip;
+    [SerializeField] private AudioClip _playerVoice;
+
+    [SerializeField] private AudioClip _bobVoice;
+    //[SerializeField] private AudioClip _neutralVoice;
+    [SerializeField] private AudioClip _bossVoice;
 
     private TypeWriterEffect _dialogueWriter;
     private TypeWriterEffect _responseWriter;
@@ -32,26 +40,39 @@ public class DialogueHandler : Singleton<DialogueHandler>
     private Dialogue _currentDialogue;
     private Response _currentResponse;
 
+    private int _interactionObjectID;
+
+    public bool IsDialogueOpen => _dialogueBox.activeInHierarchy || _choicesBox.activeInHierarchy || _responseBox.activeInHierarchy;
 
     private void Awake()
     {
         GameEvents.OnDialogueStarted += DialogueStarted;
-        GameEvents.OnDialogueEnded += DialogueEnded;
+        //GameEvents.OnDialogueEnded += DialogueEnded;
         
         ptr = 0;
         _dialogueWriter = _dialogueBox.GetComponent<TypeWriterEffect>();
         _responseWriter = _responseBox.GetComponent<TypeWriterEffect>();
+        _dialogueAudio = GetComponent<AudioSource>();
 
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(_canvas);
+        DontDestroyOnLoad(_dialogueBox);
+        DontDestroyOnLoad(_choicesBox);
+        DontDestroyOnLoad(_responseBox);
+        DontDestroyOnLoad(_dialogueAudio);
+    }
+
+
+    private void OnDisable()
+    {
+        GameEvents.OnDialogueStarted -= DialogueStarted;
 
     }
 
 
-    public bool IsDialogueOpen => _dialogueBox.activeInHierarchy || _choicesBox.activeInHierarchy || _responseBox.activeInHierarchy;
-
-
     private void DialogueStarted()
     {
-        _dialogueBox.SetActive(true);
+         _dialogueBox.SetActive(true);
     }
 
 
@@ -59,22 +80,31 @@ public class DialogueHandler : Singleton<DialogueHandler>
     {
         _dialogueBox.SetActive(false);
 
+        ClearChoices();
+
+        _choicesBox.SetActive(false);
+        _responseBox.SetActive(false);
+
+        GameEvents.DialogueEnded(_interactionObjectID);
+    }
+
+    private void ClearChoices()
+    {
         foreach (GameObject btn in _choiceButtons)
         {
             Destroy(btn);
         }
         _choiceButtons.Clear();
-
-        _choicesBox.SetActive(false);
-        _responseBox.SetActive(false);
     }
 
 
     
-    public void StartDialogue(List<Dialogue> dialogues)
+    public void StartDialogue(List<Dialogue> dialogues, AudioClip voiceClip, int interactionObjectID)
     {
+        _interactionObjectID = interactionObjectID;
         _dialogues = dialogues;
         _currentDialogue = _dialogues[0];
+        _otherVoiceClip = voiceClip;
 
         SetupDialogue();
 
@@ -103,8 +133,8 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
     void Update()
     {
-        if (TutorialHandler.Instance.IsTutorialOpen)
-            return;
+        //if (TutorialHandler.Instance.IsTutorialOpen)
+        //    return;
 
         if (IsDialogueOpen)
         {
@@ -130,7 +160,10 @@ public class DialogueHandler : Singleton<DialogueHandler>
                     {
                         _isResponse = false;
                         _currentResponse.Actions.ForEach(f => f.DoAction());
+                        _currentResponse.OnSelect?.Invoke();
+                        _responseBox.SetActive(false);
 
+                        //GameEvents.DialogueEnded(); // is this going to cause a problem?
                     }
                 }
                 else if (IsMoreDialogue)
@@ -175,21 +208,27 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
                             }
 
-                            Vector2 buttonContainerDimensions = _choiceButtonsContainer.GetComponent<RectTransform>().sizeDelta;
-                            _choicesBox.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonContainerDimensions.x, buttonContainerHeight);
-
                         }
+
+                        Vector2 choicesBoxDimensions = _choicesBox.GetComponent<RectTransform>().sizeDelta;
+                        _choicesBox.GetComponent<RectTransform>().sizeDelta = new Vector2(choicesBoxDimensions.x, buttonContainerHeight + 40);
                     }
 
                 }
                 else
                 {
+                    DialogueEnded();
 
-                    GameEvents.DialogueEnded();
+                    if (_currentDialogue.EndOfConversation)
+                    {
+                        GameEvents.DialogueEnded(_interactionObjectID);
+                    }
+                    //GameEvents.DialogueEnded();
 
                     if (_currentDialogue.AdvanceStoryOnClose)
                     {
-                        GameEvents.ProgressStory();
+                        //GameEvents.ProgressStory();
+                        StartCoroutine(PauseBeforeProgressingStory());
                     }
                 }
 
@@ -199,20 +238,30 @@ public class DialogueHandler : Singleton<DialogueHandler>
         
     }
 
+    private IEnumerator PauseBeforeProgressingStory()
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        GameEvents.ProgressStory();
+    }
+
+
     private void AdvanceDialogue()
     {
         _dialogueBox.SetActive(true);
         if (_currentDialogue.Speaker == null || _currentDialogue.Speaker == string.Empty)
         {
             _nameBox.SetActive(false);
+            _dialogueAudio.clip = _playerVoice;
         }
         else
         {
             _nameBox.SetActive(true);
             _nameLabel.text = _currentDialogue.Speaker;
+            _dialogueAudio.clip = _otherVoiceClip;
         }
-
-        _dialogueWriter.Run(_currentDialogue.Sentences[ptr], _textLabel);
+                
+        _dialogueWriter.Run(_currentDialogue.Sentences[ptr], _textLabel, _dialogueAudio);
         ptr++;
 
     }
@@ -220,7 +269,7 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
     private void AdvanceResponse()
     {
-        _responseWriter.Run(_currentResponse.AnswerSentences[ptr], _responseText);
+        _responseWriter.Run(_currentResponse.AnswerSentences[ptr], _responseText, _dialogueAudio);
         ptr++;
     }
 
@@ -239,10 +288,20 @@ public class DialogueHandler : Singleton<DialogueHandler>
         _choicesBox.SetActive(false);
         _responseBox.SetActive(true);
 
+        ClearChoices();
+
         ptr = 0;
         _isResponse = true;
+        _dialogueAudio.clip = _playerVoice;
         AdvanceResponse();
 
     }
+
+
+    public void PlayResponseSoundEffect(AudioClip clip)
+    {
+        _dialogueAudio.PlayOneShot(clip);
+    }
+
 
 }

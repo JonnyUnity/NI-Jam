@@ -6,12 +6,21 @@ using UnityEngine.EventSystems;
 public class Watercooler : MonoBehaviour
 {
 
-    private bool _isTutorial = true;
+    [SerializeField] private GameObject _highlight;
+    [SerializeField] private AudioClip _useCoolerClip;
 
+    private bool _isTutorial;
+
+    private SpriteRenderer _renderer;
+    private AudioSource _audioSource;
     private BoxCollider2D _collider;
+
+    private bool StopInteracting => (EventSystem.current.IsPointerOverGameObject() || DialogueHandler.Instance.IsDialogueOpen);
 
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.clip = _useCoolerClip;
         _collider = GetComponent<BoxCollider2D>();
     }
 
@@ -20,23 +29,40 @@ public class Watercooler : MonoBehaviour
         _collider.enabled = true;
     }
 
+    public void EnableTutorial()
+    {
+        _isTutorial = true;
+    }
+
+
+    private void OnMouseOver()
+    {
+        if (StopInteracting)
+            return;
+
+        _highlight.SetActive(true);
+
+    }
+
+    private void OnMouseExit()
+    {
+        _highlight.SetActive(false);
+    }
 
     private void OnMouseDown()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
-        if (DialogueHandler.Instance.IsDialogueOpen)
-            return;
-        if (TutorialHandler.Instance.IsTutorialOpen)
+        if (StopInteracting)
             return;
 
         Debug.Log("Used water cooler!");
+        _audioSource.Play();
 
         if (_isTutorial)
         {
 
             _isTutorial = false;
-            GameEvents.ProgressStory();
+            //GameEvents.ProgressStory();
+            GameEvents.NextTutorialStep();
         }
 
         _collider.enabled = false;

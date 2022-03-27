@@ -6,29 +6,46 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-
-    [SerializeField] private TMPro.TMP_Text _dayHeadingText; 
+    //[SerializeField] private Animator _animator;
+    //[SerializeField] private TMPro.TMP_Text _dayHeadingText; 
 
     private PlayerChoices _playerChoices;
 
-    private int _actNumber;
-
+    private int _actNumber = 1;
+    public PlayerState State;
 
     private void Awake()
     {
 
         //_playerChoices = new PlayerChoices();
 
-        SceneManager.sceneLoaded += SceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         GameEvents.OnActOver += LoadBossOfficeScene;
+        GameEvents.OnBossEnd += LoadNextScene;
     
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        
+        if (scene.buildIndex == 2)
+        {
+            StartCoroutine(LoadDeskCoroutine());
+        }
+        else if (scene.buildIndex == 3)
+        {
+            StartCoroutine(LoadBossOfficeSceneCoroutine());
+        }
+
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= SceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         GameEvents.OnActOver -= LoadBossOfficeScene;
+        GameEvents.OnBossEnd -= LoadNextScene;
+
     }
 
 
@@ -36,66 +53,76 @@ public class GameManager : Singleton<GameManager>
     {
         //ActivateWalkingPerson();
         //_actNumber++;
-        GameEvents.StartAct(_actNumber);
+        //GameEvents.StartAct(_actNumber);
 
         //Invoke("BobVisit1", 6f);
         // Invoke(nameof(CallPhone), 4f);
 
+        SceneManager.LoadScene(1);
+    }
+
+
+    public void UpdateStateToIdle()
+    {
+        State = PlayerState.IDLE;
+    }
+
+    public void UpdateStateToBusy()
+    {
+        State = PlayerState.BUSY;
+    }
+
+    private void LoadNextScene()
+    {
+        if (_actNumber == 4)
+        {
+            // game over
+            SceneManager.LoadScene(5);
+        }
+        else
+        {
+            SceneManager.LoadScene(2);  // desk
+        }
 
     }
 
-    public void LoadAct()
-    {
 
-        SceneManager.LoadScene(1);
+
+    private IEnumerator LoadDeskCoroutine()
+    {
+        yield return new WaitForSeconds(1);
 
         GameEvents.StartAct(_actNumber);
 
     }
 
+
     private void LoadBossOfficeScene()
     {
+        SceneManager.LoadScene(3);
 
-        SceneManager.LoadSceneAsync(2);
+        //GameEvents.StartBoss(_actNumber);
+        //_actNumber++;
 
-        // transition...
-
+        //StartCoroutine(LoadBossOfficeSceneCoroutine());
     }
 
-    private void SceneLoaded(Scene scene, LoadSceneMode mode)
+
+    private IEnumerator LoadBossOfficeSceneCoroutine()
     {
 
-        // set num possible actions
-        //_actActions = 10;
-        if (scene.buildIndex == 1)
-        {
+        //_animator.SetTrigger("EndOfDay");
+        //yield return new WaitForSeconds(1);
 
-        }
+        //SceneManager.LoadScene(3);
 
+        yield return new WaitForSeconds(1);
 
-    }
-
-
-
-
-    //private void WateredPlant()
-    //{
-    //    int wateredCount = _playerChoices.WateredPlant();
-    //    _actActions--;
-    //    _viewManager.UpdateDebug(wateredCount.ToString());
-    //}
-
-
-
-
-    // Start is called before the first frame update
-
-
-    // Update is called once per frame
-    void Update()
-    {
+        GameEvents.StartBoss(_actNumber);
+        _actNumber++;
 
     }
+
 
 
 }

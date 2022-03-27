@@ -18,14 +18,19 @@ public class ViewManager : MonoBehaviour
     [SerializeField] private GameObject _rightButton;
     [SerializeField] private TMP_Text _debugText;
 
+    private Vector3 _leftbuttonInitPosition;
+    private Vector3 _rightButtonInitPosition;
     private bool _previousLeftButtonVisible;
     private bool _previousRightButtonVisible;
 
+    private bool _isInTutorial;
     private int _tutorialStep = 1;
 
     private void Awake()
     {
         _camTransform = _camera.transform;
+        _leftbuttonInitPosition = _leftButton.transform.position;
+        _rightButtonInitPosition = _rightButton.transform.position;
         LookAtView();
     }
 
@@ -34,34 +39,43 @@ public class ViewManager : MonoBehaviour
         GameEvents.OnInteractionStart += InteractionStarted;
         GameEvents.OnInteractionEnd += ShowNavButtons;
 
-        GameEvents.OnDialogueStarted += HideNavButtons;
-        GameEvents.OnDialogueEnded  += ShowNavButtons;
+        //GameEvents.OnDialogueStarted += HideNavButtons;
+        //GameEvents.OnDialogueEnded  += ShowNavButtons;
 
         GameEvents.OnOpenDesktop += HideNavButtons;
         GameEvents.OnCloseDesktop += ShowNavButtons;
 
+        GameEvents.OnTutorialEnded += EndTutorial;
+
     }
+
 
 
     private void OnDisable()
     {
         GameEvents.OnInteractionStart -= InteractionStarted;
-        GameEvents.OnInteractionEnd += ShowNavButtons;
+        GameEvents.OnInteractionEnd -= ShowNavButtons;
 
-        GameEvents.OnDialogueStarted -= HideNavButtons;
-        GameEvents.OnDialogueEnded -= ShowNavButtons;
+        //GameEvents.OnDialogueStarted -= HideNavButtons;
+        //GameEvents.OnDialogueEnded -= ShowNavButtons;
 
         GameEvents.OnOpenDesktop -= HideNavButtons;
         GameEvents.OnCloseDesktop -= ShowNavButtons;
 
+        GameEvents.OnTutorialEnded -= EndTutorial;
     }
 
     
-    private void InteractionStarted(int obj)
+    private void InteractionStarted()
     {
         HideNavButtons();
     }
-    
+
+    private void EndTutorial()
+    {
+        _isInTutorial = false;
+    }
+
     private void HideNavButtons()
     {
         _previousLeftButtonVisible = _leftButton.activeInHierarchy;
@@ -73,18 +87,96 @@ public class ViewManager : MonoBehaviour
     }
 
 
-
-
     private void ShowNavButtons()
     {
-         _leftButton.SetActive(_previousLeftButtonVisible);
-        _rightButton.SetActive(_previousRightButtonVisible);
+
+        if (_isInTutorial)
+        {
+
+             switch (_tutorialStep)
+            {
+                case 1:
+
+                    _rightButton.SetActive(false);
+                    break;
+
+                case 2:
+
+                    //_rightButton.SetActive(false);
+                    ToggleNavButtons(false);
+                    break;
+
+                case 3:
+
+                    ToggleNavButtons(false);
+                    break;
+
+                case 4:
+
+                    ToggleNavButtons(false);
+                    break;
+
+                case 5:
+
+                    //ToggleNavButtons(false);
+                    //_leftButton.SetActive(true);
+                    break;
+                case 6:
+
+                    _leftButton.SetActive(true);
+                    break;
+
+            }
+
+        }
+        else
+        {
+
+            _leftButton.transform.position = _leftbuttonInitPosition;
+            _rightButton.transform.position = _rightButtonInitPosition;
+
+            switch (_currentView)
+            {
+                case (int)DeskView.LEFT:
+
+                    _leftButton.SetActive(false);
+                    _rightButton.SetActive(true);
+                    break;
+
+                case (int)DeskView.MIDDLE:
+
+                    _leftButton.SetActive(true);
+                    _rightButton.SetActive(true);
+                    break;
+
+                case (int)DeskView.RIGHT:
+
+                    _leftButton.SetActive(true);
+                    _rightButton.SetActive(false);
+                    break;
+            }
+        }
+
+        //_leftButton.SetActive(_previousLeftButtonVisible);
+        //_rightButton.SetActive(_previousRightButtonVisible);
     }
 
-    void Start()
+
+    public void EnableTutorial()
     {
-                
+        _isInTutorial = true;
     }
+
+
+    //private void AlarmStopped(bool isRight)
+    //{
+    //    if (isRight)
+    //    {
+    //        _currentView = 1;
+    //        LookAtView();
+    //        ToggleNavButtons(false);
+    //    }
+    //}
 
 
     public void UpdateDebug(string text)
@@ -95,12 +187,11 @@ public class ViewManager : MonoBehaviour
 
     public void ToggleNavButtons(bool toggle)
     {
+        _leftButton.transform.position = _leftbuttonInitPosition;
+        _rightButton.transform.position = _rightButtonInitPosition;
         _leftButton.SetActive(toggle);
         _rightButton.SetActive(toggle);
     }
-
-
-    
 
 
     public void LookLeft()
@@ -127,18 +218,20 @@ public class ViewManager : MonoBehaviour
             _rightButton.SetActive(false);
         }
         _leftButton.SetActive(true);
-
+       
         LookAtView();
     }
 
     public void EnableLeftArrow()
     {
+        _leftButton.transform.position = _leftbuttonInitPosition;
         _leftButton.SetActive(true);
         _rightButton.SetActive(false);
     }
 
     public void EnableRightArrow()
     {
+        _rightButton.transform.position = _rightButtonInitPosition;
         _rightButton.SetActive(true);
 
     }
@@ -173,45 +266,60 @@ public class ViewManager : MonoBehaviour
         var curPos = _actViews[_currentView].transform.position;
         _camTransform.position = curPos;
 
-        switch (_tutorialStep)
+        if (_isInTutorial)
         {
-            case 1:
 
-                _rightButton.SetActive(false);
-                GameEvents.ProgressStory();
-                _tutorialStep++;
-                break;
+            switch (_tutorialStep)
+            {
+                case 1:
 
-            case 2:
+                    _rightButton.SetActive(false);
+                    GameEvents.NextTutorialStep();
+                    break;
 
-                _rightButton.SetActive(false);
-                GameEvents.ProgressStory();
-                _tutorialStep++;
-                Debug.Log("Tutorial step 2");
-                break;
+                case 2:
 
-            case 3:
+                    //_rightButton.SetActive(false);
+                    ToggleNavButtons(false);
+                    GameEvents.NextTutorialStep();
+                    Debug.Log("VIEW step 2");
+                    break;
 
-                _rightButton.SetActive(false);
-                _tutorialStep++;
-                Debug.Log("Tutorial step 3");
-                GameEvents.ProgressStory();
-                break;
+                case 3:
 
-            case 4:
+                    ToggleNavButtons(false);
+                    Debug.Log("VIEW step 3");
+                    GameEvents.NextTutorialStep();
+                    break;
 
-                _rightButton.SetActive(false);
-                _tutorialStep++;
-                Debug.Log("Step 4");
-                GameEvents.ProgressStory();
-                break;
+                case 4:
 
-            case 5:
+                    ToggleNavButtons(false);
+                    Debug.Log("VIEW Step 4");
+                    GameEvents.NextTutorialStep();                    
+                    break;
 
-                _tutorialStep++;
-                GameEvents.ProgressStory();
-                break;
+                case 5:
 
+                    //ToggleNavButtons(false);
+                    _leftButton.SetActive(true);
+                    _previousLeftButtonVisible = true;
+                    _previousRightButtonVisible = false;
+                    Debug.Log("VIEW Step 5");
+
+                    GameEvents.NextTutorialStep();
+                    break;
+
+                case 6:
+
+                    _leftButton.SetActive(true);
+                    Debug.Log("VIEW Step 6");
+                    _isInTutorial = false;
+                    break;
+
+            }
+
+            _tutorialStep++;
         }
 
     }

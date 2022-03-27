@@ -9,12 +9,21 @@ public class PlayerChoices
     static readonly object _padlock = new object();
 
     public static int WateredCount { get; private set; }
+    public bool PlantIsDying { get; private set; }
+    public bool PlantDied { get; private set; }
+    public int PlantHealth { get; private set; } // 2 = Healthy, 1 = Dying, 0 = Dead
     public int GamesPlayedCount { get; private set; }
     
-    public static bool TakenMeds { get; private set; }
+    public int MedsMissedCount { get; private set; }
+
+    //public static bool TakenMeds { get; private set; }
     public bool TalkedDiesel { get; private set; }
     public bool WatchedGameLastNight { get; private set; }
+    public bool HelpBobWithPlant { get; private set; }
+
+    public int Tenure { get; private set; }
     
+
     // EMAIL FLAGS
     public bool RepliedToCharlieEmail { get; private set; }
     public bool RepliedToJeremyEmail { get; private set; }
@@ -22,10 +31,20 @@ public class PlayerChoices
     public bool RepliedToJeremy3Email { get; private set; }
 
 
+    public bool BeNiceToBob { get; private set; }
+    public bool DefendBobFromMarge { get; private set; }
+
+
     // STORYLINE FLAGS
     public bool OnLizardmanStory { get; private set; }
+    public bool Lizardman_Survived { get; private set; }
+
     public bool OnHitmanStory { get; private set; }
+    public bool Hitman_Survived { get; private set; }
+    
     public bool OnClonesStory { get; private set; }
+    public bool Clones_Survived { get; private set; }
+   
 
 
     //public PlayerChoices()
@@ -51,24 +70,11 @@ public class PlayerChoices
         }
     }
 
-
-    //public int WateredPlant()
-    //{
-    //    WateredCount++;
-    //    return WateredCount;
-    //}
-
-
-    //public void TakeMeds()
-    //{
-    //    TakenMeds = true;
-    //}
-
-
-    //public void MissedMeds()
-    //{
-    //    _medsLevel--;
-    //}
+    public PlayerChoices()
+    {
+        // initial values
+        PlantHealth = 2;
+    }
 
 
     public void SetPlayerFlag(string propertyName)
@@ -81,6 +87,18 @@ public class PlayerChoices
         }
                 
     }
+
+    public void UnsetPlayerFlag(string propertyName)
+    {
+        var prop = GetType().GetProperty(propertyName);
+        if (prop != null)
+        {
+            prop.SetValue(this, false);
+            Debug.Log($"Set flag: { propertyName} to false");
+        }
+
+    }
+
 
     public void ChangePlayerValue(string propertyName, int changeInValue)
     {

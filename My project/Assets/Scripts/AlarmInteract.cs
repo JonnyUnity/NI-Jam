@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class AlarmInteract : MonoBehaviour
 {
+    [SerializeField] private bool _isRight;
+
     private void OnMouseDown()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -14,7 +16,7 @@ public class AlarmInteract : MonoBehaviour
             return;
 
 
-        GameEvents.StopAlarm();
+        GameEvents.StopAlarm(_isRight);
 
     }
 

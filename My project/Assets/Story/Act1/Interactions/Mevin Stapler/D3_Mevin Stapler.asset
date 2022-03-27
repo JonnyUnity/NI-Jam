@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: D3_Mevin Stapler
   m_EditorClassIdentifier: 
   ID: 3
-  Speaker: Bob
+  Speaker: Mevin
   Sentences:
   - But stapler...
   Responses: []
