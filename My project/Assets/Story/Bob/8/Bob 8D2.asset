@@ -16,7 +16,7 @@ MonoBehaviour:
   Speaker: Bob
   Sentences:
   - It's bad. The company is in deep with the mafia
-  - moeny laundering, tax fraud, cover ups, you name it
+  - money laundering, tax fraud, cover ups, you name it
   Responses:
   - {fileID: 11400000, guid: 9b15940c913df2a48a5d1452eb300b6f, type: 2}
   - {fileID: 11400000, guid: 3fdd36845a0982440b57eb48ef4e5328, type: 2}

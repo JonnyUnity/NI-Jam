@@ -174,7 +174,9 @@ public class DialogueHandler : Singleton<DialogueHandler>
                 }
                 else if (_currentDialogue.HasResponses)
                 {
+
                     _dialogueBox.SetActive(false);
+                    ClearChoices();
 
                     var responses = _currentDialogue.Responses;
                     if (responses.Count == 1)

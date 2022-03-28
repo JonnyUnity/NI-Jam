@@ -17,7 +17,10 @@ MonoBehaviour:
   _answerSentences:
   - That's pretty odd
   _conditions: []
-  _actions: []
+  _actions:
+  - choiceFlagName: 
+    value: 2
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

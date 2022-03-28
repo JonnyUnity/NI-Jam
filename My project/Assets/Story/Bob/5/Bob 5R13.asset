@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 13
   _text: 
   _answerSentences:
-  - Yikes
+  - Yikes. What did you do?
   _conditions: []
   _actions:
   - choiceFlagName: 

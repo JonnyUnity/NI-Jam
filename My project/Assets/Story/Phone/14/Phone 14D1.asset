@@ -19,5 +19,5 @@ MonoBehaviour:
   Responses:
   - {fileID: 11400000, guid: 92c012e0e50dac048a19b8a9d210d188, type: 2}
   - {fileID: 11400000, guid: b1ef13f7c62fa4043b5d221cddb767f5, type: 2}
-  EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

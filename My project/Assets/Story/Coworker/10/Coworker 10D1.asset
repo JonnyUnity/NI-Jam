@@ -19,5 +19,5 @@ MonoBehaviour:
   - They're probably trying to steal some office secrets
   Responses:
   - {fileID: 11400000, guid: a7cff549f8afa8c4ba0cd570202ac7b1, type: 2}
-  EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

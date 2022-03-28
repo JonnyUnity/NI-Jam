@@ -35,7 +35,7 @@ public class EndGame : MonoBehaviour
             }
             else
             {
-                _twistText.text = "But you were eaten";
+                _twistText.text = "and you were eaten";
             }
 
         }

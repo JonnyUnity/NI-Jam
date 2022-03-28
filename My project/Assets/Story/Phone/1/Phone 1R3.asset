@@ -18,12 +18,12 @@ MonoBehaviour:
   - Thank you!
   _conditions: []
   _actions:
-  - choiceFlagName: End Dialogue
-    value: 1
-    Type: 5
   - choiceFlagName: Advance Story
     value: 0
     Type: 4
+  - choiceFlagName: End Dialogue
+    value: 1
+    Type: 5
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

@@ -16,3 +16,14 @@ MonoBehaviour:
   ID: 7
   Dialogues:
   - {fileID: 11400000, guid: 6dc6a9dc709b6b84aa2ca27a873c6360, type: 2}
+  - {fileID: 11400000, guid: 6e5cf996de8f4294cbf94857c726483f, type: 2}
+  - {fileID: 11400000, guid: 402bae2c0b0dcde4eb6fd4f8a5ba0685, type: 2}
+  - {fileID: 11400000, guid: 1cc031d072070584988bc90f428f3ba4, type: 2}
+  - {fileID: 11400000, guid: c6458af887efdeb4f9c40d6d55b389b4, type: 2}
+  - {fileID: 11400000, guid: 655fbfc2407db9e419206cb06aafd555, type: 2}
+  - {fileID: 11400000, guid: 9e91a9b048ee7b743a034a22e18af30a, type: 2}
+  - {fileID: 11400000, guid: bbda0d7574d8a1f41973b3b9401433fe, type: 2}
+  - {fileID: 11400000, guid: 1150c91411bcdb44aa97fc757c25eaf1, type: 2}
+  - {fileID: 11400000, guid: c0081d39910a8eb4da9a50b33a4bfc15, type: 2}
+  - {fileID: 11400000, guid: 4be7424db946cb84a82f1b2d1ecc9b3e, type: 2}
+  - {fileID: 11400000, guid: 78a19f83c49b3444e8d4d78d0f831f22, type: 2}

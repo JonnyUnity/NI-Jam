@@ -17,7 +17,7 @@ MonoBehaviour:
   Sentences:
   - <scratching sounds>
   - <more animal noises>
-  - '*clicK*'
+  - '*click*'
   Responses: []
   EndOfConversation: 1
   AdvanceStoryOnClose: 1

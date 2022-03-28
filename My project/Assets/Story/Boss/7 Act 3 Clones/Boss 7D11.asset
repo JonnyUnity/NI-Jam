@@ -19,4 +19,4 @@ MonoBehaviour:
   - One of us!
   Responses: []
   EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  AdvanceStoryOnClose: 0

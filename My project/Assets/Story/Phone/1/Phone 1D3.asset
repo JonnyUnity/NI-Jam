@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 3
   Speaker: IT Guy
   Sentences:
-  - Alright, we'll send someone round to have a look ok?
+  - Alright alright, we'll send someone round to have a look ok?
   Responses:
   - {fileID: 11400000, guid: d63a7765d61a89349a7bf38f2cb4e13d, type: 2}
   EndOfConversation: 0

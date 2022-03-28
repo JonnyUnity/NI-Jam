@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 4
   Speaker: Bob
   Sentences:
-  - Let me know if you see it around. Cheers
+  - Yeah please do. Cheers
   Responses: []
   EndOfConversation: 1
   AdvanceStoryOnClose: 1

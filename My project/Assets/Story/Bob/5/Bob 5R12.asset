@@ -19,7 +19,7 @@ MonoBehaviour:
   _conditions: []
   _actions:
   - choiceFlagName: 
-    value: 2
+    value: 0
     Type: 4
   - choiceFlagName: 
     value: 2

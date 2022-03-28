@@ -20,5 +20,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2a693d17439ef3f40854f1ddae5dec75, type: 2}
   - {fileID: 11400000, guid: 2ec415fec6863dd48a7eca6687e832b3, type: 2}
   - {fileID: 11400000, guid: c4b8c05af47a3ad4da756f642a3b9f73, type: 2}
-  EndOfConversation: 1
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

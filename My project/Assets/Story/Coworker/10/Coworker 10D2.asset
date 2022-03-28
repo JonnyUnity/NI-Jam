@@ -16,7 +16,7 @@ MonoBehaviour:
   Speaker: Marge
   Sentences:
   - It's ok we've got pretty good security.They're not getting in
-  - Don't look so worried ok toodles
+  - Don't look so worried. ok toodles!
   Responses: []
   EndOfConversation: 1
   AdvanceStoryOnClose: 1

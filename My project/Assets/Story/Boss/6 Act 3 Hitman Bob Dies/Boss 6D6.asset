@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 6
   Speaker: ???
   Sentences:
-  - You better. Or we'll meet again
+  - You better. Or we'll meet again...
   Responses: []
   EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  AdvanceStoryOnClose: 0

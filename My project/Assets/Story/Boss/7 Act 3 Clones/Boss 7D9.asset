@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 9
   Speaker: Bob
   Sentences:
-  - We are legion
+  - We are legion!
   Responses:
   - {fileID: 11400000, guid: d96720f05eb9a9a42b193dc5e4bf4ffb, type: 2}
   EndOfConversation: 0

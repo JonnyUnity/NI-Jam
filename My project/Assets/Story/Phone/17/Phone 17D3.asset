@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 3
   Speaker: Bob
   Sentences:
-  - Anyways have you seen my stapler bud?
+  - hmm Anyways have you seen my stapler bud?
   - I'm pretty particular about it
   Responses:
   - {fileID: 11400000, guid: 51277567d2f7fe34db9d18d3b34aa597, type: 2}

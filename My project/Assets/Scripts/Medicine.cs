@@ -79,7 +79,7 @@ public class Medicine : MonoBehaviour
                 _stoppedRightAlarm = false;
             }
 
-            if (interactionObjectID == PILLSOBJECT_ID)
+            if (interactionObjectID == PILLSOBJECT_ID || _medicineID == 4)
             {
                 Debug.Log("Finished taking pills or not");
                 GameEvents.EndInteraction();

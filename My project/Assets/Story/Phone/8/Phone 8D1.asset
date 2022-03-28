@@ -15,8 +15,7 @@ MonoBehaviour:
   ID: 8
   Speaker: The Boss
   Sentences:
-  - Come to my office
-  - I need to speak to you about Bob
+  - Come to my office please
   Responses: []
   EndOfConversation: 0
   AdvanceStoryOnClose: 1

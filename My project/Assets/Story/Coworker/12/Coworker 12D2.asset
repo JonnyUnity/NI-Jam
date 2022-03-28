@@ -19,5 +19,5 @@ MonoBehaviour:
   - He keeps jumping out and scaring me
   - I'm going to report him to management
   Responses: []
-  EndOfConversation: 0
-  AdvanceStoryOnClose: 0
+  EndOfConversation: 1
+  AdvanceStoryOnClose: 1

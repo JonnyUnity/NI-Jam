@@ -20,8 +20,8 @@ MonoBehaviour:
   _conditions: []
   _actions:
   - choiceFlagName: 
-    value: 1
-    Type: 5
+    value: 4
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

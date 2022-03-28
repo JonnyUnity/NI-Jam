@@ -31,5 +31,5 @@ MonoBehaviour:
     value: 0
     Type: 2
   Conditions: []
-  _advanceStoryOnClose: 1
+  _advanceStoryOnClose: 0
   _isRead: 0

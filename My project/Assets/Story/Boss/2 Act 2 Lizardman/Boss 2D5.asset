@@ -18,8 +18,8 @@ MonoBehaviour:
   - Whilst that all seems fine, our medical team inform us that those are merely
     side effects of the virus
   - It eats away at your brain until you lose all mental capacity
-  - It eats away at your brain until you lose all mental capacity
+  - For your sake and the company's, resume your prescription
   - I will be keeping an eye on you
   Responses: []
   EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  AdvanceStoryOnClose: 0

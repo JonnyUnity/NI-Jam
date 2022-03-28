@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 1
   _text: 
   _answerSentences:
-  - You sound like Matt
+  - You sound like Matt...
   _conditions: []
   _actions:
   - choiceFlagName: 

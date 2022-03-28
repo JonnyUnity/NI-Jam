@@ -15,8 +15,10 @@ MonoBehaviour:
   ID: 1
   Speaker: The Boss
   Sentences:
-  - Come to my office.
-  - I'm a lizard!
+  - 'Come to my office
+
+'
+  - We have something to discuss
   Responses: []
   EndOfConversation: 0
   AdvanceStoryOnClose: 1

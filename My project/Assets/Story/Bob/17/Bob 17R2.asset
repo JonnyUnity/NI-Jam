@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 2
   _text: Ugh
   _answerSentences:
-  - Ughh, is it only Wednesday? this weeks been a drag
+  - Ughh, is it only Wednesday? this week has been a drag
   _conditions: []
   _actions:
   - choiceFlagName: 

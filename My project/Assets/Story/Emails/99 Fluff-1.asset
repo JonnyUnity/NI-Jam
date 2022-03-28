@@ -20,7 +20,9 @@ MonoBehaviour:
     get her something. If everyone chips in a fiver then we can buy her something
     nice. Forward any gift ideas you have please. Steve
   _canReply: 1
-  _replyText: Blah blah blah
+  _replyText: 'Let me get back to you
+
+    Many thank'
   _replyActions: []
   Conditions: []
   _advanceStoryOnClose: 0

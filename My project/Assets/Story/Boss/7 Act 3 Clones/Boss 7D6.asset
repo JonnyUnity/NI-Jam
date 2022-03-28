@@ -16,9 +16,7 @@ MonoBehaviour:
   Speaker: Bob
   Sentences:
   - This is my domain!
-  - I am taking control
-  - I am taking over
   Responses:
-  - {fileID: 11400000, guid: b15ce20097080cf458904efbb85a0ca3, type: 2}
+  - {fileID: 11400000, guid: ec976dd0e80b3764bb24c49c5f9f81df, type: 2}
   EndOfConversation: 0
   AdvanceStoryOnClose: 0

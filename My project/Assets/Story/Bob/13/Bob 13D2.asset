@@ -17,7 +17,7 @@ MonoBehaviour:
   Sentences:
   - I'm ok, maybe i'm being paranoid but there was a strange car parked outside my
     house
-  - And I swear it was following me here
+  - And I swear it followed me here
   Responses:
   - {fileID: 11400000, guid: 6588687b63a4568449174c205d93995a, type: 2}
   EndOfConversation: 0

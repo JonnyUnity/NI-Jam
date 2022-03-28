@@ -16,6 +16,7 @@ MonoBehaviour:
   Speaker: Bob
   Sentences:
   - Hey bud
-  Responses: []
+  Responses:
+  - {fileID: 11400000, guid: 379ef5006b0713b44a40623e0fc19b77, type: 2}
   EndOfConversation: 0
   AdvanceStoryOnClose: 0

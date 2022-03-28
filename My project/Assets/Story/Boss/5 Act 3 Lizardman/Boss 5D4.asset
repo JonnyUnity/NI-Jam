@@ -22,4 +22,4 @@ MonoBehaviour:
   - As you humans say, two birds with one stone...
   Responses: []
   EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  AdvanceStoryOnClose: 0

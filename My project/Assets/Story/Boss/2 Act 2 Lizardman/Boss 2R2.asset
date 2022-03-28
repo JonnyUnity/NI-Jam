@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 2
   _text: Promotion?
   _answerSentences:
-  - Because I've been working so hard and are receiving a promotion?
+  - Because I've been working so hard and I am receiving a promotion?
   _conditions: []
   _actions:
   - choiceFlagName: 

@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 3
   _text: In trouble?
   _answerSentences:
-  - I am in trouble?...
+  - am I in trouble?...
   _conditions: []
   _actions:
   - choiceFlagName: 

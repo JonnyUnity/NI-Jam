@@ -39,7 +39,7 @@ public class BossManager : MonoBehaviour
 
     private AudioSource _backgroundAudio;
     private int _storyBeat = 1;
-    private int _bobs = -1;
+    private int _bobs;
 
 
     private void Awake()
@@ -53,12 +53,13 @@ public class BossManager : MonoBehaviour
         //_backgroundAudio.Play();
 
         //StartBossInteraction(1);
+       // StartBossAct(3);
     }
 
     private void OnEnable()
     {
 
-        GameEvents.OnBossStart += StartBossInteraction;
+        GameEvents.OnBossStart += StartBossAct;
         GameEvents.OnDialogueEnded += EndBossInteraction;
         GameEvents.OnStoryActionPerformed += NextStoryBeat;
         
@@ -68,15 +69,41 @@ public class BossManager : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.OnBossStart -= StartBossInteraction;
+        GameEvents.OnBossStart -= StartBossAct;
         GameEvents.OnDialogueEnded -= EndBossInteraction;
         GameEvents.OnStoryActionPerformed -= NextStoryBeat;
     }
 
+    private void StartBossAct(int actNumber)
+    {
+        //actNumber = 3;
+        //PlayerChoices.Instance.SetPlayerFlag("OnClonesStory");
+
+        StartCoroutine(FadeInCoroutine(actNumber));
+
+    }
+
+    private IEnumerator FadeInCoroutine(int actNumber)
+    {
+        if (actNumber == 3)
+        {
+            
+
+            if (PlayerChoices.Instance.OnHitmanStory)
+            {
+                _chairObject.SetActive(false);
+                _deadBobObject.SetActive(true);
+            }
+        }
+
+        _animator.SetTrigger("EnterOffice");
+        yield return new WaitForSecondsRealtime(2f);
+
+        StartBossInteraction(actNumber);
+    }
 
     private void StartBossInteraction(int actNumber)
     {
-
 
         _backgroundAudio.Play();
         Interaction thisInteraction = null;
@@ -112,15 +139,14 @@ public class BossManager : MonoBehaviour
                 }
                 else if (PlayerChoices.Instance.OnHitmanStory)
                 {
-                    if (PlayerChoices.Instance.PlantHealth == 2)
-                    {
-                        thisInteraction = _hitmanBobLivesFinale;
-                    }
-                    else
-                    {
-                        thisInteraction = _hitmanBobDiesFinale;
-                        _deadBobObject.SetActive(true);
-                    }
+                    //if (PlayerChoices.Instance.PlantHealth == 2)
+                    //{
+                    //    thisInteraction = _hitmanBobLivesFinale;
+                    //}
+                    //else
+                    //{
+                    thisInteraction = _hitmanBobDiesFinale;
+                    //}
                 }
                 else
                 {
@@ -138,7 +164,6 @@ public class BossManager : MonoBehaviour
     {
         if (PlayerChoices.Instance.OnLizardmanStory)
         {
-
             _chairObject.SetActive(false);
             _lizardBossObject.SetActive(true);
         }
@@ -156,9 +181,10 @@ public class BossManager : MonoBehaviour
         }
         else
         {
-            _bobs++;
-            _bobsObjects[_bobs].SetActive(true);
+            _chairObject.SetActive(false);
 
+            _bobsObjects[_bobs].SetActive(true);
+            _bobs++;
         }
 
         _storyBeat++;

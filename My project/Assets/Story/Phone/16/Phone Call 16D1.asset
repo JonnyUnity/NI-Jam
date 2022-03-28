@@ -16,11 +16,10 @@ MonoBehaviour:
   Speaker: '"Jeremy"'
   Sentences:
   - Hey. Thanks for giving my access to your PC. it's proved very fruitful.
-  - Anwyays I've got everything I need but you may be in danger if and when this
+  - Anyways I've got everything I need but you may be in danger if and when this
     gets out
   - You should consider finding a new job.
   - See you in the next life *click*
-  - 
   Responses: []
   EndOfConversation: 1
   AdvanceStoryOnClose: 1

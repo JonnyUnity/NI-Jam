@@ -15,8 +15,7 @@ MonoBehaviour:
   ID: 1
   Speaker: The Boss
   Sentences:
-  - Come to my office
-  - I want to eat you!
+  - Come to my office please
   Responses: []
   EndOfConversation: 0
   AdvanceStoryOnClose: 1

@@ -16,10 +16,11 @@ MonoBehaviour:
   _text: 
   _answerSentences:
   - What do you mean?
+  - you shot him?...
   _conditions: []
   _actions:
   - choiceFlagName: 
-    value: 4
+    value: 5
     Type: 1
   _onSelect:
     m_PersistentCalls:

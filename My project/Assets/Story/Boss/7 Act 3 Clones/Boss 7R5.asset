@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 5
   _text: 
   _answerSentences:
-  - Ok, I'm in
+  - That sounds pretty good, I'm in
   _conditions: []
   _actions:
   - choiceFlagName: 

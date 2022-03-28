@@ -19,6 +19,9 @@ MonoBehaviour:
   _conditions: []
   _actions:
   - choiceFlagName: 
+    value: 0
+    Type: 4
+  - choiceFlagName: 
     value: 1
     Type: 5
   _onSelect:

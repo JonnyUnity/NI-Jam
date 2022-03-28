@@ -162,6 +162,8 @@ public class Computer : MonoBehaviour
             _isTutorial = false;
         }
 
+        CheckForNewEmails();
+
         if (_advanceStoryOnClose)
         {
             GameEvents.ProgressStory();
@@ -274,6 +276,10 @@ public class Computer : MonoBehaviour
         if (emails.Count > 0)
         {
             _emailNotificationObject.SetActive(true);
+        }
+        else
+        {
+            _emailNotificationObject.SetActive(false);
         }
 
         _desktopOn.SetActive(true);

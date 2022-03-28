@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdbf833923d982241ac87a459f4d8fcd, type: 3}
-  m_Name: Boss 2R3
+  m_Name: Boss 7R13
   m_EditorClassIdentifier: 
-  _id: 3
-  _text: In trouble?
+  _id: 13
+  _text: 
   _answerSentences:
-  - am I in trouble?...
+  - Come on now before the boss catches you here
   _conditions: []
   _actions:
   - choiceFlagName: 
-    value: 2
+    value: 0
+    Type: 4
+  - choiceFlagName: 
+    value: 12
     Type: 1
   _onSelect:
     m_PersistentCalls:

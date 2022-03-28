@@ -15,8 +15,8 @@ MonoBehaviour:
   ID: 2
   Speaker: Door
   Sentences:
-  - <creaknig noises>
+  - <creaking noises>
   Responses:
-  - {fileID: 11400000, guid: b2836da99e29aa3498e78f9a5657f732, type: 2}
+  - {fileID: 11400000, guid: 43662cb3bda87444f84a0adac8c74710, type: 2}
   EndOfConversation: 0
   AdvanceStoryOnClose: 0

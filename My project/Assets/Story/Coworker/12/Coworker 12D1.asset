@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
   m_Name: Coworker 12D1
   m_EditorClassIdentifier: 
-  ID: 12
+  ID: 1
   Speaker: Marge
   Sentences:
   - He's at it again
   Responses:
   - {fileID: 11400000, guid: 236588c0424e1094eafff9e24c210ed1, type: 2}
-  EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

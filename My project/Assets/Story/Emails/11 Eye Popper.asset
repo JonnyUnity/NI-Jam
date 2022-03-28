@@ -26,5 +26,5 @@ MonoBehaviour:
   _replyText: No problem
   _replyActions: []
   Conditions: []
-  _advanceStoryOnClose: 1
+  _advanceStoryOnClose: 0
   _isRead: 0

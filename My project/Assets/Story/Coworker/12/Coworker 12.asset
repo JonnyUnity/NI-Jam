@@ -16,3 +16,4 @@ MonoBehaviour:
   ID: 12
   Dialogues:
   - {fileID: 11400000, guid: ee7c724d675931a46b3cabd842139030, type: 2}
+  - {fileID: 11400000, guid: 1589b857bcf4f6a4c980f45fd790cb5d, type: 2}

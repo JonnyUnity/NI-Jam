@@ -22,11 +22,11 @@ MonoBehaviour:
     value: 1
     Type: 3
   - choiceFlagName: 
-    value: 6
-    Type: 5
-  - choiceFlagName: 
     value: 0
     Type: 4
+  - choiceFlagName: 
+    value: 6
+    Type: 5
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

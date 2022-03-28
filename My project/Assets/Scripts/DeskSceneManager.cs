@@ -155,6 +155,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private IEnumerator FadeInCoroutine(int actNumber)
     {
         _animator.SetTrigger("StartOfDay");
+        _plantObject.InitPlant();
         yield return new WaitForSecondsRealtime(2f);
 
         _audioSource.Play();
@@ -169,7 +170,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 _isInTutorial = false;
                 _actNumber = 1;
-                _storyBeat = 0;
+                _storyBeat = 1;
 
                 SetupStoryBeat();
             }
@@ -195,7 +196,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     {
         _timeSinceLastWater = 0;
         _viewManager.ToggleNavButtons(true);
-        _plantObject.InitPlant();
+        //_plantObject.InitPlant();
         _computerObject.EnableComputer(false);
         _waterCoolerObject.EnableWaterCooler();
     }
@@ -339,7 +340,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 8:
 
-                ReceiveTimedPhoneCall(2f, 1);
+                ReceiveTimedPhoneCall(4f, 1);
                 break;
 
             case 9:
@@ -360,7 +361,8 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 12:
 
-                _phoneObject.ReceiveBossPhoneCall(2);
+                ReceiveTimedBossPhoneCall(2f, 2);
+                //_phoneObject.ReceiveBossPhoneCall(2);
                 break;
 
             default:
@@ -406,6 +408,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 6:
 
+                _computerObject.EnableComputer(false);
                 PlayerChoices.Instance.CheckLizardmanStoryLine();
 
                 if (PlayerChoices.Instance.OnLizardmanStory)
@@ -430,7 +433,8 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
                 }
                 else if (PlayerChoices.Instance.OnHitmanStory)
                 {
-                    ReceiveTimedPhoneCall(2f, 13);
+                    //ReceiveTimedPhoneCall(2f, 13);
+                    GameEvents.ProgressStory();
                 }
                 else
                 {
@@ -471,7 +475,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
                 //else if (PlayerChoices.Instance.OnHitmanStory)
                 //{
                 //    Debug.Log("Use virus!");
-
+                // progressed via virus
 
                 //}
                 else if (PlayerChoices.Instance.OnClonesStory)
@@ -479,6 +483,10 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
                     // coworker chat - bob strange
                     TimedCoworkerInteraction(2f, CoWorker.MARGE, 6, false);
                 }
+                //else
+                //{
+                //    GameEvents.ProgressStory();
+                //}
                 break;
 
             case 10:
@@ -498,15 +506,18 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 if (PlayerChoices.Instance.OnLizardmanStory)
                 {
-                    _phoneObject.ReceiveBossPhoneCall(6);
+                    //_phoneObject.ReceiveBossPhoneCall(6);
+                    ReceiveTimedBossPhoneCall(2f, 6);
                 }
                 else if (PlayerChoices.Instance.OnHitmanStory)
                 {
-                    _phoneObject.ReceiveBossPhoneCall(7);
+                    //_phoneObject.ReceiveBossPhoneCall(7);
+                    ReceiveTimedBossPhoneCall(2f, 7);
                 }
                 else
                 {
-                    _phoneObject.ReceiveBossPhoneCall(8);
+                    //_phoneObject.ReceiveBossPhoneCall(8);
+                    ReceiveTimedBossPhoneCall(2f, 8);
                 }
                 break;
 
@@ -558,6 +569,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 case 5:
 
+                    _computerObject.EnableComputer(false);
                     // coworker
                     TimedCoworkerInteraction(2f, CoWorker.MATT, 8, false);
                     break;
@@ -565,7 +577,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
                 case 6:
 
                     // green bob
-                    TimedBobVisit(2f, 12, true);
+                    TimedBobVisit(2f, 12, false);
                     break;
 
                 //case 8:
@@ -583,7 +595,8 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 case 7:
 
-                    _phoneObject.ReceiveBossPhoneCall(9);
+                    ReceiveTimedBossPhoneCall(2f, 9);
+                    //_phoneObject.ReceiveBossPhoneCall(9);
                     break;
 
                 default:
@@ -644,6 +657,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 case 5:
 
+                    _computerObject.EnableComputer(false);
                     // matt coworker
                     TimedCoworkerInteraction(2f, CoWorker.MATT, 11, false);
                     break;
@@ -656,7 +670,8 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 case 7:
 
-                    _phoneObject.ReceiveBossPhoneCall(10);
+                    ReceiveTimedBossPhoneCall(4f, 10);
+                    //_phoneObject.ReceiveBossPhoneCall(10);
                     break;
 
                 default:
@@ -709,6 +724,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 case 5:
 
+                    _computerObject.EnableComputer(false);
                     // bob visit
                     TimedBobVisit(2f, 16, false);
                     break;
@@ -728,7 +744,8 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                 case 7:
 
-                    _phoneObject.ReceiveBossPhoneCall(11);
+                    ReceiveTimedBossPhoneCall(2f, 11);
+                    //_phoneObject.ReceiveBossPhoneCall(11);
                     break;
 
                 default:
@@ -988,6 +1005,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private void ComputerCrashes()
     {
+
         _computerObject.DoCrash();
     }
 
@@ -1001,6 +1019,17 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         _timerOn = true;
 
     }
+
+    private void ReceiveTimedBossPhoneCall(float timer, int phoneInteractionID)
+    {
+        Debug.Log($"Set up timed phone call: timer={timer}");
+        _timeToEvent = timer;
+        _interactionID = phoneInteractionID;
+        _timedEvent = ReceiveBossPhoneCall;
+        _timerOn = true;
+
+    }
+
 
     private void TimedCoworkerInteraction(float timer, CoWorker coworker, int workerInteractionID, bool isLizard)
     {
@@ -1028,6 +1057,13 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private void ReceivePhoneCall()
     {
         _phoneObject.ReceivePhoneCall(_interactionID);
+    }
+
+
+
+    private void ReceiveBossPhoneCall()
+    {
+        _phoneObject.ReceiveBossPhoneCall(_interactionID);
     }
 
     private void CoworkerInteraction()

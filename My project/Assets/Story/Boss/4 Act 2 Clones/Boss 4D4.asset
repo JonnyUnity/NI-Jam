@@ -20,4 +20,4 @@ MonoBehaviour:
   - I will be keeping an eye on you
   Responses: []
   EndOfConversation: 1
-  AdvanceStoryOnClose: 1
+  AdvanceStoryOnClose: 0

@@ -59,6 +59,9 @@ public class GameManager : Singleton<GameManager>
         // Invoke(nameof(CallPhone), 4f);
 
         SceneManager.LoadScene(1);
+        
+        // Debug boss scene
+        //SceneManager.LoadScene(3);
     }
 
 

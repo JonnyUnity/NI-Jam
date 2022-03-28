@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 3
   Speaker: Bob
   Sentences:
-  - I dunno. with all this investigating I'm doing Maybe they're on to us?
+  - I dunno. with all this investigating we're doing Maybe they're on to us?
   - Look i gotta go. Hang in there
   Responses: []
   EndOfConversation: 1
