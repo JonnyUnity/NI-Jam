@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Phone Call 15D1
+  m_EditorClassIdentifier: 
+  ID: 1
+  Speaker: ???
+  Sentences:
+  - <heavy breathing>
+  Responses:
+  - {fileID: 11400000, guid: 128ac15f38f50ff40979b71d63af7515, type: 2}
+  - {fileID: 11400000, guid: 79d7e160dea66924a93fd8fb4816cac7, type: 2}
+  EndOfConversation: 1
+  AdvanceStoryOnClose: 1

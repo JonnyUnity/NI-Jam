@@ -15,13 +15,31 @@ public class BossManager : MonoBehaviour
     [SerializeField] private Interaction _clonesAct2Interaction;
 
     [SerializeField] private Interaction _lizardmanFinale;
-    [SerializeField] private Interaction _hitmanFinale;
+    [SerializeField] private Interaction _hitmanBobDiesFinale;
+    [SerializeField] private Interaction _hitmanBobLivesFinale;
     [SerializeField] private Interaction _clonesFinale;
 
     [SerializeField] private AudioClip _bossVoiceClip;
     [SerializeField] private Animator _animator;
 
+    [SerializeField] private GameObject _chairObject;
+
+    // Clones Ending
+    [SerializeField] private GameObject[] _bobsObjects;
+
+    // Lizardman Ending
+    [SerializeField] private GameObject _lizardBossObject;
+
+
+    // Hitman Ending
+    [SerializeField] private GameObject _deadBobObject;
+    [SerializeField] private GameObject _hitmanObject;
+    [SerializeField] private GameObject _hitmanGunObject;
+
+
     private AudioSource _backgroundAudio;
+    private int _storyBeat = 1;
+    private int _bobs = -1;
 
 
     private void Awake()
@@ -42,13 +60,17 @@ public class BossManager : MonoBehaviour
 
         GameEvents.OnBossStart += StartBossInteraction;
         GameEvents.OnDialogueEnded += EndBossInteraction;
+        GameEvents.OnStoryActionPerformed += NextStoryBeat;
         
     }
+
+
 
     private void OnDisable()
     {
         GameEvents.OnBossStart -= StartBossInteraction;
         GameEvents.OnDialogueEnded -= EndBossInteraction;
+        GameEvents.OnStoryActionPerformed -= NextStoryBeat;
     }
 
 
@@ -90,7 +112,15 @@ public class BossManager : MonoBehaviour
                 }
                 else if (PlayerChoices.Instance.OnHitmanStory)
                 {
-                    thisInteraction = _hitmanFinale;
+                    if (PlayerChoices.Instance.PlantHealth == 2)
+                    {
+                        thisInteraction = _hitmanBobLivesFinale;
+                    }
+                    else
+                    {
+                        thisInteraction = _hitmanBobDiesFinale;
+                        _deadBobObject.SetActive(true);
+                    }
                 }
                 else
                 {
@@ -102,6 +132,40 @@ public class BossManager : MonoBehaviour
         DialogueHandler.Instance.StartDialogue(thisInteraction.Dialogues, _bossVoiceClip, INTERACTIONOBJECT_ID);
 
     }
+
+
+    private void NextStoryBeat()
+    {
+        if (PlayerChoices.Instance.OnLizardmanStory)
+        {
+
+            _chairObject.SetActive(false);
+            _lizardBossObject.SetActive(true);
+        }
+        else if (PlayerChoices.Instance.OnHitmanStory)
+        {
+            if (_storyBeat == 1)
+            {
+                _hitmanObject.SetActive(true);
+            }
+            else if (_storyBeat == 2)
+            {
+                _hitmanGunObject.SetActive(true);
+                _hitmanObject.SetActive(false);
+            }
+        }
+        else
+        {
+            _bobs++;
+            _bobsObjects[_bobs].SetActive(true);
+
+        }
+
+        _storyBeat++;
+        
+    }
+
+
 
     public void EndBossInteraction(int interactionObjectID)
     {

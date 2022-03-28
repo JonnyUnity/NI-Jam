@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Boss 7D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: The Boss
+  Sentences:
+  - Well let me explain
+  - How would you like to be part of my personal team ?
+  Responses:
+  - {fileID: 11400000, guid: 5933ebe756c5c1446a2253733b05db22, type: 2}
+  - {fileID: 11400000, guid: 76a24f5779791554b98f1a84b56d69a1, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

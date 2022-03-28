@@ -15,7 +15,10 @@ MonoBehaviour:
   ID: 1
   Speaker: The Boss
   Sentences:
-  - Hello I'm what the boss sez on act 2! (Hitman)
-  Responses: []
-  EndOfConversation: 1
+  - Do you know why I called you here?
+  Responses:
+  - {fileID: 11400000, guid: 7cf74edcd4f70d14baee3da5a99d25ce, type: 2}
+  - {fileID: 11400000, guid: be0e8954b43cf9b4894c067f84aadca2, type: 2}
+  - {fileID: 11400000, guid: 311ac6b12fe958146abf0fc0386ab212, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

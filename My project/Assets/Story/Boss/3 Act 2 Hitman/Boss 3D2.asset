@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Boss 3D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: The Boss
+  Sentences:
+  - I have learnt that someone in our office has been poking around where they shouldn't
+  - This is very dangerous
+  - If you see any suspicious activity from your coworkers you should report it to
+    me immediately
+  Responses:
+  - {fileID: 11400000, guid: 9cf93ab9f9a48b7408a9661939ec6d75, type: 2}
+  - {fileID: 11400000, guid: 0c57ff9ae84e19e4898b89d83f41cb81, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
+  m_Name: Coworker 15
+  m_EditorClassIdentifier: 
+  Name: Simon Act 2
+  ID: 15
+  Dialogues:
+  - {fileID: 11400000, guid: cb45e06cfff45024aac19c724d7297d4, type: 2}
+  - {fileID: 11400000, guid: 0f00599118021fa4bbb2d31625e39fbe, type: 2}
+  - {fileID: 11400000, guid: d1a4cf7176410264bb44b24692e6aaf1, type: 2}
+  - {fileID: 11400000, guid: 5e67fc7f8c05dd24abe2d50459bb757c, type: 2}
+  - {fileID: 11400000, guid: 17c95c538d1e6e9458256f69ab7ac827, type: 2}
+  - {fileID: 11400000, guid: 36e55a3de5d26d24d975e922c9f0c2a6, type: 2}

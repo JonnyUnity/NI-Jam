@@ -11,6 +11,7 @@ public class Phone : MonoBehaviour
     [SerializeField] private Sprite _phoneOnHook;
     [SerializeField] private Sprite _phoneOffHook;
     [SerializeField] private GameObject _highlight;
+    private Animator _animator;
 
     [SerializeField] private AudioSource _phoneAudio;
     [SerializeField] private AudioClip _phoneRingClip;
@@ -23,16 +24,17 @@ public class Phone : MonoBehaviour
 
     private BoxCollider2D _collider;
     private SpriteRenderer _renderer;
-
     private int _callID;
-    private bool _isReceiverDown = true;
-
+    private bool _isReceiverDown;
+    
     private bool StopInteracting => (EventSystem.current.IsPointerOverGameObject() ||  DialogueHandler.Instance.IsDialogueOpen);
+
 
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
         _renderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
     }
 
 
@@ -64,6 +66,8 @@ public class Phone : MonoBehaviour
     {
         _callID = callID;
         EnablePhone();
+        _animator.SetBool("Ringing", true);
+
         if (!_phoneAudio.isPlaying)
         {
             _phoneAudio.clip = _phoneRingClip;
@@ -76,6 +80,7 @@ public class Phone : MonoBehaviour
     {
         _callID = callID;
         _collider.enabled = true;
+        _animator.SetBool("BossRinging", true);
         _phoneAudio.clip = _bossRingClip;
         _phoneAudio.Play();
     }
@@ -142,17 +147,20 @@ public class Phone : MonoBehaviour
 
         //if (_isReceiverDown)
         //{
-            GameEvents.StartInteraction();
-            _phoneAudio.Stop();
-            _phoneAudio.PlayOneShot(_pickUpReceiverClip);
-            _collider.enabled = false;
+         GameEvents.StartInteraction();
 
-            _renderer.sprite = _phoneOffHook;
+        _animator.SetBool("Ringing", false);
+        _animator.SetBool("BossRinging", false);
+        _phoneAudio.Stop();
+        _phoneAudio.PlayOneShot(_pickUpReceiverClip);
+        _collider.enabled = false;
 
-            var dialogues = _calls.Where(w => w.ID == _callID).Single().Dialogues;
+        _renderer.sprite = _phoneOffHook;
 
-            // do dialogue...
-            DialogueHandler.Instance.StartDialogue(dialogues, _voiceOnPhoneClip, INTERACTIONOBJECT_ID);
+        var dialogues = _calls.Where(w => w.ID == _callID).Single().Dialogues;
+
+        // do dialogue...
+        DialogueHandler.Instance.StartDialogue(dialogues, _voiceOnPhoneClip, INTERACTIONOBJECT_ID);
 
         //}
         //else

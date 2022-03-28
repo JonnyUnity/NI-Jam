@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
+  m_Name: Phone 12
+  m_EditorClassIdentifier: 
+  Name: Mevin Act 2 Lizardman
+  ID: 12
+  Dialogues:
+  - {fileID: 11400000, guid: 968043aa0a2531944918177fbd1a816c, type: 2}
+  - {fileID: 11400000, guid: 05aa5b4d400068347ab703face51ed6a, type: 2}
+  - {fileID: 11400000, guid: b4c9713192f6c5242adf3158842e60ea, type: 2}

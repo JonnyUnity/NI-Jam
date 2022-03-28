@@ -17,7 +17,5 @@ MonoBehaviour:
   Sentences:
   - 'Good, you''re doing great work. Now send it to me. '
   Responses: []
-  Links:
-    Type: 0
-    IDs: 
+  EndOfConversation: 1
   AdvanceStoryOnClose: 1

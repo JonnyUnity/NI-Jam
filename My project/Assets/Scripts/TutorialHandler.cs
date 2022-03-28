@@ -273,7 +273,7 @@ public class TutorialHandler : MonoBehaviour
         {
             _interactionID = 2;
         }
-        _bobInteraction.DoVisit(_interactionID);
+        _bobInteraction.DoVisit(_interactionID, false);
     }
 
 

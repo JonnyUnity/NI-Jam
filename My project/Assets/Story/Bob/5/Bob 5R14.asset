@@ -18,12 +18,12 @@ MonoBehaviour:
   - Oh bruh, that must have been disheartening, What did you do?
   _conditions: []
   _actions:
-  - choiceFlagName: 
-    value: 13
-    Type: 1
   - choiceFlagName: BeNiceToBob
     value: 0
     Type: 2
+  - choiceFlagName: 
+    value: 13
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

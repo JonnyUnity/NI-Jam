@@ -21,12 +21,12 @@ MonoBehaviour:
   - choiceFlagName: MedsMissedCount
     value: 1
     Type: 3
-  - choiceFlagName: End Dialogue
-    value: 6
-    Type: 5
   - choiceFlagName: Advance Story
     value: 0
     Type: 4
+  - choiceFlagName: End Dialogue
+    value: 6
+    Type: 5
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

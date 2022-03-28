@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Boss 5D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: The Boss
+  Sentences:
+  - You haven't been taking your medication
+  - You're putting your health at serious risk
+  - What do you have to say for yourself?
+  Responses:
+  - {fileID: 11400000, guid: c8370233f2b7a824398823ffc35080c9, type: 2}
+  - {fileID: 11400000, guid: 496aef903ec6d6646b2481120f61d5df, type: 2}
+  - {fileID: 11400000, guid: 9c9d0795ea215b243b34c8ac06b9a3a8, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

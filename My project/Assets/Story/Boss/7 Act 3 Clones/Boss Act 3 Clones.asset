@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
   m_Name: Boss Act 3 Clones
   m_EditorClassIdentifier: 
-  Name: 
-  ID: 0
+  Name: Boss Act 3 Clones
+  ID: 7
   Dialogues:
   - {fileID: 11400000, guid: 6dc6a9dc709b6b84aa2ca27a873c6360, type: 2}

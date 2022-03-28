@@ -15,10 +15,10 @@ MonoBehaviour:
   ID: 1
   Speaker: Bob
   Sentences:
-  - Happy hump day, Buddy. Whoa, you look like someone just punched you
-  - Are you ok?
-  Responses: []
-  Links:
-    Type: 0
-    IDs: 
+  - Hey bud, what's the latest?
+  - You look troubled, is something wrong?
+  Responses:
+  - {fileID: 11400000, guid: 682d32caaadd69f44a18347cd5fd3622, type: 2}
+  - {fileID: 11400000, guid: ffce05ff1234c2a4d87f9c9a9525c1c6, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

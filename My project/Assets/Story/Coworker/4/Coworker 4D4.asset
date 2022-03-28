@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Coworker 4D4
+  m_EditorClassIdentifier: 
+  ID: 4
+  Speaker: Marge
+  Sentences:
+  - I hope you're not saying I'm lazy
+  Responses:
+  - {fileID: 11400000, guid: fc0533a96e9bf8343aba23e98cf470db, type: 2}
+  - {fileID: 11400000, guid: fee49cbdf5e4da44083633eea7aa99cc, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

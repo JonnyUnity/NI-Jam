@@ -17,9 +17,11 @@ public class Computer : MonoBehaviour
     [SerializeField] private GameObject _desktopOn;
     [SerializeField] private GameObject _desktopCrash;
     [SerializeField] private GameObject _emailNotificationObject;
+    [SerializeField] private GameObject _virusScreenObject;
 
     [SerializeField] private Button _desktopIconEmail;
     [SerializeField] private Button _desktopIconGames;
+    [SerializeField] private GameObject _desktopIconVirus;
 
     [SerializeField] private GameObject _inboxObject;
     [SerializeField] private GameObject _emailObject;
@@ -47,6 +49,7 @@ public class Computer : MonoBehaviour
     private GameObject _currentEmailButton;
 
     private BoxCollider2D _collider;
+    [SerializeField] private Animator _animator;
 
     private bool _isTutorial;
     private bool _hasCrashed;
@@ -60,7 +63,6 @@ public class Computer : MonoBehaviour
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
-
     }
 
     //private void OnEnable()
@@ -517,10 +519,37 @@ public class Computer : MonoBehaviour
 
     public void PlayGame()
     {
+        _animator.SetTrigger("PlayingGame");
         Debug.Log("Playing games! woo!");
         PlayerChoices.Instance.ChangePlayerValue("GamesPlayedCount", 1);
 
     }
+
+
+    public void EnableVirus()
+    {
+        _desktopIconVirus.SetActive(true);
+    }
+
+
+    public void ActivateVirus()
+    {
+        StartCoroutine(ActivateVirusCoroutine());
+    }
+
+
+    private IEnumerator ActivateVirusCoroutine()
+    {
+        _virusScreenObject.SetActive(true);
+
+        // do animation?
+        yield return new WaitForSeconds(5f);
+        _virusScreenObject.SetActive(false);
+        _desktopIconVirus.SetActive(false);
+
+        GameEvents.ProgressStory();
+    }
+
 
     private IEnumerator PauseBeforeNextTutorial()
     {
@@ -529,5 +558,8 @@ public class Computer : MonoBehaviour
         GameEvents.NextTutorialStep();
 
     }
+
+
+
 
 }

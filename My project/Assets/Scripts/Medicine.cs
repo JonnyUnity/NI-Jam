@@ -36,6 +36,11 @@ public class Medicine : MonoBehaviour
         _alarmAnimator = _alarmObject.GetComponent<Animator>();
 
         _medsCollider = _medsObject.GetComponent<BoxCollider2D>();
+        if (_viewManager == null)
+        {
+            FindViewManager();
+        }
+
     }
 
     private void OnEnable()
@@ -49,10 +54,17 @@ public class Medicine : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.OnMedsAlarmStarted += StartAlarm;
+        GameEvents.OnMedsAlarmStarted -= StartAlarm;
         GameEvents.OnStopAlarm -= StopAlarm;
         GameEvents.OnPickUpPills -= PickUpPills;
         GameEvents.OnDialogueEnded -= DialogueEnded;
+    }
+
+    private void FindViewManager()
+    {
+        Debug.Log("view manager not set!");
+        var canvas = GameObject.FindGameObjectWithTag("DeskCanvas");
+        _viewManager = canvas.GetComponent<ViewManager>();
     }
 
 
@@ -80,6 +92,11 @@ public class Medicine : MonoBehaviour
     public void StartAlarm(int alarmID)
     {
         GameEvents.StartInteraction();
+
+        if (_viewManager == null)
+        {
+            FindViewManager();
+        }
 
         _viewManager.GoToView(DeskView.MIDDLE);
         _viewManager.ToggleNavButtons(false);

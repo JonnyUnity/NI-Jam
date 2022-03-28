@@ -14,4 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Jeremy Call
   ID: 3
-  Dialogues: []
+  Dialogues:
+  - {fileID: 11400000, guid: d9cf1bf5f7f6fb4468e053f59aceb46e, type: 2}
+  - {fileID: 11400000, guid: f978dddfdf6fa114a91e65f040f2e783, type: 2}
+  - {fileID: 11400000, guid: a38c10f414f8f46419eda83f202b551c, type: 2}
+  - {fileID: 11400000, guid: 93963b0b817ead7459a69c39b26c3207, type: 2}
+  - {fileID: 11400000, guid: 611dcd31241e0a2469a09748add51393, type: 2}
+  - {fileID: 11400000, guid: 28702dbd4c9e6824b9642deef422d802, type: 2}
+  - {fileID: 11400000, guid: d01e1bc62283bc247bd19358658d56bb, type: 2}

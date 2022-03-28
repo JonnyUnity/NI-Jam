@@ -15,9 +15,13 @@ MonoBehaviour:
   _id: 3
   _text: 
   _answerSentences:
-  - Yes! I found some weird shipping and product stuff!
+  - Yeah this guy contacted me. I'm not sure I should go poking around
+  - what do you think?
   _conditions: []
-  _actions: []
+  _actions:
+  - choiceFlagName: 
+    value: 3
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

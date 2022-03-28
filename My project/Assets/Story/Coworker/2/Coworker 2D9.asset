@@ -18,7 +18,5 @@ MonoBehaviour:
   - Gasp! Well I never!
   - I don't have to stand here and take this ABUSE!
   Responses: []
-  Links:
-    Type: 0
-    IDs: 
-  AdvanceStoryOnClose: 0
+  EndOfConversation: 1
+  AdvanceStoryOnClose: 1

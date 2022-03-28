@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
   m_Name: Boss Act 3 Lizardman
   m_EditorClassIdentifier: 
-  Name: 
-  ID: 0
+  Name: Boss Act 3 Lizardman
+  ID: 5
   Dialogues:
   - {fileID: 11400000, guid: 96219ebd50b69394bb9d94c0931a6418, type: 2}
+  - {fileID: 11400000, guid: 6c945d67bd91dd442b4f38474397ec7c, type: 2}
+  - {fileID: 11400000, guid: 9ba24bebffcd74444aee8e4d30e56475, type: 2}
+  - {fileID: 11400000, guid: ed4419d056320da499f3076af06d3b9c, type: 2}

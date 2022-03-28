@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Boss 6D3
+  m_EditorClassIdentifier: 
+  ID: 3
+  Speaker: ???
+  Sentences:
+  - Don't try anything punk
+  Responses:
+  - {fileID: 11400000, guid: b2836da99e29aa3498e78f9a5657f732, type: 2}
+  - {fileID: 11400000, guid: bea36e64e259fa14ca5baf82527bdc20, type: 2}
+  - {fileID: 11400000, guid: a5b6b6d645ec39244ad12757dca4c6ca, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

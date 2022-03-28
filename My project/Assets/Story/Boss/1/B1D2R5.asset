@@ -18,9 +18,9 @@ MonoBehaviour:
   - ...Yes, I think so.
   _conditions: []
   _actions:
-  - choiceFlagName: End Dialogue
-    value: 8
-    Type: 5
+  - choiceFlagName: 
+    value: 4
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

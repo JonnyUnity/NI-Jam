@@ -22,6 +22,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     [SerializeField] private GameObject _pillsObject;
     [SerializeField] private Watercooler _waterCoolerObject;
     [SerializeField] private Cup _cupObject;
+    [SerializeField] private Medicine _medsAlarmObject;
 
     [SerializeField] private Computer _computerObject;
     [SerializeField] private Plant _plantObject; 
@@ -43,6 +44,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private int _interactionID;
     private int _tutorialID;
     private Action _timedEvent;
+    private bool _isLizardPerson;
 
     private int _alarmID = 1;
 
@@ -56,7 +58,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private static readonly int[] _actsActionCount = new int[]
     {
-        0, 13, 10, 10
+        0, 13, 12, 8
     };
 
 
@@ -300,44 +302,27 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         {
             case 1:
 
-                //_viewManager.ToggleNavButtons(true);
-                //_computerObject.EnableComputer();
-                //_viewManager.ToggleNavButtons(true);
-                //SetupTimedEvent(2f, BobVisit1);
-
-                //_phoneObject.ReceiveBossPhoneCall(10);
-
-                //SetupTimedEvent(3f, DoMedsAlarm);
-                
-
+                // email
                 break;
 
             case 2:
 
-                TimedCoworkerInteraction(2f, CoWorker.SUSAN, 5);
-
-
-                //_phoneObject.PhoneTutorial();
-                //TutorialHandler.Instance.StartTutorial(2);
-                //SetupTutorial(2, 1f);
-                //_phoneObject.ReceivePhoneCall(1);
-
+                TimedCoworkerInteraction(2f, CoWorker.SUSAN, 5, false);
                 break;
 
             case 3:
 
-                // phone call?
+                // email
                 break;
 
             case 4:
 
-
-                TimedCoworkerInteraction(2f, CoWorker.MARGE, 4);
+                TimedCoworkerInteraction(2f, CoWorker.MARGE, 4, false);
                 break;
 
             case 5:
 
-                SetupTimedEvent(5f, DoMedsAlarm);
+                TimedMedsAlarm(5f, 1);
                 break;
 
             case 6:
@@ -349,13 +334,7 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
             case 7:
 
                 _cupObject.EnableCup();
-                // computer crash
-
-                //_interactionID = 4;
-                //SetupTimedEvent(4f, BobVisit);
-                TimedBobVisit(4f, 4);
-
-                //_bobInteraction.DoVisit(4);
+                TimedBobVisit(4f, 4, false);
                 break;
 
             case 8:
@@ -365,18 +344,18 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
             case 9:
 
-                TimedCoworkerInteraction(3f, CoWorker.MATT, 1);
-                
+                TimedCoworkerInteraction(3f, CoWorker.MATT, 1, false);   
                 break;
 
             case 10:
 
-                TimedBobVisit(3f, 5);
+                TimedBobVisit(3f, 5, false);
                 break;
 
             case 11:
 
                 _computerObject.FixCrash();
+                // email
                 break;
 
             case 12:
@@ -399,49 +378,123 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         {
             case 1:
 
-                // jeremy 2 email?
+                TimedBobVisit(2f, 17, false);
                 break;
 
             case 2:
 
-                //StartCoroutine(GameManager.Instance.BobVisit1());
+                // Matt
+                TimedCoworkerInteraction(2f, CoWorker.MATT, 18, false);              
                 break;
 
             case 3:
 
-                //GameEvents.MedsAlarmGoesOff(1);
-                _margeGossipInteraction.StartGossip(2);
+                TimedCoworkerInteraction(2f, CoWorker.SIMON, 15, false);
                 break;
 
             case 4:
 
+                ReceiveTimedPhoneCall(2f, 18);
                 break;
 
             case 5:
 
-                SetupTimedEvent(3f, DoMedsAlarm);
+                // decision point = lizardman story
+                TimedMedsAlarm(3f, 2);
+
                 break;
 
             case 6:
 
-                ReceiveTimedPhoneCall(2f, 3);
+                PlayerChoices.Instance.CheckLizardmanStoryLine();
 
+                if (PlayerChoices.Instance.OnLizardmanStory)
+                {
+                    GameEvents.ProgressStory();
+                }
+                else
+                {
+                    // decision point = hitman story
+                    TimedBobVisit(3f, 6, false);
+
+                }
                 break;
 
             case 7:
 
-                _bobInteraction.DoVisit(6);
+                PlayerChoices.Instance.CheckHitmanStoryLine();
+
+                if (PlayerChoices.Instance.OnLizardmanStory)
+                {
+                    ReceiveTimedPhoneCall(2f, 12);
+                }
+                else if (PlayerChoices.Instance.OnHitmanStory)
+                {
+                    ReceiveTimedPhoneCall(2f, 13);
+                }
+                else
+                {
+                    ReceiveTimedPhoneCall(2f, 14);
+                }
+
                 break;
 
             case 8:
+
+                if (PlayerChoices.Instance.OnLizardmanStory)
+                {
+                    //coworker (temperature)
+                    TimedCoworkerInteraction(2f, CoWorker.SUSAN, 16, false);
+                }
+                else if (PlayerChoices.Instance.OnHitmanStory)
+                {
+
+                    // jeremy virus call
+                    ReceiveTimedPhoneCall(2f, 19);
+                    _computerObject.EnableVirus();
+                }
+                else
+                {
+                    // bob, you're strange
+                    GameEvents.ProgressStory();
+                }
 
                 break;
 
             case 9:
 
+                if (PlayerChoices.Instance.OnLizardmanStory)
+                {
+                    // bob "you don't look so well!"
+                    TimedBobVisit(2f, 7, false);
+                }
+                //else if (PlayerChoices.Instance.OnHitmanStory)
+                //{
+                //    Debug.Log("Use virus!");
+
+
+                //}
+                else if (PlayerChoices.Instance.OnClonesStory)
+                {
+                    // coworker chat - bob strange
+                    TimedCoworkerInteraction(2f, CoWorker.MARGE, 6, false);
+                }
                 break;
 
             case 10:
+      
+                if (PlayerChoices.Instance.OnHitmanStory)
+                {
+                    // bob talks about stuff he's found!
+                    TimedBobVisit(2f, 8, false);
+                }
+                else // clones
+                {
+                    GameEvents.ProgressStory();
+                }
+                break;
+
+            case 11:
 
                 if (PlayerChoices.Instance.OnLizardmanStory)
                 {
@@ -468,70 +521,443 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     {
         Debug.Log($"setting up story beat {_storyBeat} in act {_actNumber}");
 
-        switch (_storyBeat)
+        if (PlayerChoices.Instance.OnLizardmanStory)
         {
-            case 1:
+            // phone call
+            switch (_storyBeat)
+            {
+                case 1:
 
+                    // bob visit
+                    TimedBobVisit(2f, 9, false);
+                    break;
 
-                break;
+                case 2:
 
-            case 2:
+                    // phone call
+                    ReceiveTimedPhoneCall(2f, 15);
+                    break;
 
-               // GameManager.Instance.BobVisit1();
-                break;
+                //case 3:
 
-            case 3:
+                //    // email
+                //    Debug.Log("email!");
+                //    GameEvents.ProgressStory();
+                //    break;
 
-                
-                break;
+                case 3:
 
-            case 4:
+                    // coworker
+                    TimedCoworkerInteraction(2f, CoWorker.MARGE, 7, false);
+                    break;
 
-                break;
+                case 4:
 
-            case 5:
+                    TimedMedsAlarm(3f, 4);
+                    break;
 
-                SetupTimedEvent(3f, DoMedsAlarm);
-                break;
+                case 5:
 
-            case 6:
+                    // coworker
+                    TimedCoworkerInteraction(2f, CoWorker.MATT, 8, false);
+                    break;
 
-                break;
+                case 6:
 
-            case 7:
+                    // green bob
+                    TimedBobVisit(2f, 12, true);
+                    break;
 
-                break;
+                //case 8:
 
-            case 8:
+                //    // weird stuff on walls? skip?
+                //    Debug.Log("Act 3 beat 8 lizardman - weird stuff on walls?");
+                //    GameEvents.ProgressStory();
+                //    break;
 
-                break;
+                //case 9:
 
-            case 9:
+                //    // green co-worker
+                //    TimedCoworkerInteraction(2f, CoWorker.SIMON, 9, true);
+                //    break;
 
-                break;
+                case 7:
 
-            case 10:
-
-                if (PlayerChoices.Instance.OnLizardmanStory)
-                {
                     _phoneObject.ReceiveBossPhoneCall(9);
-                }
-                else if (PlayerChoices.Instance.OnHitmanStory)
-                {
-                    _phoneObject.ReceiveBossPhoneCall(10);
-                }
-                else
-                {
-                    _phoneObject.ReceiveBossPhoneCall(11);
-                }
-                break;
+                    break;
 
-            default:
-                Debug.Log("Out of story beats! Shouldn't be here!");
-                break;
+                default:
+                    Debug.Log("Out of story beats! Shouldn't be here!");
+                    break;
+
+            }
 
         }
+        else if (PlayerChoices.Instance.OnHitmanStory)
+        {
+            switch (_storyBeat)
+            {
+                case 1:
+
+                    // bob visit
+                    //TimedBobVisit(2f, 10, false);
+
+                    // bob talks about someone after him!
+                    TimedBobVisit(2f, 13, false);
+                    break;
+
+
+
+                case 2:
+
+                    // jeremy calls
+                    ReceiveTimedPhoneCall(2f, 16);
+                    break;
+
+                //case 3:
+
+                    
+                //    break;
+
+                case 3:
+
+                    // marge someone odd at reception
+                    TimedCoworkerInteraction(2f, CoWorker.MARGE, 10, false);
+                    break;
+
+                case 4:
+
+                    TimedMedsAlarm(3f, 3);
+                    break;
+
+                //case 6:
+
+                //    // bob swap plant option?
+                //    TimedBobVisit(2f, 14, false);
+                //    break;
+
+                //case 7:
+
+                //    // skip?
+                //    GameEvents.ProgressStory();
+                //    break;
+
+                case 5:
+
+                    // matt coworker
+                    TimedCoworkerInteraction(2f, CoWorker.MATT, 11, false);
+                    break;
+
+                case 6:
+
+                    // bob visit - don't do anything, I need to go chat to the boss
+                    TimedBobVisit(2f, 15, false);
+                    break;
+
+                case 7:
+
+                    _phoneObject.ReceiveBossPhoneCall(10);
+                    break;
+
+                default:
+                    Debug.Log("Out of story beats! Shouldn't be here!");
+                    break;
+
+            }
+
+        }
+        else
+        {
+            switch (_storyBeat)
+            {
+                case 1:
+
+                    // bob visit
+                    TimedBobVisit(2f, 11, false);
+                    break;
+
+                case 2:
+
+                    // bob call
+                    ReceiveTimedPhoneCall(2f, 17);
+                    break;
+
+                //case 3:
+
+                //    // email?
+                //    Debug.Log("Act 3 Beat 3 Email?");
+                //    GameEvents.ProgressStory();
+                //    break;
+
+                case 3:
+
+                    // co-worker marge
+                    TimedCoworkerInteraction(2f, CoWorker.MARGE, 12, false);
+                    break;
+
+                case 4:
+
+                    TimedMedsAlarm(3f, 3);
+                    break;
+
+                //case 6:
+
+                //    // email
+                //    Debug.Log("Act 3 Beat 6 Email?");
+                //    GameEvents.ProgressStory();
+                //    break;
+
+                case 5:
+
+                    // bob visit
+                    TimedBobVisit(2f, 16, false);
+                    break;
+
+                //case 8:
+
+                //    // ???
+                //    Debug.Log("Clones Act 3 beat 8 - nothing here!");
+                //    GameEvents.ProgressStory();
+                //    break;
+
+                case 6:
+
+                    // matt as bob visit
+                    TimedCoworkerInteraction(2f, CoWorker.BOBLEFT, 13, false);
+                    break;
+
+                case 7:
+
+                    _phoneObject.ReceiveBossPhoneCall(11);
+                    break;
+
+                default:
+                    Debug.Log("Out of story beats! Shouldn't be here!");
+                    break;
+
+            }
+        }
+
     }
+
+    //private void SetupAct3StoryBeat()
+    //{
+    //    Debug.Log($"setting up story beat {_storyBeat} in act {_actNumber}");
+
+    //    if (PlayerChoices.Instance.OnLizardmanStory)
+    //    {
+    //        // phone call
+    //        switch (_storyBeat)
+    //        {
+    //            case 1:
+
+    //                // bob visit
+    //                TimedBobVisit(2f, 9, false);
+    //                break;
+
+    //            case 2:
+
+    //                // phone call
+    //                ReceiveTimedPhoneCall(2f, 15);
+    //                break;
+
+    //            case 3:
+
+    //                // email
+    //                Debug.Log("email!");
+    //                GameEvents.ProgressStory();
+    //                break;
+
+    //            case 4:
+
+    //                // coworker
+    //                TimedCoworkerInteraction(2f, CoWorker.MARGE, 7, false);
+    //                break;
+
+    //            case 5:
+
+    //                TimedMedsAlarm(3f, 4);
+    //                break;
+
+    //            case 6:
+
+    //                // coworker
+    //                TimedCoworkerInteraction(2f, CoWorker.MATT, 8, false);
+    //                break;
+
+    //            case 7:
+
+    //                // green bob
+    //                TimedBobVisit(2f, 12, true);
+    //                break;
+
+    //            case 8:
+
+    //                // weird stuff on walls? skip?
+    //                Debug.Log("Act 3 beat 8 lizardman - weird stuff on walls?");
+    //                GameEvents.ProgressStory();
+    //                break;
+
+    //            case 9:
+
+    //                // green co-worker
+    //                TimedCoworkerInteraction(2f, CoWorker.SIMON, 9, true);
+    //                break;
+
+    //            case 10:
+
+    //                _phoneObject.ReceiveBossPhoneCall(9);
+    //                break;
+
+    //            default:
+    //                Debug.Log("Out of story beats! Shouldn't be here!");
+    //                break;
+
+    //        }
+
+    //    }
+    //    else if (PlayerChoices.Instance.OnHitmanStory)
+    //    {
+    //        switch (_storyBeat)
+    //        {
+    //            case 1:
+
+    //                // bob visit
+    //                TimedBobVisit(2f, 10, false);
+    //                break;
+
+    //            case 2:
+
+    //                // jeremy calls
+    //                ReceiveTimedPhoneCall(2f, 16);
+    //                break;
+
+    //            case 3:
+
+    //                // bob talks about someone after him!
+    //                TimedBobVisit(2f, 13, false);
+    //                break;
+
+    //            case 4:
+
+    //                // marge someone odd at reception
+    //                TimedCoworkerInteraction(2f, CoWorker.MARGE, 10, false);
+    //                break;
+
+    //            case 5:
+
+    //                TimedMedsAlarm(3f, 3);
+    //                break;
+
+    //            case 6:
+
+    //                // bob swap plant option?
+    //                TimedBobVisit(2f, 14, false);
+    //                break;
+
+    //            case 7:
+
+    //                // skip?
+    //                GameEvents.ProgressStory();
+    //                break;
+
+    //            case 8:
+
+    //                // matt coworker
+    //                TimedCoworkerInteraction(2f, CoWorker.MATT, 11, false);
+    //                break;
+
+    //            case 9:
+
+    //                // bob visit - don't do anything, I need to go chat to the boss
+    //                TimedBobVisit(2f, 15, false);
+    //                break;
+
+    //            case 10:
+
+    //                _phoneObject.ReceiveBossPhoneCall(10);
+    //                break;
+
+    //            default:
+    //                Debug.Log("Out of story beats! Shouldn't be here!");
+    //                break;
+
+    //        }
+
+    //    }
+    //    else
+    //    {
+    //        switch (_storyBeat)
+    //        {
+    //            case 1:
+
+    //                // bob visit
+    //                TimedBobVisit(2f, 11, false);
+    //                break;
+
+    //            case 2:
+
+    //                // bob call
+    //                ReceiveTimedPhoneCall(2f, 17);
+    //                break;
+
+    //            case 3:
+
+    //                // email?
+    //                Debug.Log("Act 3 Beat 3 Email?");
+    //                GameEvents.ProgressStory();
+    //                break;
+
+    //            case 4:
+
+    //                // co-worker marge
+    //                TimedCoworkerInteraction(2f, CoWorker.MARGE, 12, false);
+    //                break;
+
+    //            case 5:
+
+    //                TimedMedsAlarm(3f, 3);
+    //                break;
+
+    //            case 6:
+
+    //                // email
+    //                Debug.Log("Act 3 Beat 6 Email?");
+    //                GameEvents.ProgressStory();
+    //                break;
+
+    //            case 7:
+
+    //                // bob visit
+    //                TimedBobVisit(2f, 16, false);
+    //                break;
+
+    //            case 8:
+
+    //                // ???
+    //                Debug.Log("Clones Act 3 beat 8 - nothing here!");
+    //                GameEvents.ProgressStory();
+    //                break;
+
+    //            case 9:
+
+    //                // matt as bob visit
+    //                TimedCoworkerInteraction(2f, CoWorker.MATT, 13, false);
+    //                break;
+
+    //            case 10:
+
+    //                _phoneObject.ReceiveBossPhoneCall(11);
+    //                break;
+
+    //            default:
+    //                Debug.Log("Out of story beats! Shouldn't be here!");
+    //                break;
+
+    //        }
+    //    }
+
+    //}
 
 
     private void SetupTimedEvent(float timer, Action action)
@@ -576,23 +1002,25 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     }
 
-    private void TimedCoworkerInteraction(float timer, CoWorker coworker, int workerInteractionID)
+    private void TimedCoworkerInteraction(float timer, CoWorker coworker, int workerInteractionID, bool isLizard)
     {
         Debug.Log($"Set up timed co worker: timer={timer}");
         _timeToEvent = timer;
         _interactionID = workerInteractionID;
         _activeCoWorkerID = coworker;
         _timedEvent = CoworkerInteraction;
+        _isLizardPerson = isLizard;
         _timerOn = true;
     }
 
 
-    private void TimedBobVisit(float timer, int bobInteractionID)
+    private void TimedBobVisit(float timer, int bobInteractionID, bool isLizard)
     {
         Debug.Log($"Set up timed bob visit: timer={timer}");
         _timeToEvent = timer;
         _interactionID = bobInteractionID;
         _timedEvent = BobVisit;
+        _isLizardPerson = isLizard;
         _timerOn = true;
     }
 
@@ -604,16 +1032,13 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
     private void CoworkerInteraction()
     {
-        _coWorkers[(int)_activeCoWorkerID].StartGossip(_interactionID);
+        _coWorkers[(int)_activeCoWorkerID].StartGossip(_interactionID, _isLizardPerson);
     }
-
-
-
 
 
     public void BobVisit()
     {
-        _bobInteraction.DoVisit(_interactionID);
+        _bobInteraction.DoVisit(_interactionID, _isLizardPerson);
     }
 
 
@@ -623,7 +1048,16 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
         _computerObject.DisableComputer();
         _cupObject.DisableCup();
         GameEvents.MedsAlarmGoesOff(_alarmID);
-        _alarmID++;
+        //_medsAlarmObject.StartAlarm(_alarmID);
+    }
+
+    private void TimedMedsAlarm(float timer, int alarmID)
+    {
+        Debug.Log($"Set up timed meds alarm: timer={timer}");
+        _timeToEvent = timer;
+        _alarmID = alarmID;
+        _timedEvent = DoMedsAlarm;
+        _timerOn = true;
     }
 
 }
@@ -639,5 +1073,6 @@ public enum CoWorker
     SIMON,
     MARGE,
     SUSAN,
-    MATT
+    MATT,
+    BOBLEFT
 }

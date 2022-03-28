@@ -284,7 +284,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 438651662}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -608,12 +608,12 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'art
 
-    alex
+    CountingWithTeeth
 
 
     audio
 
-    pat
+    SoooSquishy
 
 
     programming
@@ -623,11 +623,13 @@ MonoBehaviour:
 
     writing
 
-    kennie
+    chellegrey
 
-    pat
+    jflex
 
-    jflex'
+    SoooSquishy
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 40e3c45c47bc70e4d952051c8a934640, type: 2}
   m_sharedMaterial: {fileID: 2219680874482305658, guid: 40e3c45c47bc70e4d952051c8a934640, type: 2}
@@ -654,7 +656,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 71.15
+  m_fontSize: 71.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

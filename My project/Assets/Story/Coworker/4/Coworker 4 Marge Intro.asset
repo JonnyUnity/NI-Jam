@@ -16,3 +16,9 @@ MonoBehaviour:
   ID: 4
   Dialogues:
   - {fileID: 11400000, guid: 1ebc4e6800fbadd4d9999ac24231d183, type: 2}
+  - {fileID: 11400000, guid: d763db7ee0a1d9c479f2d49699763380, type: 2}
+  - {fileID: 11400000, guid: 77a03d1514f82014ea1e6687a292536e, type: 2}
+  - {fileID: 11400000, guid: f3d0a1ca748aea54ba130b8f80485268, type: 2}
+  - {fileID: 11400000, guid: 91db305208d2e044ea596a4458592d9e, type: 2}
+  - {fileID: 11400000, guid: 1105cde7873d4ab4d9699ed33c13ed13, type: 2}
+  - {fileID: 11400000, guid: 88e01af5227ce024bb1b3f008ad9d5e3, type: 2}

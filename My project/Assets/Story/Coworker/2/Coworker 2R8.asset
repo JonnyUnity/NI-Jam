@@ -22,7 +22,7 @@ MonoBehaviour:
     value: 0
     Type: 2
   - choiceFlagName: 
-    value: 0
+    value: 2
     Type: 5
   _onSelect:
     m_PersistentCalls:

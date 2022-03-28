@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Bob 8D3
+  m_EditorClassIdentifier: 
+  ID: 3
+  Speaker: Bob
+  Sentences:
+  - I need some more time to put together everything but it's bad
+  - Keep this between me and you
+  Responses:
+  - {fileID: 11400000, guid: 3649fec735ffe2d40ac854b508aa974f, type: 2}
+  - {fileID: 11400000, guid: a79f30d1b0bff274a8845ff3c3cc39c9, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

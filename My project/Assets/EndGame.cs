@@ -28,7 +28,7 @@ public class EndGame : MonoBehaviour
         {
             _audioSource.clip = _lizardmanEndingClip;
 
-            _endingText.text = "You reached the lizardman ending";
+            _endingText.text = "After not taking the company mandated pills you saw the true reality of lizard people living amongst us";
             if (PlayerChoices.Instance.Lizardman_Survived)
             {
                 _twistText.text = "and was not eaten";
@@ -44,14 +44,14 @@ public class EndGame : MonoBehaviour
             _audioSource.clip = _hitmanEndingClip;
 
 
-            _endingText.text = "You reached the hitman ending";
-            if (PlayerChoices.Instance.Hitman_Survived)
+            _endingText.text = "The company sent a hitman to take you and Bob out after you investigated their finances";
+            if (PlayerChoices.Instance.Bob_survives_Hitman)
             {
-                _twistText.text = "and you lived thanks to Bob's sacrifice";
+                _twistText.text = "and Bob lived thanks to your sacrifice";
             }
             else
             {
-                _twistText.text = "and Bob lived thanks to your sacrifice";
+                _twistText.text = "and Bob was killed by the hitman";
             }
 
         }
@@ -59,7 +59,7 @@ public class EndGame : MonoBehaviour
         {
             _audioSource.clip = _clonesEndingClip;
 
-            _endingText.text = "You reached the clones ending";
+            _endingText.text = "You discovered Bob's master plan to assimilate the population into an army of bobs";
             if (PlayerChoices.Instance.Clones_Survived)
             {
                 _twistText.text = "and got to continue living your life";

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdbf833923d982241ac87a459f4d8fcd, type: 3}
+  m_Name: Boss 4R7
+  m_EditorClassIdentifier: 
+  _id: 7
+  _text: He's too efficient
+  _answerSentences:
+  - Bob's great and all but his work output is crazy
+  - It keeps pushing up the department's targets and it's stressing out the team
+  - It's like he's doing two jobs at the same time
+  _conditions: []
+  _actions:
+  - choiceFlagName: 
+    value: 4
+    Type: 1
+  _onSelect:
+    m_PersistentCalls:
+      m_Calls: []

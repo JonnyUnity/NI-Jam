@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Bob 8D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: Bob
+  Sentences:
+  - It's bad. The company is in deep with the mafia
+  - moeny laundering, tax fraud, cover ups, you name it
+  Responses:
+  - {fileID: 11400000, guid: 9b15940c913df2a48a5d1452eb300b6f, type: 2}
+  - {fileID: 11400000, guid: 3fdd36845a0982440b57eb48ef4e5328, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

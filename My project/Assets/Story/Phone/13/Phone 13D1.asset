@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Phone 13D1
+  m_EditorClassIdentifier: 
+  ID: 1
+  Speaker: Mevin
+  Sentences:
+  - I've seen a new person round the building
+  - Do you think he has my stapler?
+  Responses:
+  - {fileID: 11400000, guid: 897518ca897d96345a42af59cfe4ef4d, type: 2}
+  - {fileID: 11400000, guid: 8c0cee6ab972f694d957312dc2b80b19, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Boss 4D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: The Boss
+  Sentences:
+  - What do you think of your colleague Bob?
+  Responses:
+  - {fileID: 11400000, guid: 106a061dccba1d44cbd580d023c659ef, type: 2}
+  - {fileID: 11400000, guid: f43a0c69e668fe64282545a2a5ea86bd, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

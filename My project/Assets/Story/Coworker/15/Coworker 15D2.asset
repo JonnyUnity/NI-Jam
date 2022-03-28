@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Coworker 15D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: Simon
+  Sentences:
+  - Just going around making a little collection for Susan's birthday
+  Responses:
+  - {fileID: 11400000, guid: 00a928d34263b3341896c82e13a5abb0, type: 2}
+  - {fileID: 11400000, guid: 10772bf633d44464b88678c21a74cfb9, type: 2}
+  - {fileID: 11400000, guid: 65c307fce2e3f2f41983ac7d5fdbe1b0, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

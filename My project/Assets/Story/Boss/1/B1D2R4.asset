@@ -18,9 +18,9 @@ MonoBehaviour:
   - Of course sir we're doing important work
   _conditions: []
   _actions:
-  - choiceFlagName: End Dialogue
-    value: 8
-    Type: 5
+  - choiceFlagName: 
+    value: 3
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

@@ -15,7 +15,9 @@ MonoBehaviour:
   ID: 1
   Speaker: The Boss
   Sentences:
-  - Hello I'm what the boss sez on act 3! (Clones)
-  Responses: []
-  EndOfConversation: 1
+  - Do you know why I called you in here today?
+  Responses:
+  - {fileID: 11400000, guid: df2f79fc45f07304891d63dfed787422, type: 2}
+  - {fileID: 11400000, guid: 4cbc7436cfa02e64abe93ba195a45ebe, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

@@ -14,12 +14,14 @@ public class PlayerChoices
     public int PlantHealth { get; private set; } // 2 = Healthy, 1 = Dying, 0 = Dead
     public int GamesPlayedCount { get; private set; }
     
+
     public int MedsMissedCount { get; private set; }
 
     //public static bool TakenMeds { get; private set; }
     public bool TalkedDiesel { get; private set; }
     public bool WatchedGameLastNight { get; private set; }
     public bool HelpBobWithPlant { get; private set; }
+    public bool DoInvestigationWithBob { get; private set; }
 
     public int Tenure { get; private set; }
     
@@ -32,7 +34,10 @@ public class PlayerChoices
 
 
     public bool BeNiceToBob { get; private set; }
+    public bool RudeToSusan { get; private set; }
+    public bool RudeToMarge { get; private set; }
     public bool DefendBobFromMarge { get; private set; }
+    public bool CareForMevin { get; private set; }
 
 
     // STORYLINE FLAGS
@@ -40,7 +45,7 @@ public class PlayerChoices
     public bool Lizardman_Survived { get; private set; }
 
     public bool OnHitmanStory { get; private set; }
-    public bool Hitman_Survived { get; private set; }
+    public bool Bob_survives_Hitman { get; private set; }
     
     public bool OnClonesStory { get; private set; }
     public bool Clones_Survived { get; private set; }
@@ -74,6 +79,28 @@ public class PlayerChoices
     {
         // initial values
         PlantHealth = 2;
+    }
+
+
+    public void CheckLizardmanStoryLine()
+    {
+
+        if (MedsMissedCount == 2)
+        {
+            OnLizardmanStory = true;
+        }
+    }
+
+    public void CheckHitmanStoryLine()
+    {
+        if (DoInvestigationWithBob)
+        {
+            OnHitmanStory = true;
+        }
+        else
+        {
+            OnClonesStory = true;
+        }
     }
 
 

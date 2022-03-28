@@ -17,8 +17,8 @@ MonoBehaviour:
   Sentences:
   - Well, you haven't heard it from me
   - But, there have been complaints about Bob's antics
-  Responses: []
-  Links:
-    Type: 0
-    IDs: 
+  Responses:
+  - {fileID: 11400000, guid: 65143b3cfd6dc27418c285b0597de31e, type: 2}
+  - {fileID: 11400000, guid: aefdc2e7d45c5d249bf7ba57db5efac2, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

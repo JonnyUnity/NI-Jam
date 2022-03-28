@@ -15,9 +15,12 @@ MonoBehaviour:
   _id: 4
   _text: 
   _answerSentences:
-  - You're telling me!
+  - Cheers for the support Bob
   _conditions: []
-  _actions: []
+  _actions:
+  - choiceFlagName: 
+    value: 4
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

@@ -16,8 +16,9 @@ MonoBehaviour:
   Speaker: Marge
   Sentences:
   - Well, he's making work diffcult for the rest of us
-  Responses: []
-  Links:
-    Type: 0
-    IDs: 
+  Responses:
+  - {fileID: 11400000, guid: 23bf6d5ee4af7e445be75635df6a607d, type: 2}
+  - {fileID: 11400000, guid: b67eb312169e6c34b99725af5a0689e3, type: 2}
+  - {fileID: 11400000, guid: f322e8c81bb24a547a76c058591dd8fb, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

@@ -15,7 +15,10 @@ MonoBehaviour:
   ID: 1
   Speaker: The Boss
   Sentences:
-  - Hello I'm what the boss sez on act 2! (Lizardman)
-  Responses: []
+  - Do you know why I called you here?
+  Responses:
+  - {fileID: 11400000, guid: bd708f149d673214999b7a23ba8eea29, type: 2}
+  - {fileID: 11400000, guid: 641f390517c9c3948bd4c6896ac95843, type: 2}
+  - {fileID: 11400000, guid: 3bc3663ff87e2714aa2720dddf155d02, type: 2}
   EndOfConversation: 1
   AdvanceStoryOnClose: 0

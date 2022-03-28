@@ -18,5 +18,5 @@ MonoBehaviour:
   - Hey, come to the boss's office quick!
   - There's a man with a gun!
   Responses: []
-  EndOfConversation: 0
+  EndOfConversation: 1
   AdvanceStoryOnClose: 1

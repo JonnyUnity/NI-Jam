@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
   m_Name: Bob 6
   m_EditorClassIdentifier: 
-  Name: 
-  ID: 0
-  Dialogues: []
+  Name: Bob Hitman decision
+  ID: 6
+  Dialogues:
+  - {fileID: 11400000, guid: 43af12a4599110e499518ccfad910c33, type: 2}
+  - {fileID: 11400000, guid: cd45016779ee67846994afd1c20de0da, type: 2}
+  - {fileID: 11400000, guid: f5c4a2f047c4b7e4cab8db6ef7267d57, type: 2}
+  - {fileID: 11400000, guid: 9f783fe5ae67d0d43ad72422861e752e, type: 2}
+  - {fileID: 11400000, guid: df742c6340b570c4eb12fb6dad5718a5, type: 2}

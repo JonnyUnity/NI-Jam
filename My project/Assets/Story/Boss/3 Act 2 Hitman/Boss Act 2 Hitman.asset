@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Boss Act 2 Hitman
   m_EditorClassIdentifier: 
   Name: Boss Act 2 Hitman
-  ID: 0
+  ID: 3
   Dialogues:
   - {fileID: 11400000, guid: 47080750dbea1424a80c4d77a2ea9c0a, type: 2}
+  - {fileID: 11400000, guid: 9cc8fb8e7159370409a47a6bbdad867a, type: 2}
+  - {fileID: 11400000, guid: f619be55df1fb9d44934ff6e17e10e9f, type: 2}

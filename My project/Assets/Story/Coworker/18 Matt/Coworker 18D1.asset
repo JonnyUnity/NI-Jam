@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Coworker 18D1
+  m_EditorClassIdentifier: 
+  ID: 1
+  Speaker: Matt
+  Sentences:
+  - Hey, do you have the Sweet Charlie's shipping account?
+  - He's been ringing my phone about his order all day
+  Responses:
+  - {fileID: 11400000, guid: 8288938da6f2baa47a866f63d68e531f, type: 2}
+  - {fileID: 11400000, guid: 414a907606cd22c4ab2ad300d6e801bc, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

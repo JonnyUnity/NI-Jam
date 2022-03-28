@@ -13,6 +13,7 @@ public class CoWorkerInteraction : MonoBehaviour
 
     [SerializeField] private GameObject _coWorkerObject;
     [SerializeField] private GameObject _conversationAlertObject;
+    [SerializeField] private GameObject _lizardVersion;
 
     [SerializeField] private DeskView _view; 
     [SerializeField] private ViewManager _viewManager;
@@ -72,17 +73,20 @@ public class CoWorkerInteraction : MonoBehaviour
 
     }
 
-    public void StartGossip(int interactionID)
+    public void StartGossip(int interactionID, bool isLizard)
     {
         ShowConversationAlert();
         _interactionID = interactionID;
         _coWorkerObject.SetActive(true);
+        _lizardVersion.SetActive(isLizard);
+
     }
 
-    public void DoVisit(int interactionID)
+    public void DoVisit(int interactionID, bool isLizard)
     {
          _viewManager.GoToView(_view);
-        _interactionID = interactionID; 
+        _interactionID = interactionID;
+        _lizardVersion.SetActive(isLizard);
 
         ChatWithWorker();
     }

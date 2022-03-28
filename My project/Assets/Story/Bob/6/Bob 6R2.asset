@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Bob 6R2
   m_EditorClassIdentifier: 
   _id: 2
-  _text: No!
+  _text: <rumour>
   _answerSentences:
-  - 'Bob! Today has been horrible! '
-  - First Marge was looked awful! and Susan too!
-  - And then...I had the craziest phone call!
+  - Well actually, since you ask I've found something weird in the company accounts
   _conditions: []
   _actions:
+  - choiceFlagName: DoInvestigationWithBob
+    value: 0
+    Type: 2
   - choiceFlagName: 
-    value: 3
+    value: 2
     Type: 1
   _onSelect:
     m_PersistentCalls:

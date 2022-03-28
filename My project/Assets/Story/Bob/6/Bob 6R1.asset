@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Bob 6R1
   m_EditorClassIdentifier: 
   _id: 1
-  _text: Not great
+  _text: No
   _answerSentences:
-  - No! Someone contacted me. They said the company is up to something shady
-  - Wanted me to look into something for them
+  - Not really Bob, just a little stressed from work
   _conditions: []
   _actions:
   - choiceFlagName: 
-    value: 2
+    value: 5
     Type: 1
   _onSelect:
     m_PersistentCalls:

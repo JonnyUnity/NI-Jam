@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Coworker 18D3
+  m_EditorClassIdentifier: 
+  ID: 3
+  Speaker: Matt
+  Sentences:
+  - Yeah, I don't like him either. Well, I better go and try get him off my back
+  Responses:
+  - {fileID: 11400000, guid: 5b6096b800ea46b4d870ec5b4266be6f, type: 2}
+  - {fileID: 11400000, guid: 3bdb925cfbd02bc4e91a4b3ea9e1c428, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

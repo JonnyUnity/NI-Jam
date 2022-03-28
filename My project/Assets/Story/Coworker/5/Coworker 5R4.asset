@@ -18,6 +18,9 @@ MonoBehaviour:
   - Hey, maybe don't forget to take them and you won't have such a rough weekend?
   _conditions: []
   _actions:
+  - choiceFlagName: RudeToSusan
+    value: 0
+    Type: 2
   - choiceFlagName: 
     value: 4
     Type: 1

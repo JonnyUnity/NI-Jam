@@ -16,12 +16,7 @@ MonoBehaviour:
   Speaker: Bob
   Sentences:
   - 'Hey. I''ve brought the IT guy to save the day! '
-  - Ooh your plant's looking good. HR has been on me about mine.
-  - How do you keep yours so nice?
   Responses:
-  - {fileID: 11400000, guid: b8be47e7e075e4949920bebe5f161862, type: 2}
-  - {fileID: 11400000, guid: cdae820765c6b8d439661306a7a7615d, type: 2}
-  Links:
-    Type: 0
-    IDs: 
+  - {fileID: 11400000, guid: 7c0da291858f760498e4c8dd48c39bef, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

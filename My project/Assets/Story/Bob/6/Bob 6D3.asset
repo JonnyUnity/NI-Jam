@@ -15,9 +15,9 @@ MonoBehaviour:
   ID: 3
   Speaker: Bob
   Sentences:
-  - Wow. That's some weird stuff going on!
-  Responses: []
-  Links:
-    Type: 0
-    IDs: 
+  - Well now you mention it, I have been coming across some discrepancies
+  - Let's investigate but be discrete
+  Responses:
+  - {fileID: 11400000, guid: 31af04d86ce8d464c9628b972c6b5586, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0

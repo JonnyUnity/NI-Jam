@@ -18,9 +18,9 @@ MonoBehaviour:
   - Um... <mumbling noises>
   _conditions: []
   _actions:
-  - choiceFlagName: End Dialogue
-    value: 8
-    Type: 5
+  - choiceFlagName: 
+    value: 5
+    Type: 1
   _onSelect:
     m_PersistentCalls:
       m_Calls: []

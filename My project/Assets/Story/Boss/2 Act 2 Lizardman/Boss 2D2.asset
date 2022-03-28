@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256034e451fef2340aa51ac2626bad12, type: 3}
+  m_Name: Boss 2D2
+  m_EditorClassIdentifier: 
+  ID: 2
+  Speaker: The Boss
+  Sentences:
+  - I have learnt that you haven't been taking your prescribed medication
+  - This is not only worrying for your health
+  - but it is also against company policy
+  - you do remember your contract? What do you have to say?
+  Responses:
+  - {fileID: 11400000, guid: 10ddb2b9d7a272544b635a4ec8c4919e, type: 2}
+  - {fileID: 11400000, guid: 7533f8fdb98791b40996e17f947cc242, type: 2}
+  - {fileID: 11400000, guid: e2ca0d279142acc4fadec1aac2948125, type: 2}
+  EndOfConversation: 0
+  AdvanceStoryOnClose: 0

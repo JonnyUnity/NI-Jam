@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd82289b65497c547bfed6347bd7cf13, type: 3}
+  m_Name: Bob 7
+  m_EditorClassIdentifier: 
+  Name: Bob 7
+  ID: 7
+  Dialogues:
+  - {fileID: 11400000, guid: fb40af0706a87b24f9ccd4ae79f9531b, type: 2}
+  - {fileID: 11400000, guid: 31d798483a1918b48b52e6d906d48761, type: 2}
+  - {fileID: 11400000, guid: 5a676a99e53536b45a96eddd76742b00, type: 2}
+  - {fileID: 11400000, guid: 0543cee6cf2e9c843ab5a419200437c8, type: 2}

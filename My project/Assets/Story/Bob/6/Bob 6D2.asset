@@ -15,10 +15,8 @@ MonoBehaviour:
   ID: 2
   Speaker: Bob
   Sentences:
-  - Yikes. Sounds like some shady stuff
-  - Did you find anything?
-  Responses: []
-  Links:
-    Type: 0
-    IDs: 
+  - Oh really?
+  Responses:
+  - {fileID: 11400000, guid: 172937de9236e03448e8427eb2d9a09f, type: 2}
+  EndOfConversation: 0
   AdvanceStoryOnClose: 0
