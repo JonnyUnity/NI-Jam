@@ -125,7 +125,10 @@ public class Medicine : MonoBehaviour
 
         DialogueHandler.Instance.StartDialogue(dialogues, null, ALARMOBJECT_ID);
 
-        _medsCollider.enabled = true;
+        if (_medicineID != 4)
+        {
+            _medsCollider.enabled = true;
+        }        
 
     }
 

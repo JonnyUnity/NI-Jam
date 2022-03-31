@@ -5,7 +5,7 @@ using TMPro;
 using System.Linq;
 using UnityEngine.UI;
 
-public class DialogueHandler : Singleton<DialogueHandler>
+public class DialogueHandler : MonoBehaviour
 {
     [SerializeField] private GameObject _dialogueBox;
     [SerializeField] private GameObject _nameBox;
@@ -42,6 +42,31 @@ public class DialogueHandler : Singleton<DialogueHandler>
 
     private int _interactionObjectID;
 
+
+    private static DialogueHandler _Instance;
+    public static DialogueHandler Instance
+    {
+        get
+        {
+            if (!_Instance)
+            {
+                var prefab = Resources.Load<GameObject>("DialogueHandler");
+
+                var inScene = Instantiate(prefab);
+
+                _Instance = inScene.GetComponentInChildren<DialogueHandler>();
+                if (!_Instance)
+                {
+                    _Instance = inScene.AddComponent<DialogueHandler>();
+                }
+
+                DontDestroyOnLoad(_Instance.transform.root.gameObject);
+            }
+
+            return _Instance;
+        }
+    }
+
     public bool IsDialogueOpen => _dialogueBox.activeInHierarchy || _choicesBox.activeInHierarchy || _responseBox.activeInHierarchy;
 
     private void Awake()
@@ -55,11 +80,11 @@ public class DialogueHandler : Singleton<DialogueHandler>
         _dialogueAudio = GetComponent<AudioSource>();
 
         DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(_canvas);
-        DontDestroyOnLoad(_dialogueBox);
-        DontDestroyOnLoad(_choicesBox);
-        DontDestroyOnLoad(_responseBox);
-        DontDestroyOnLoad(_dialogueAudio);
+        //DontDestroyOnLoad(_canvas.gameObject);
+        //DontDestroyOnLoad(_dialogueBox);
+        //DontDestroyOnLoad(_choicesBox);
+        //DontDestroyOnLoad(_responseBox);
+        //DontDestroyOnLoad(_dialogueAudio.gameObject);
     }
 
 
@@ -136,7 +161,7 @@ public class DialogueHandler : Singleton<DialogueHandler>
         //if (TutorialHandler.Instance.IsTutorialOpen)
         //    return;
 
-        if (IsDialogueOpen)
+        if (Instance.IsDialogueOpen)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -152,7 +177,7 @@ public class DialogueHandler : Singleton<DialogueHandler>
                     {
                         _responseWriter.FinishTyping();
                     }
-                    else if (IsMoreResponse)
+                    else if (Instance.IsMoreResponse)
                     {
                         AdvanceResponse();
                     }
@@ -166,7 +191,7 @@ public class DialogueHandler : Singleton<DialogueHandler>
                         //GameEvents.DialogueEnded(); // is this going to cause a problem?
                     }
                 }
-                else if (IsMoreDialogue)
+                else if (Instance.IsMoreDialogue)
                 {
 
                     AdvanceDialogue();

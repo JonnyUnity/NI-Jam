@@ -15,8 +15,8 @@ MonoBehaviour:
   ID: 4
   Speaker: The Boss
   Sentences:
-  - Hmm.. Sounds like your unsure, in that case i'll keep an eye on your work for
-    now and we can have a talk later
+  - Hmm.. Sounds like you are unsure, in that case i'll keep an eye on your work
+    for now and we can have a talk later
   Responses: []
   EndOfConversation: 1
   AdvanceStoryOnClose: 0

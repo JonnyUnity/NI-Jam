@@ -6,6 +6,24 @@ using UnityEngine;
 public class DeskSceneManager : Singleton<DeskSceneManager>
 {
 
+    //private static DeskSceneManager _Instance;
+    //public static DeskSceneManager Instance
+    //{
+    //    get
+    //    {
+    //        if (!_Instance)
+    //        {
+    //            _Instance = new GameObject().AddComponent<DeskSceneManager>();
+    //            _Instance.name = _Instance.GetType().ToString();
+
+    //            DontDestroyOnLoad(_Instance.gameObject);
+    //        }
+
+    //        return _Instance;
+    //    }
+    //}
+
+
     [SerializeField] private TutorialHandler _tutorialHandler;
     [SerializeField] private bool _skipTutorial;
     [SerializeField] private TestDebugger _debugger;
@@ -139,14 +157,13 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     public int GetGameTime()
     {
         return (_actNumber * 100) + _storyBeat;
-    }
+    } 
 
 
     private void StartAct(int actNumber)
     {
 
         _dayHeadingText.text = _actTitles[actNumber - 1];
-
         StartCoroutine(FadeInCoroutine(actNumber)); 
 
     }
@@ -156,10 +173,10 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     {
         _animator.SetTrigger("StartOfDay");
         _plantObject.InitPlant();
+        _computerObject.InitEmails();
         yield return new WaitForSecondsRealtime(2f);
 
         _audioSource.Play();
-        // begin tutorial...
         
         if (actNumber == 1)
         {
@@ -205,8 +222,17 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
     private IEnumerator FadeOutCoroutine()
     {
         _animator.SetTrigger("EndOfDay");
-        yield return new WaitForSecondsRealtime(1.5f);
+        var t = 0;
 
+        var origVolume = _audioSource.volume;
+        for (var timePassed = 0f; timePassed < 1.5f; timePassed += Time.deltaTime)
+        {
+            _audioSource.volume = Mathf.Lerp(origVolume, 0f, timePassed / 1.5f);
+
+            yield return null;
+        }
+
+        //yield return new WaitForSecondsRealtime(1.5f);
         GameEvents.ActOver();
     }
 
@@ -571,13 +597,13 @@ public class DeskSceneManager : Singleton<DeskSceneManager>
 
                     _computerObject.EnableComputer(false);
                     // coworker
-                    TimedCoworkerInteraction(2f, CoWorker.MATT, 8, false);
+                    TimedCoworkerInteraction(2f, CoWorker.MATT, 8, true);
                     break;
 
                 case 6:
 
                     // green bob
-                    TimedBobVisit(2f, 12, false);
+                    TimedBobVisit(2f, 12, true);
                     break;
 
                 //case 8:

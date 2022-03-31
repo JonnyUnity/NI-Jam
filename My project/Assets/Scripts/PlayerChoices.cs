@@ -75,10 +75,41 @@ public class PlayerChoices
         }
     }
 
+
+
+
     public PlayerChoices()
     {
         // initial values
         PlantHealth = 2;
+    }
+
+    public void Init()
+    {
+        PlantHealth = 2;
+        WateredCount = 0;
+        PlantIsDying = false;
+        PlantDied = false;
+        GamesPlayedCount = 0;
+        MedsMissedCount = 0;
+        TalkedDiesel = false;
+        WatchedGameLastNight = false;
+        HelpBobWithPlant = false;
+        DoInvestigationWithBob = false;
+        Tenure = 0;
+        RepliedToCharlieEmail = false;
+        RepliedToJeremyEmail = false;
+        RepliedToJeremy2Email = false;
+        RepliedToJeremy3Email = false;
+        BeNiceToBob = false;
+        RudeToSusan = false;
+        RudeToMarge = false;
+        DefendBobFromMarge = false;
+        CareForMevin = false;
+        OnLizardmanStory = false;
+        OnHitmanStory = false;
+        OnClonesStory = false;
+
     }
 
 

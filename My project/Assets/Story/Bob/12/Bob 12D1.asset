@@ -18,7 +18,7 @@ MonoBehaviour:
   - Hey bud! You ok
   - Looking a little unstable there
   - Did you not take your meds again?
-  - You silly goose, I'm gonna go have a word with the doctor. Hang in there
-  Responses: []
+  Responses:
+  - {fileID: 11400000, guid: 2e563808b1f30b241b5667d077ccc23c, type: 2}
   EndOfConversation: 1
   AdvanceStoryOnClose: 1

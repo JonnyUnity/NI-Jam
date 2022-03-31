@@ -54,6 +54,7 @@ public class Phone : MonoBehaviour
     public void PhoneTutorial()
     {
         _phoneAudio.clip = _phoneRingClip;
+        _animator.SetBool("Ringing", true);
         _phoneAudio.Play();
     }
 
@@ -66,7 +67,10 @@ public class Phone : MonoBehaviour
     {
         _callID = callID;
         EnablePhone();
-        _animator.SetBool("Ringing", true);
+        if (!_animator.GetBool("Ringing"))
+        {
+            _animator.SetBool("Ringing", true);
+        }        
 
         if (!_phoneAudio.isPlaying)
         {

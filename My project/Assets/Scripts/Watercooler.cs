@@ -13,6 +13,7 @@ public class Watercooler : MonoBehaviour
 
     private SpriteRenderer _renderer;
     private AudioSource _audioSource;
+    private Animator _animator;
     private BoxCollider2D _collider;
 
     private bool StopInteracting => (EventSystem.current.IsPointerOverGameObject() || DialogueHandler.Instance.IsDialogueOpen);
@@ -22,6 +23,7 @@ public class Watercooler : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _audioSource.clip = _useCoolerClip;
         _collider = GetComponent<BoxCollider2D>();
+        _animator = GetComponent<Animator>();
     }
 
     public void EnableWaterCooler()
@@ -55,6 +57,7 @@ public class Watercooler : MonoBehaviour
             return;
 
         Debug.Log("Used water cooler!");
+        _animator.SetTrigger("UseWatercooler");
         _audioSource.Play();
 
         if (_isTutorial)

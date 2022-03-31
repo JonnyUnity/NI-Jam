@@ -22,8 +22,9 @@ public class GameManager : Singleton<GameManager>
         SceneManager.sceneLoaded += OnSceneLoaded;
         GameEvents.OnActOver += LoadBossOfficeScene;
         GameEvents.OnBossEnd += LoadNextScene;
-    
-        DontDestroyOnLoad(gameObject);
+
+        DontDestroyOnLoad(Instance.gameObject);
+
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -58,7 +59,8 @@ public class GameManager : Singleton<GameManager>
         //Invoke("BobVisit1", 6f);
         // Invoke(nameof(CallPhone), 4f);
 
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(2);
+        StartGame();
         
         // Debug boss scene
         //SceneManager.LoadScene(3);
@@ -75,6 +77,17 @@ public class GameManager : Singleton<GameManager>
         State = PlayerState.BUSY;
     }
 
+
+
+    public void StartGame()
+    {
+
+        PlayerChoices.Instance.Init();
+        _actNumber = 1;
+        SceneManager.LoadScene(2);
+
+    }
+
     private void LoadNextScene()
     {
         if (_actNumber == 4)
@@ -88,7 +101,6 @@ public class GameManager : Singleton<GameManager>
         }
 
     }
-
 
 
     private IEnumerator LoadDeskCoroutine()

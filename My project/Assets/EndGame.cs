@@ -77,6 +77,8 @@ public class EndGame : MonoBehaviour
 
     public void BackToStart()
     {
+        Destroy(GameManager.Instance.gameObject);
+        Destroy(DialogueHandler.Instance.gameObject);
         SceneManager.LoadScene(0);
     }
 

@@ -65,64 +65,6 @@ public class Computer : MonoBehaviour
         _collider = GetComponent<BoxCollider2D>();
     }
 
-    //private void OnEnable()
-    //{
-    //    // GameEvents.OnCloseDesktop += CloseDesktop;
-    //    GameEvents.OnNextTutorialStep += NextTutorialStep;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    // GameEvents.OnCloseDesktop -= CloseDesktop;
-    //    GameEvents.OnNextTutorialStep -= NextTutorialStep;
-    //}
-
-    //private void NextTutorialStep()
-    //{
-    //    if (!_isTutorial)
-    //        return;
-
-
-    //    Debug.Log("Computer tutorial " + _tutorialStep);
-
-    //    switch (_tutorialStep)
-    //    {
-    //        case 1:
-
-    //            EnableDesktopIcons();
-    //            break;
-
-    //        case 2:
-
-    //            break;
-
-    //        case 3:
-    //            break;
-
-    //        case 4:
-    //            break;
-
-    //        case 5:
-    //            break;
-
-    //        case 6:
-    //            break;
-
-    //        case 7:
-    //            break;
-
-    //        case 8:
-    //            break;
-
-    //        case 9:
-    //            break;
-
-
-    //    }
-
-    //    _tutorialStep++;
-
-    //}
 
     public void OpenDesktop()
     {
@@ -202,6 +144,13 @@ public class Computer : MonoBehaviour
         
     }
 
+    public void InitEmails()
+    {
+
+        _emails.ForEach(f => f.IsRead = false);
+
+    }
+
     public void EnableComputer(bool isTutorial)
     {
         _collider.enabled = true;
@@ -273,7 +222,7 @@ public class Computer : MonoBehaviour
             return;
 
         var emails = GetEmails(DeskSceneManager.Instance.GameTime);
-        if (emails.Count > 0)
+        if (emails.Count > 0 && emails.Where(w => !w.IsRead).Any())
         {
             _emailNotificationObject.SetActive(true);
         }
@@ -426,6 +375,7 @@ public class Computer : MonoBehaviour
 
         _currentEmailButton = emailButton;
         _currentEmail = email;
+        _currentEmail.IsRead = true;
 
         _inboxObject.SetActive(false);
         _emailObject.SetActive(true);

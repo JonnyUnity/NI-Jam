@@ -13,12 +13,14 @@ public class CoWorkerInteraction : MonoBehaviour
 
     [SerializeField] private GameObject _coWorkerObject;
     [SerializeField] private GameObject _conversationAlertObject;
-    [SerializeField] private GameObject _lizardVersion;
+    //[SerializeField] private GameObject _lizardVersion;
 
     [SerializeField] private DeskView _view; 
     [SerializeField] private ViewManager _viewManager;
     [SerializeField] private List<Interaction> _interactions;
     [SerializeField] private AudioClip _voiceClip;
+    [SerializeField] private Animator _lizardAnimator;
+
 
     private void OnEnable()
     {
@@ -78,7 +80,12 @@ public class CoWorkerInteraction : MonoBehaviour
         ShowConversationAlert();
         _interactionID = interactionID;
         _coWorkerObject.SetActive(true);
-        _lizardVersion.SetActive(isLizard);
+        //_lizardVersion.SetActive(isLizard);
+        //_lizardAnimator.SetBool("IsLizard", isLizard);
+        if (_lizardAnimator != null && isLizard)
+        {
+            _lizardAnimator.SetBool("IsLizard", true);
+        }
 
     }
 
@@ -86,15 +93,20 @@ public class CoWorkerInteraction : MonoBehaviour
     {
          _viewManager.GoToView(_view);
         _interactionID = interactionID;
-        _lizardVersion.SetActive(isLizard);
-
+        _coWorkerObject.SetActive(true);
+        //_lizardAnimator.SetBool("IsLizard", isLizard);
+        if (_lizardAnimator != null && isLizard)
+        {
+            Debug.Log("Green Bob!");
+            _lizardAnimator.SetBool("IsLizard", true);
+        }
+        
         ChatWithWorker();
     }
 
     private void ChatWithWorker()
     {
         GameEvents.StartInteraction();
-        _coWorkerObject.SetActive(true);
         List<Dialogue> dialogues = _interactions.Where(w => w.ID == _interactionID).Single().Dialogues;
 
         DialogueHandler.Instance.StartDialogue(dialogues, _voiceClip, INTERACTIONOBJECT_ID);

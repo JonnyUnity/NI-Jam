@@ -27,6 +27,8 @@ public class PauseMenu : MonoBehaviour
     public void QuitToTitle()
     {
         _pauseMenu.SetActive(false);
+        Destroy(GameManager.Instance.gameObject);
+        Destroy(DialogueHandler.Instance.gameObject);
         SceneManager.LoadScene(0);
     }
 

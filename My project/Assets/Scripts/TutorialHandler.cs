@@ -61,7 +61,8 @@ public class TutorialHandler : MonoBehaviour
         _watercoolerObject.EnableTutorial();
         _viewManager.EnableTutorial();
         _fullCupObject.UseTutorialDialogue();
-        
+        _tutorialStep = 0;
+
         NextTutorialStep();
 
     }
@@ -223,13 +224,13 @@ public class TutorialHandler : MonoBehaviour
                 break;
 
             case 27:
-
-                _computerObject.EnableCloseButtonsForTutorial();
+   
                 _computerObject.EnableExitDesktop();
                 break;
 
             case 28:
 
+                _computerObject.EnableCloseButtonsForTutorial();
                 StartTutorialDialogue(17);
                 break;
 
@@ -297,8 +298,8 @@ public class TutorialHandler : MonoBehaviour
     void Update()
     {
 
-        if (DialogueHandler.Instance.IsDialogueOpen)
-            return;
+        //if (DialogueHandler.Instance.IsDialogueOpen)
+        //    return;
 
         if (IsTutorialOpen)
         {

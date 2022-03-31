@@ -18,14 +18,17 @@ public class TitleScreenManager : MonoBehaviour
     IEnumerator LoadLevelAnimation()
     {
         yield return StartCoroutine(FadeToBlack());
-        SceneManager.LoadScene(2);
+        
+        //GameManager.Instance.StartGame();
     }
 
     private IEnumerator FadeToBlack()
     {
         animator.SetTrigger("Start");
+        
+        //SceneManager.LoadScene(1);
         yield return new WaitForSeconds(1);
-
+        SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
     }
 
     public void Credits()
